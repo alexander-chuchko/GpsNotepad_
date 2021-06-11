@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GpsNotepad.View.SignInView"
+             xmlns:local="clr-namespace:GpsNotepad.Converter"
+             xmlns:resource="clr-namespace:GpsNotepad.Recource"
+             Title="{x:Static resource:AppResource.title_sign_in}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:MultiTriggerConverter x:Key="dataHasBeenEntered"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowDefinitions="0.75*,0.25*">
+            <Grid Grid.Row="0">
+                <StackLayout VerticalOptions="Center"
+                         Padding="30">
+                    <Entry x:Name="EmailAddressSignIn"
+                   Placeholder="{x:Static resource:AppResource.your_email}"
+                   Text="{Binding Path= EmailAddress}"
+                   ClearButtonVisibility="WhileEditing">
+                    </Entry>
+                    <Entry x:Name="PasswordSignIn"
+                   Placeholder="{x:Static resource:AppResource.password}" 
+                   IsPassword="True"
+                   Text="{Binding Path= Password}"
+                   ClearButtonVisibility="WhileEditing">
+                    </Entry>
+                </StackLayout>
+            </Grid>
+            <Grid Grid.Row="1">
+                <StackLayout VerticalOptions="Start"
+                         Padding="30">
+                    <Button Text="SignIn"
+                        TextTransform="Uppercase"   
+                        TextColor="Black" 
+                        BackgroundColor="Orange" 
+                        CornerRadius="5"  
+                        FontSize="18"  
+                        BorderWidth="3" 
+                        BorderColor="Black"
+                        IsEnabled="{Binding IsEnabled}"
+                        Command="{Binding Path=NavigateToListView}">
+                        <Button.Triggers>
+                            <MultiTrigger TargetType="Button">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition 
+                                Binding="{Binding Source={x:Reference EmailAddressSignIn},
+                                Path=Text.Length, 
+                                Converter={StaticResource dataHasBeenEntered}}"
+                                Value="true"/>
+                                    <BindingCondition 
+                                Binding="{Binding Source={x:Reference PasswordSignIn},
+                                Path=Text.Length, 
+                                Converter={StaticResource dataHasBeenEntered}}"
+                                Value="true"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </MultiTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Label HorizontalTextAlignment="Center"
+                       Margin="10"
+                       TextColor="Blue"
+                       FontSize="18"
+                       TextTransform="Uppercase">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="SIGNUP">
+                                    <Span.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=NavigationToSingUp}">
+                                        </TapGestureRecognizer>
+                                    </Span.GestureRecognizers>
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

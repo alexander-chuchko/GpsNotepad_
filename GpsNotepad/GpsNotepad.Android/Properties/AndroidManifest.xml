@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.gpsnotepad" android:installLocation="auto">
+  <uses-sdk android:minSdkVersion="20" android:targetSdkVersion="29" />
+
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+  <uses-permission android:name="com.gpsnoteapp.android.permission.MAPS_RECEIVE" />
+  <permission android:name="com.gpsnotepad.android.permission.MAPS_RECEIVE" android:protectionLevel="signature" />
+  
+  <application android:label="GpsNotepad.Android" android:theme="@style/MainTheme">
+    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDIGOmzkp60ADWmJhSmiD5oKflu2i6QLNY" />
+    <meta-data android:name="com.google.android.gms.version org.apache.http.legacy" android:value="@integer/google_play_services_version"></meta-data>
+    <uses-library android:name="org.apache.http.legacy" android:required="false" />
+  </application>
+  
+  <uses-feature android:name="android.hardware.location" android:required="false" />
+  <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+  <uses-feature android:name="android.hardware.location.network" android:required="false" />
+</manifest>

@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             mc:Ignorable="d"
+             x:Class="GpsNotepad.View.MainMapTabbedPageView"
+             xmlns:resource="clr-namespace:GpsNotepad.Recource"
+             Title="TABBED PAGE"
+             xmlns:local="clr-namespace:GpsNotepad.Controls">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{Binding PathImageOfLocation}"
+                     Priority="1"
+                     Order="Primary"
+                     Command="{Binding Path=IsVisableCommand}"/>
+        <ToolbarItem IconImageSource="ic_settings.png"
+                     Priority="2"
+                     Order="Primary"/>
+        <ToolbarItem IconImageSource="ic_exit_to_app.png"
+                     Priority="3"
+                     Order="Primary"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0">
+                <Frame  BackgroundColor="Gray">
+                    <SearchBar Text="{Binding SearchBarText}"
+                       Placeholder="Serch" PlaceholderColor="Red"
+                       FontAttributes="Italic"
+                       BackgroundColor="LightBlue">
+                        <SearchBar.Behaviors>
+                            <prism:EventToCommandBehavior EventName="TextChanged" 
+                                                  Command="{Binding TextChangedCommand}"/>
+                        </SearchBar.Behaviors>
+                    </SearchBar>
+                </Frame>
+                <local:CustomMap x:Name="map" Grid.Row="1" 
+                             MyLocationEnabled="True"
+                             IsShowingUser="true"
+                             InitialCameraUpdate="{Binding InitialCameraUpdate}"
+                             IsMyLocationButtonVisible="{Binding MyLocationButtonVisibility}"
+                             CameraMovingPosition="{Binding MovingCameraPosition}"
+                             PinsList="{Binding PinViewModelList}">
+                    <local:CustomMap.Behaviors>
+                        <prism:EventToCommandBehavior EventName="PinClicked"
+                                                      Command="{Binding PinClickedCommand}"
+                                                      EventArgsParameterPath="Pin"/>
+                        <prism:EventToCommandBehavior EventName="CameraChanged"
+                                                      Command="{Binding CameraChangedCommand}"
+                                                      EventArgsParameterPath=""/>
+                        <prism:EventToCommandBehavior EventName="MapClicked"
+                                                      Command="{Binding SavePositionCommand}"
+                                                      EventArgsParameterPath="Point"/>
+                        <prism:EventToCommandBehavior EventName="CameraIdled"
+                                                      Command="{Binding SaveLastPositionAfterMoveCommand}"
+                                                      EventArgsParameterPath ="Position" />
+                    </local:CustomMap.Behaviors>
+                </local:CustomMap>
+                <StackLayout  Orientation="Horizontal" VerticalOptions="End" Grid.Row="1">
+                    <Button Grid.Column="0" Text="Pin" IsEnabled="False"></Button>
+                    <Button Grid.Column="1" Text="List" Command="{Binding NavigationToMainList}"></Button>
+                </StackLayout>
+            </StackLayout>
+            <!--<local:CustomMap MapType="Hybrid"/>
+            <maps:Map x:Name="map" VerticalOptions="FillAndExpand" ItemsSource="PinViewModelList"></maps:Map>
+             -->
+            <Frame VerticalOptions="End"
+                   IsVisible="{Binding IsInfoVisible}"
+                   HorizontalOptions="Center"
+                   CornerRadius="10"
+                   BackgroundColor="LightBlue"
+                   Opacity="0.6">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding CloseCommand}"/>
+                </Frame.GestureRecognizers>
+                <StackLayout>
+                    <Label Text="{Binding LabelSelectedPin}"
+                           HorizontalOptions="Center"
+                           FontAttributes="Bold"
+                           FontSize="16"
+                           TextColor="Black"/>
+                    <Label Text="{Binding AddressSelectedPin}"
+                           HorizontalOptions="Center"
+                           FontAttributes="Bold"
+                           FontSize="16"
+                           TextColor="Black"/>
+                    <Label Text="{Binding LatitudeSelectedPin}"
+                           HorizontalOptions="Center"
+                           TextColor="Black"/>
+                    <Label Text="{Binding LongitudeSelectedPin}"
+                           HorizontalOptions="Center"
+                           TextColor="Black"/>
+                    <Label HorizontalTextAlignment="Center" 
+                           Margin="10"
+                           TextColor="red">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="CLOSE" FontSize="Body" >
+                                    <Span.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CloseCommand}"/>
+                                    </Span.GestureRecognizers>
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
