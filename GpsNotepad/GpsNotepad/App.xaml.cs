@@ -35,7 +35,7 @@ namespace GpsNotepad
         }
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            //Services
+            //Services___!
             containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
             containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
             
