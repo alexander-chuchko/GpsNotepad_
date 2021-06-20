@@ -48,7 +48,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <StackLayout  Orientation="Horizontal" VerticalOptions="End" Grid.Row="0">
+            <StackLayout  Orientation="Horizontal" VerticalOptions="End" Grid.Row="0" IsVisible="false">
                 <Button Grid.Column="0" Text="Pin" Command="{Binding NavigationToMainMap}"></Button>
                 <Button Grid.Column="1" Text="List" IsEnabled="False" ></Button>
             </StackLayout>

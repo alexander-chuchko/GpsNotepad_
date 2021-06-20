@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Acr.UserDialogs;
+using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
@@ -6,11 +8,12 @@ namespace GpsNotepad.Controls
 {
     public class CustomMap:Map
     {
-        private Position _cameraMovingPosition; //=new Position(20,120);
+        private Position _cameraMovingPosition;
 
         public CustomMap()
         {
-
+            MyLocationEnabled = false;
+            UiSettings.MyLocationButtonEnabled = false;
         }
         /* Display list of pins */
         public static readonly BindableProperty PinsListProperty =
@@ -58,7 +61,20 @@ namespace GpsNotepad.Controls
             if (map != null)
             {
                 map.UiSettings.MyLocationButtonEnabled = value;
-                map.MyLocationEnabled = value;
+                map.MyLocationEnabled = true;
+                //map.IsShowingUser = value;
+                //map.IsMyLocationButtonVisible = true;
+                //map.UiSettings.MyLocationButtonEnabled = value;
+                try
+                {
+                    //map.IsMyLocationButtonVisible = true;
+                    //map.MyLocationEnabled = value;
+                }
+                catch (Exception ex)
+                {
+                    UserDialogs.Instance.Alert(ex.Message);
+                }
+
             }
         }
 

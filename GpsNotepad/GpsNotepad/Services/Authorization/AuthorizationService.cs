@@ -11,9 +11,8 @@ namespace GpsNotepad.Service.Authorization
         public AuthorizationService(ISettingsManager settingsManager)
         {
             _settingsManager = settingsManager;
-            _isAuthorized = settingsManager.AuthorizedUserID != 0 ? true : false;
+            _isAuthorized = settingsManager.AuthorizedUserID != default(int) ? true : false;
         }
-
         public bool IsAuthorized
         {
             get { return _isAuthorized; }

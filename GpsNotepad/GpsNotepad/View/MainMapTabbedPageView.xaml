@@ -21,7 +21,8 @@
                      Order="Primary"/>
         <ToolbarItem IconImageSource="ic_exit_to_app.png"
                      Priority="3"
-                     Order="Primary"/>
+                     Order="Primary"
+                     Command="{Binding NavigationToMainList}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid>
@@ -40,11 +41,10 @@
                         </SearchBar.Behaviors>
                     </SearchBar>
                 </Frame>
-                <local:CustomMap x:Name="map" Grid.Row="1" 
-                             MyLocationEnabled="True"
-                             IsShowingUser="true"
+                <local:CustomMap x:Name="map" Grid.Row="1"
                              InitialCameraUpdate="{Binding InitialCameraUpdate}"
                              IsMyLocationButtonVisible="{Binding MyLocationButtonVisibility}"
+                                 
                              CameraMovingPosition="{Binding MovingCameraPosition}"
                              PinsList="{Binding PinViewModelList}">
                     <local:CustomMap.Behaviors>
@@ -62,7 +62,7 @@
                                                       EventArgsParameterPath ="Position" />
                     </local:CustomMap.Behaviors>
                 </local:CustomMap>
-                <StackLayout  Orientation="Horizontal" VerticalOptions="End" Grid.Row="1">
+                <StackLayout  Orientation="Horizontal" VerticalOptions="End" Grid.Row="1" IsVisible="false">
                     <Button Grid.Column="0" Text="Pin" IsEnabled="False"></Button>
                     <Button Grid.Column="1" Text="List" Command="{Binding NavigationToMainList}"></Button>
                 </StackLayout>

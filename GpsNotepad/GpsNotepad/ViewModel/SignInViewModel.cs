@@ -69,11 +69,15 @@ namespace GpsNotepad.ViewModel
         {
             return IsEnabled;
         }
+        private void DeletingCurrentUserSettings() //When logging out, delete all user settings
+        {
+            _authorizationService.Unauthorize();
+        }
         private async void ExecuteNavigationToMainList()
         {
             if (await _authenticationService.SignInAsync(EmailAddress, Password))
             {
-                await _navigationService.NavigateAsync(($"/{ nameof(NavigationPage)}/{ nameof(MainListTabbedPageView)}"));
+                await _navigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(MainListTabbedPageView)}");
             }
             else
             {

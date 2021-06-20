@@ -14,10 +14,13 @@ using System.Linq;
 using GpsNotepad.Extension;
 using GpsNotepad.Model;
 using GpsNotepad.Helpers;
+using GpsNotepad.View;
+using GpsNotepad.Services.Permissions;
+using Plugin.Permissions.Abstractions;
 
 namespace GpsNotepad.ViewModel
 {
-    public class MainMapTabbedPageViewModel: BaseViewModel, IInitialize, INavigatedAware
+    public class MainMapTabbedPageViewModel: BaseViewModel, INavigatedAware, IInitialize
     {
         private List<Pin> _pinViewModelList;
         private bool _isInfoVisible;
@@ -30,14 +33,16 @@ namespace GpsNotepad.ViewModel
         private Pin _pin;
         private readonly IPinServices _pinServices;
         private readonly ICameraService _cameraService;
+        private readonly IPermissionService _permissionService;
         private CameraUpdate _initialCameraUpdate;
         private bool _myLocationButtonVisibility = false;
         private string _pathImageOfLocation = "icons_mylocation_off.png";
 
-        public MainMapTabbedPageViewModel(INavigationService navigationService, ICameraService cameraService, IPinServices pinServices) : base(navigationService)
+        public MainMapTabbedPageViewModel(INavigationService navigationService, ICameraService cameraService, IPinServices pinServices, IPermissionService permissionService) : base(navigationService)
         {
             _cameraService = cameraService;
             _pinServices= pinServices;
+            _permissionService = permissionService;
             GetAllPins();
             //AddPinToMap();
             NavigationToMainList = new Command(ExecuteGoToMainList);
@@ -54,7 +59,6 @@ namespace GpsNotepad.ViewModel
             get => _initialCameraUpdate;
             set => SetProperty(ref _initialCameraUpdate, value);
         }
-
         public Position MovingCameraPosition
         {
             get => _movingCameraPosition;
@@ -113,8 +117,8 @@ namespace GpsNotepad.ViewModel
 
         private async void ExecuteGoToMainList()
         {
-            await _navigationService.GoBackAsync();
-            //await _navigationService.NavigateAsync($"{ nameof(MainListTabbedPageView)}");
+            //await _navigationService.GoBackAsync();
+            await _navigationService.NavigateAsync($"{ nameof(NavigationPage)}/{ nameof(MainListTabbedPageView)}");
         }
         private void SaveLastPosition(object itemObject)
         {
@@ -151,11 +155,12 @@ namespace GpsNotepad.ViewModel
             }
         }
         public ICommand IsVisableCommand => new Command(EnabledMyLocation);
-        private void EnabledMyLocation()
+        private async void EnabledMyLocation()
         {
             if(MyLocationButtonVisibility!=true)
             {
-                MyLocationButtonVisibility = true;
+                bool result = await _permissionService.GetPermissionAsync(Permission.Location);
+                MyLocationButtonVisibility = result;
                 PathImageOfLocation = "icons_mylocation_on.png";
             }
             else
@@ -174,12 +179,10 @@ namespace GpsNotepad.ViewModel
                 {
                     Pin result1 = pinModel.ToPin();
                     pins.Add(result1);
-                    
                 }
                 PinViewModelList=pins;
             }
         }
-        /*
         private void AddPinToMap()
         {
             List<Pin> pins2 = new List<Pin>()
@@ -208,7 +211,6 @@ namespace GpsNotepad.ViewModel
         };
             PinViewModelList = pins2;
         }
-        */
         public void Initialize(INavigationParameters parameters)
         {
             InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(_cameraService.GetDataCameraPosition());

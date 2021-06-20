@@ -1,8 +1,10 @@
-﻿using GpsNotepad.Service;
+﻿using Acr.UserDialogs;
+using GpsNotepad.Service;
 using GpsNotepad.Service.Authorization;
 using GpsNotepad.Service.Settings;
 using GpsNotepad.Service.User;
 using GpsNotepad.Services.Camera;
+using GpsNotepad.Services.Permissions;
 using GpsNotepad.Services.Pin;
 using GpsNotepad.Services.Repository;
 using GpsNotepad.View;
@@ -16,6 +18,8 @@ namespace GpsNotepad
 {
     public partial class App : PrismApplication
     {
+        private IAuthorizationService _authorizationService;
+        IAuthorizationService AuthorizationService => _authorizationService ?? (_authorizationService = Container.Resolve<IAuthorizationService>());
         public App() : this(null)
         {
 
@@ -35,17 +39,18 @@ namespace GpsNotepad
         }
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            //Services___!
+            //Registering services
+            containerRegistry.RegisterInstance(UserDialogs.Instance);
             containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
             containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
-            
             containerRegistry.RegisterInstance<IUserService>(Container.Resolve<UserService>());
             containerRegistry.RegisterInstance<IAuthenticationService>(Container.Resolve<AuthenticationService>());
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
             containerRegistry.RegisterInstance<ICameraService>(Container.Resolve<CameraService>());
             containerRegistry.RegisterInstance<IPinServices>(Container.Resolve<PinServices>());
+            containerRegistry.RegisterInstance<IPermissionService>(Container.Resolve<PermissionService>());
 
-            //Registration
+            //Registering pages
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignInView, SignInViewModel>();
             containerRegistry.RegisterForNavigation<SignUpView, SignUpViewModel>();
@@ -53,18 +58,33 @@ namespace GpsNotepad
             containerRegistry.RegisterForNavigation<MainListTabbedPageView, MainListTabbedPageViewModel>();
             containerRegistry.RegisterForNavigation<AddEditPinView, AddEditPinViewModel>();
             containerRegistry.RegisterForNavigation<SettingsView, SettingsViewModel>();
+            containerRegistry.RegisterForNavigation<TabbedPage1>();
         }
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            var result= await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInView)}");
+
+            if (AuthorizationService.IsAuthorized)
+            {
+                var result= await NavigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(TabbedPage1)}");
+                if (!result.Success)
+                {
+                    System.Diagnostics.Debugger.Break();
+                }
+            }
+            else
+            {
+                var result=  await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInView)}");
+                if (!result.Success)
+                {
+                    System.Diagnostics.Debugger.Break();
+                }
+            }
+            //var result= await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInView)}");
             //var result = await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainMapTabbedPageView)}");
             //var result= await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainListTabbedPageView)}");
             //var result = await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(AddEditPinView)}");
-            if (!result.Success)
-            {
-                System.Diagnostics.Debugger.Break();
-            }
+
         }
         #endregion
     }

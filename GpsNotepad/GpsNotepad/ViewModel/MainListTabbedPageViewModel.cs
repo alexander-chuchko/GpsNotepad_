@@ -8,6 +8,7 @@ using GpsNotepad.Service.Authorization;
 using GpsNotepad.Services.Pin;
 using GpsNotepad.View;
 using Prism.Navigation;
+using Prism.Navigation.TabbedPages;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -159,7 +160,10 @@ namespace GpsNotepad.ViewModel
         {
             var parametr = new NavigationParameters();
             parametr.Add(ListOfNames.selectedPin, PinViewModel);
-            await _navigationService.NavigateAsync(($"{ nameof(MainMapTabbedPageView)}"), parametr);
+            //await _navigationService.GoBackAsync(parametr);
+            //NavigationPage page = (NavigationPage)App.Current.MainPage;
+           //var count= page.Navigation.NavigationStack.Count;
+            await _navigationService.SelectTabAsync($"{ nameof(MainMapTabbedPageView)}", parametr);
         }
         #endregion
         #region---Overriding---
@@ -178,7 +182,6 @@ namespace GpsNotepad.ViewModel
                 PinViewModelList.AddRange(profileViewModelList);
             }
         }
-        
         /*
          //Try to run IOS
         public void Initialize(INavigationParameters parameters)
