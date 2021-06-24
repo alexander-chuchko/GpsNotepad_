@@ -67,8 +67,9 @@ namespace GpsNotepad.ViewModel
         private async void ExecuteGoBack()
         {
             var parametr = new NavigationParameters();
-            parametr.Add(ListOfNames.newUser, UserModel);
-            await _navigationService.NavigateAsync(($"/{ nameof(NavigationPage)}/{ nameof(SignInView)}"), parametr);
+            parametr.Add(ListOfNames.NewUser, UserModel);
+            //await _navigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(SignInView)}", parametr);
+            await _navigationService.GoBackAsync(parametr);
         }
         private void ClearFields()
         {

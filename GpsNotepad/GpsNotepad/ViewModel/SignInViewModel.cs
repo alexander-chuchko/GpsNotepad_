@@ -63,7 +63,7 @@ namespace GpsNotepad.ViewModel
         #region---Methods---
         private async void ExecuteNavigateToSignUp()
         {
-            await _navigationService.NavigateAsync(($"{ nameof(SignUpView)}"));
+            await _navigationService.NavigateAsync($"{ nameof(SignUpView)}");
         }
         private bool CanExecuteNavigateToSignUp()
         {
@@ -77,7 +77,8 @@ namespace GpsNotepad.ViewModel
         {
             if (await _authenticationService.SignInAsync(EmailAddress, Password))
             {
-                await _navigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(MainListTabbedPageView)}");
+                //await _navigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(MainListTabbedPageView)}");
+                await _navigationService.NavigateAsync($"{ nameof(TabbedPage1)}");
             }
             else
             {
@@ -90,9 +91,9 @@ namespace GpsNotepad.ViewModel
         #region--Iterface INavigatedAware implementation--
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue<UserModel>(ListOfNames.newUser, out UserModel userModel))
+            if (parameters.TryGetValue<UserModel>(ListOfNames.NewUser, out UserModel userModel))
             {
-                UserModel = parameters.GetValue<UserModel>(ListOfNames.newUser);
+                UserModel = parameters.GetValue<UserModel>(ListOfNames.NewUser);
                 EmailAddress = UserModel.Email;
             }
         }

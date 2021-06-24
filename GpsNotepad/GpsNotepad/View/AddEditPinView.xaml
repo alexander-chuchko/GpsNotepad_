@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:resource="clr-namespace:GpsNotepad.Recource"
              Title="{x:Static resource:AppResource.title_add_pin}"
-             x:Class="GpsNotepad.View.AddEditPinView">
+             x:Class="GpsNotepad.View.AddEditPinView"
+             xmlns:local="clr-namespace:GpsNotepad.Controls">
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="ic_save.png"
                      Priority="1"

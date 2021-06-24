@@ -42,10 +42,10 @@ namespace GpsNotepad.Helpers
             return comparisonResult;
         }
         //Method for checking the existence of information
-        public static bool IsInformationInNameAndNickName(string label, string latitude, string longitude)
+        public static bool IsInformationInLabelAndLatitudeAndLongitude(string label, string latitude, string longitude)
         {
             var validationResult = false;
-            if (!string.IsNullOrEmpty(label) && !string.IsNullOrEmpty(latitude)&&!string.IsNullOrEmpty(longitude)) //I will finish
+            if (!string.IsNullOrWhiteSpace(label) && !string.IsNullOrWhiteSpace(latitude)&&!string.IsNullOrWhiteSpace(longitude)) //I will finish
             {
                 validationResult = true;
             }

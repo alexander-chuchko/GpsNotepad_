@@ -4,10 +4,12 @@
     {
         int AuthorizedUserID { get; set; }
         double BearingCameraPosition { get; set; }
-        double LatitudeCameraPosition{ get; set; }
-        double LongitudeCameraPosition { get;set; }
+        double LatitudeCameraPosition { get; set; }
+        double LongitudeCameraPosition { get; set; }
         double TiltCameraPosition { get; set; }
-        double ZoomCameraPosition{ get; set; }
+        double ZoomCameraPosition { get; set; }
+        bool IsEnabledUserLocationButton { get; set; }
+        string StateOfTextInSearchBar{get; set;}
 
         //int SortingType { get; set; }
         //int ThemType { get; set; }

@@ -36,6 +36,16 @@ namespace GpsNotepad.Service.Settings
             get => Preferences.Get(nameof(ZoomCameraPosition), default(double));
             set => Preferences.Set(nameof(ZoomCameraPosition), value);
         }
+        public bool IsEnabledUserLocationButton
+        {
+            get => Preferences.Get(nameof(IsEnabledUserLocationButton), default(bool));
+            set => Preferences.Set(nameof(IsEnabledUserLocationButton), value);
+        }
+        public string StateOfTextInSearchBar
+        {
+            get => Preferences.Get(nameof(StateOfTextInSearchBar), default(string));
+            set => Preferences.Set(nameof(StateOfTextInSearchBar), value);
+        }
 
         /*
         public int SortingType

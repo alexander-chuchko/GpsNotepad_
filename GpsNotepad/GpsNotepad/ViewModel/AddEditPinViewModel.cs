@@ -6,7 +6,6 @@ using Xamarin.Forms;
 using System.Windows.Input;
 using GpsNotepad.Helpers;
 using GpsNotepad.Recource;
-using GpsNotepad.View;
 using Prism.Services;
 using System.Threading.Tasks;
 using GpsNotepad.Extension;
@@ -74,15 +73,10 @@ namespace GpsNotepad.ViewModel
         }
         #endregion
         #region---Methods---
-        private async void ExecuteNavigateToNavigationToMainList()
-        {
-            //await _navigationService.GoBackAsync();
-            await _navigationService.NavigateAsync(($"/{ nameof(NavigationPage)}/{ nameof(MainListTabbedPageView)}"));
-        }
         private bool IsFieldsFilled()
         {
             bool resultFilling = true;
-            if (!Validation.IsInformationInNameAndNickName(Label, Latitude, Longitude))
+            if (!Validation.IsInformationInLabelAndLatitudeAndLongitude(Label, Latitude, Longitude))
             {
                 resultFilling = false;
             }
@@ -103,7 +97,9 @@ namespace GpsNotepad.ViewModel
                 }
                 if (resultOfAction)
                 {
-                    ExecuteNavigateToNavigationToMainList();
+                    var parametr = new NavigationParameters();
+                    parametr.Add(ListOfNames.PinViewModel, PinViewModel);
+                    await _navigationService.GoBackAsync(parametr);
                 }
             }
             else
@@ -116,8 +112,8 @@ namespace GpsNotepad.ViewModel
             bool resultOfAction = false;
             PinViewModel.Label = Label;
             PinViewModel.Description = Description;
-            PinViewModel.Latitude =Convert.ToDouble(Latitude);
-            PinViewModel.Longitude =Convert.ToDouble(Longitude);
+            PinViewModel.Latitude =Convert.ToDouble(Latitude);//to do
+            PinViewModel.Longitude =Convert.ToDouble(Longitude);//to do
             var pinModel = PinViewModel.ToPinModel();
             if (pinModel != null)
             {
@@ -128,7 +124,7 @@ namespace GpsNotepad.ViewModel
         private async Task<bool> AddPinModel()
         {
             bool resultOfAction = false;
-            PinViewModel PinViewModel = new PinViewModel()
+            PinViewModel=new PinViewModel()
             {
                 Label=Label,
                 Description = Description,
@@ -139,31 +135,34 @@ namespace GpsNotepad.ViewModel
             if (PinModel != null)
             {
                 resultOfAction = await _pinServices.SaveOrUpdatePinModelToStorageAsync(PinModel);
+                if(resultOfAction)
+                {
+                    PinViewModel.Id = PinModel.Id;
+                }
             }
             return resultOfAction;
         }
-
         #endregion
 
         #region--Iterface INavigatedAware implementation-- 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue<PinViewModel>(ListOfNames.pinModel, out PinViewModel pinViewModel))
+            if (parameters.TryGetValue<PinViewModel>(ListOfNames.PinModel, out PinViewModel pinViewModel))
             {
-                PinViewModel = parameters.GetValue<PinViewModel>(ListOfNames.pinModel);
+                PinViewModel = parameters.GetValue<PinViewModel>(ListOfNames.PinModel);
                 if (PinViewModel != null)
                 {
                     Label = PinViewModel.Label;
                     Description = PinViewModel.Description;
-                    Longitude = PinViewModel.Longitude.ToString(); //No forget
-                    Latitude = PinViewModel.Latitude.ToString(); 
+                    Longitude = PinViewModel.Longitude.ToString(); //No forget to correct!
+                    Latitude = PinViewModel.Latitude.ToString();  //No forget to correct!
                 }
             }
         }
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
+
         }
         #endregion
-
     }
 }

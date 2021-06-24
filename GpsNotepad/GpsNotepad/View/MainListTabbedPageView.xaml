@@ -6,14 +6,14 @@
              Title="{x:Static resource:AppResource.title_main_list}"
              x:Class="GpsNotepad.View.MainListTabbedPageView">
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="ic_exit_to_app.png"
-                     Priority="1"
-                     Order="Primary"
-                     Command="{Binding Path= NavigationToSingIn}"/>
         <ToolbarItem IconImageSource="ic_settings.png"
                      Priority="2"
                      Order="Primary"
                      Command="{Binding Path= NavigationToSettingsView}"/>
+        <ToolbarItem IconImageSource="ic_exit_to_app.png"
+                     Priority="1"
+                     Order="Primary"
+                     Command="{Binding Path= NavigationToSingIn}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid RowDefinitions="Auto">

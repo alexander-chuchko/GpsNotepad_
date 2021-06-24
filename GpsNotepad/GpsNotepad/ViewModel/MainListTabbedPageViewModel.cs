@@ -19,7 +19,7 @@ using Xamarin.Forms;
 
 namespace GpsNotepad.ViewModel
 {
-    public class MainListTabbedPageViewModel: BaseViewModel, IInitializeAsync
+    public class MainListTabbedPageViewModel: BaseViewModel, IInitializeAsync, INavigatedAware
     {
         #region---PrivateFields---
         private bool _isVisibleLabel;
@@ -40,7 +40,7 @@ namespace GpsNotepad.ViewModel
            NavigationToAddPin = new Command(ExecuteGoToAddPin);
            RemoveCommand = new Command(RemoveModel);
            UpdateCommand = new Command(UpdateModel);
-           NavigationToSingIn = new Command(ExecuteGoToSignIn);
+           NavigationToSingIn = new Command(OnNavigationToSingIn);
            NavigationToMainMap = new Command(ExecuteGoToMainMap);
            PinViewModelList = new ObservableCollection<PinViewModel>();
             //PathPicture = "ic_like_gray.png";
@@ -92,7 +92,7 @@ namespace GpsNotepad.ViewModel
             if (pinViewModel != null)
             {
                 var parametr = new NavigationParameters();
-                parametr.Add(ListOfNames.pinModel, pinViewModel);
+                parametr.Add(ListOfNames.PinModel, pinViewModel);
                 await _navigationService.NavigateAsync($"{ nameof(AddEditPinView)}", parametr);
             }
         }
@@ -106,10 +106,11 @@ namespace GpsNotepad.ViewModel
             await _navigationService.NavigateAsync($"{ nameof(MainMapTabbedPageView)}");
         }
 
-        private async void ExecuteGoToSignIn()
+        private async void OnNavigationToSingIn()
         {
             DeletingCurrentUserSettings();
-            await _navigationService.NavigateAsync($"{ nameof(NavigationPage)}/{ nameof(SignInView)}");
+            //await _navigationService.NavigateAsync($"{ nameof(NavigationPage)}/{ nameof(SignInView)}");
+            await _navigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(SignInView)}");
         }
         public IEnumerable<PinViewModel> ConvertingPinModelToPinViewModel(IEnumerable<PinModel> PinModellist)
         {
@@ -159,10 +160,7 @@ namespace GpsNotepad.ViewModel
         private async void ShowPinOnMap()
         {
             var parametr = new NavigationParameters();
-            parametr.Add(ListOfNames.selectedPin, PinViewModel);
-            //await _navigationService.GoBackAsync(parametr);
-            //NavigationPage page = (NavigationPage)App.Current.MainPage;
-           //var count= page.Navigation.NavigationStack.Count;
+            parametr.Add(ListOfNames.SelectedPin, PinViewModel);
             await _navigationService.SelectTabAsync($"{ nameof(MainMapTabbedPageView)}", parametr);
         }
         #endregion
@@ -207,6 +205,34 @@ namespace GpsNotepad.ViewModel
             _pins = pins;
         }
         */
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.TryGetValue<PinViewModel>(ListOfNames.PinViewModel, out PinViewModel pinViewModel))
+            {
+                if(PinViewModelList.Contains(pinViewModel))
+                {
+
+                }
+                var pinViewModelUpdate = PinViewModelList.FirstOrDefault(x => x.Id == pinViewModel.Id);
+                if(pinViewModelUpdate != null)
+                {
+                    int index = PinViewModelList.IndexOf(pinViewModelUpdate);
+                    PinViewModelList[index].Label = pinViewModel.Label;
+                    PinViewModelList[index].Description = pinViewModel.Description;
+                    PinViewModelList[index].Latitude = pinViewModel.Latitude;
+                    PinViewModelList[index].Longitude = pinViewModel.Longitude;
+                    PinViewModelList[index].Address = pinViewModel.Address;
+                    
+                }
+                else
+                {
+                    PinViewModelList.Add(pinViewModel);
+                }
+            }
+        }
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+        }
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);

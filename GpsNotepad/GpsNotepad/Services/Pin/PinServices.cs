@@ -21,13 +21,23 @@ namespace GpsNotepad.Services.Pin
             _repository = repository;
             _settingsManager = settingsManager;
         }
-        public async Task<List<PinModel>> GetPinListAsync()
+        public async Task<List<PinModel>> GetPinListAsync(string keyWord=null)
         {
             List<PinModel> pinViewModelsById = null;
             try
             {
                 var resultOfGettingAllPins = await _repository.GetAllAsync<PinModel>();
-                pinViewModelsById = (List<PinModel>)resultOfGettingAllPins.Where(x => x.UserId == _settingsManager.AuthorizedUserID).ToList();
+                if (string.IsNullOrEmpty(keyWord))
+                {
+                    pinViewModelsById = resultOfGettingAllPins.Where(x => x.UserId == _settingsManager.AuthorizedUserID).ToList();
+                }
+                else
+                {
+                    pinViewModelsById = resultOfGettingAllPins.Where(x => (x.UserId == _settingsManager.AuthorizedUserID)&&
+                        (x.Label.Contains(keyWord)||x.Description.Contains(keyWord)||
+                        x.Latitude.ToString().Contains(keyWord)||
+                        x.Longitude.ToString().Contains(keyWord))).ToList();
+                }
             }
             catch (Exception ex)
             {
@@ -38,6 +48,7 @@ namespace GpsNotepad.Services.Pin
         public async Task<bool> SaveOrUpdatePinModelToStorageAsync(PinModel pinModel)
         {
             bool resultOfAction = false;
+            int idAddedPin = -1;
             try
             {
                 if (pinModel != null)
@@ -45,12 +56,12 @@ namespace GpsNotepad.Services.Pin
                     if (pinModel.UserId == 0)
                     {
                         pinModel.UserId = _settingsManager.AuthorizedUserID;
-                        await _repository.InsertAsync<PinModel>(pinModel);
+                        idAddedPin=await _repository.InsertAsync<PinModel>(pinModel);
                         resultOfAction = true;
                     }
                     else
                     {
-                        await _repository.UpdateAsync<PinModel>(pinModel);
+                        idAddedPin=await _repository.UpdateAsync<PinModel>(pinModel);
                         resultOfAction = true;
                     }
                 }
@@ -94,6 +105,14 @@ namespace GpsNotepad.Services.Pin
                 UserDialogs.Instance.Alert(ex.Message);
             }
             return resultOfAction;
+        }
+        public void SetStateOfTextInSearchBar(string value)
+        {
+            _settingsManager.StateOfTextInSearchBar = value;
+        }
+        public string GetStatusPermission()
+        {
+            return _settingsManager.StateOfTextInSearchBar;
         }
     }
 }

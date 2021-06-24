@@ -57,24 +57,17 @@ namespace GpsNotepad.Controls
         {
             CustomMap map = bindable as CustomMap;
             bool value = (bool)newValue;
-
             if (map != null)
             {
-                map.UiSettings.MyLocationButtonEnabled = value;
-                map.MyLocationEnabled = true;
-                //map.IsShowingUser = value;
-                //map.IsMyLocationButtonVisible = true;
-                //map.UiSettings.MyLocationButtonEnabled = value;
                 try
                 {
-                    //map.IsMyLocationButtonVisible = true;
-                    //map.MyLocationEnabled = value;
+                    map.UiSettings.MyLocationButtonEnabled = value;
+                    map.MyLocationEnabled = value;
                 }
                 catch (Exception ex)
                 {
                     UserDialogs.Instance.Alert(ex.Message);
                 }
-
             }
         }
 

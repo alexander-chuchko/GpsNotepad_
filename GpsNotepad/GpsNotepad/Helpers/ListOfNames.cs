@@ -3,15 +3,16 @@
     public class ListOfNames
     {
         //the keys
-        public const string newUser = "NewUser";
-        public const string pinModel = "PinModel";
-        public const string selectedPin = "SelectedPin";
-        public const string pathSelectedPicture = "PathPicture";
+        public const string NewUser = "NewUser";
+        public const string PinModel = "PinModel";
+        public const string PinViewModel = "PinViewModel";
+        public const string SelectedPin = "SelectedPin";
+        public const string PathSelectedPicture = "PathPicture";
         //languages
-        public const string english = "English";
+        public const string English = "English";
         //pictures
-        public const string basePicture = "pic_Pin.png";
-        public const string pictureForFolder = "folder_image.png";
-        public const string pictureForCamera = "camera.png";
+        public const string BasePicture = "pic_Pin.png";
+        public const string PictureForFolder = "folder_image.png";
+        public const string PictureForCamera = "camera.png";
     }
 }

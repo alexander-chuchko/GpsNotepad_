@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace GpsNotepad.Controls
 {
-    public class CustomTabbedPage: TabbedPage
+    public class CustomTabbedPage:ListView 
     {
 
     }
