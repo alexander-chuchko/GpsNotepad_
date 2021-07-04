@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GpsNotepad.Controls.CustomNavBar"
+             xmlns:local="clr-namespace:GpsNotepad.Controls"
+             x:Name="Entry">
+    <Grid x:Name="grid"
+              ColumnDefinitions="0.15*, *, 0.15*" Margin="4"
+              Padding="0, 0, 0, 0">
+
+        <ImageButton BindingContext="{x:Reference Name=Entry}"
+                     x:Name="settingsIcon"
+                     Grid.Column="0" 
+                     Source="ic_settings.png"
+                     BackgroundColor="Transparent"
+                     VerticalOptions="Center"
+                     HorizontalOptions="Center"
+                     Command="{Binding SettingsTapCommand}"/>
+        
+        <ImageButton BindingContext="{x:Reference Name=Entry}"
+                     x:Name="backIcon"
+                     Grid.Column="0" 
+                     Source="ic_left_blue.png"
+                     BackgroundColor="Transparent"
+                     VerticalOptions="Center"
+                     IsVisible="false"
+                     HorizontalOptions="Center"
+                     Command="{Binding BackTapCommand}"/>
+
+        <Frame x:Name="searchBar1" 
+               BackgroundColor="LightGray"
+               Grid.Column="1"
+               CornerRadius="4"
+               HasShadow="false"
+               WidthRequest="20"
+               HeightRequest="40"
+               Padding="0"
+               VerticalOptions="Center">
+
+            <Grid ColumnDefinitions="0.9*, 0.1*">
+                <local:CustomEntry x:Name="searchEntry"
+                                   VerticalOptions="CenterAndExpand"
+                                   BackgroundColor="LightGray"
+                                   FontSize="16"
+                                   Placeholder="Search"
+                                   Focused="SearchBar_Focused"
+                                   TextChanged="SearchEntry_TextChanged"/>
+
+                <ImageButton x:Name="imageClear" 
+                             Source="ic_clear.png"
+                             Grid.Column="1"
+                             IsVisible="false"
+                             Clicked="ImageClear_Tapped"
+                             BackgroundColor="Transparent"/>
+            </Grid>
+            
+        </Frame>
+
+            <ImageButton BindingContext="{x:Reference Name=Entry}"
+                     Grid.Column="2"
+                     x:Name="logOutButton"
+                     Source="ic_exid.png"
+                     BackgroundColor="Transparent"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand" 
+                     Command="{Binding ExitTapCommand}" />
+    </Grid>
+</ContentView>

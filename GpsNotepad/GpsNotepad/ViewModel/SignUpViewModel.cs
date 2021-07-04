@@ -15,6 +15,7 @@ namespace GpsNotepad.ViewModel
     public class SignUpViewModel: BaseViewModel
     {
         #region---PrivateFields---
+        private string _name;
         private string _emailAddress;
         private string _password;
         private string _confirmPasword;
@@ -22,7 +23,6 @@ namespace GpsNotepad.ViewModel
         private readonly IAuthenticationService _authenticationService;
         private readonly IUserService _userService;
         private readonly IPageDialogService _pageDialogService;
-        private UserModel _userModel;
         #endregion
         public SignUpViewModel(INavigationService navigationService, IAuthenticationService authenticationService, IUserService userService, IPageDialogService pageDialogService) : base(navigationService)
         {
@@ -33,14 +33,24 @@ namespace GpsNotepad.ViewModel
             _authenticationService = authenticationService;
             _userService = userService;
             _pageDialogService = pageDialogService;
-            SignUpCommand = new DelegateCommand(ExecuteNavigationToSignUp, CanExecuteNavigationToSignUp).ObservesProperty(() => IsEnabled);
+            CheckDataCommand = new DelegateCommand(OnCheckData, CanOnCheckData).ObservesProperty(() => IsEnabled);
+            NavigationSignInCommand = new Command(OnNavigationSignIn);
+
         }
+
+
         #region---PublicProperties---
-        public ICommand SignUpCommand { get; set; }
+        public ICommand CheckDataCommand { get; set; }
+        public ICommand NavigationSignInCommand { get; set; }
         public string EmailAddress
         {
             get { return _emailAddress; }
             set { SetProperty(ref _emailAddress, value); }
+        }
+        public string Name
+        {
+            get { return _name; }
+            set { SetProperty(ref _name, value); }
         }
         public string Password
         {
@@ -57,73 +67,55 @@ namespace GpsNotepad.ViewModel
             get { return _isEnabled; }
             set { SetProperty(ref _isEnabled, value); }
         }
-        public UserModel UserModel
-        {
-            set { _userModel = value; }
-            get { return _userModel; }
-        }
         #endregion
         #region---Methods---
-        private async void ExecuteGoBack()
+        private async void OnNavigationSignIn()
         {
+            await _navigationService.GoBackAsync();
+        }
+        private async void NavigationToSignUp2()
+        {
+            (string, string) userData = (Name, EmailAddress);
             var parametr = new NavigationParameters();
-            parametr.Add(ListOfNames.NewUser, UserModel);
-            //await _navigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(SignInView)}", parametr);
-            await _navigationService.GoBackAsync(parametr);
+            parametr.Add(ListOfNames.UserRegistrationData, userData);
+            await _navigationService.NavigateAsync(nameof(SignUpView2), parametr);
         }
         private void ClearFields()
         {
+            //To Do
             EmailAddress = string.Empty;
             Password = string.Empty;
             ConfirmPassword = string.Empty;
         }
-        private async void ExecuteNavigationToSignUp()
+        private async void OnCheckData()
         {
             var result = true;
-            if (!Validation.IsValidatedLogin(EmailAddress) && result)
+            if(!Validation.IsValidatedName(Name)&&result)
             {
                 result = false;
                 await _pageDialogService.DisplayAlertAsync(AppResource.requirements_to_email, AppResource.invalid_data_entered, "OK");
             }
 
-            if (result && !Validation.CompareStrings(Password, ConfirmPassword))
+            if (!Validation.IsValidatedEmail(EmailAddress) && result)
             {
                 result = false;
-                await _pageDialogService.DisplayAlertAsync(AppResource.requirements_for_password_and_confirm_password, AppResource.invalid_data_entered, "OK");
-            }
-
-            if (result && !Validation.IsValidatedPassword(Password))
-            {
-                result = false;
-                await _pageDialogService.DisplayAlertAsync(AppResource.requirements_to_password, AppResource.invalid_data_entered, "OK");
+                await _pageDialogService.DisplayAlertAsync(AppResource.requirements_to_email, AppResource.invalid_data_entered, "OK");
             }
 
             if (result)
             {
-                UserModel = await _authenticationService.SignUpAsync(EmailAddress, Password);
-                if (UserModel != null)
-                {
-                    var resultOfAction = await _userService.SaveUserModelAsync(UserModel);
-                    if (resultOfAction)
-                    {
-                        ExecuteGoBack();
-                    }
-                }
-                else
-                {
-                    await _pageDialogService.DisplayAlertAsync(AppResource.this_login_is_already_taken, AppResource.invalid_data_entered, "OK");
-                }
+                NavigationToSignUp2();
             }
-            if (!result)
+
+            if (!result)//Delete
             {
                 ClearFields();
             }
         }
-        private bool CanExecuteNavigationToSignUp()
+        private bool CanOnCheckData()
         {
             return IsEnabled;
         }
         #endregion
-
     }
 }

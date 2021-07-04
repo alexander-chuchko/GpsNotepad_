@@ -15,7 +15,7 @@ namespace GpsNotepad.Service
             _settingsManager = settingsManager;
             _userService = userService;
         }
-        public async Task<UserModel> SignUpAsync(string login, string password)
+        public async Task<UserModel> SignUpAsync(string email, string password, string name)
         {
             var uniquenessCheckResult = true;
             UserModel userModel = null;
@@ -24,7 +24,7 @@ namespace GpsNotepad.Service
             {
                 foreach (var user in userList)
                 {
-                    if (string.Compare(user.Email, login, true) == 0)
+                    if (string.Compare(user.Email, email, true) == 0)
                     {
                         uniquenessCheckResult = false;
                     }
@@ -34,13 +34,14 @@ namespace GpsNotepad.Service
             {
                 userModel = new UserModel()
                 {
-                    Email = login,
-                    Password = password
+                    Email = email,
+                    Password = password,
+                    Name = name
                 };
             }
             return userModel;
         }
-        public async Task<bool> SignInAsync(string Email, string password)
+        public async Task<bool> SignInAsync(string email, string password)
         {
             var relevanceСheckResult = false;
             var listOfUserModels = await _userService.GetAllUserModelAsync();
@@ -48,7 +49,7 @@ namespace GpsNotepad.Service
             {
                 foreach (var userModel in listOfUserModels)
                 {
-                    if (userModel.Email == Email && userModel.Password == password)
+                    if (userModel.Email == email && userModel.Password == password)
                     {
                         _settingsManager.AuthorizedUserID = userModel.Id;
                         relevanceСheckResult = true;

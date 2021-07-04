@@ -4,9 +4,9 @@
              xmlns:local="clr-namespace:GpsNotepad.View"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             android:TabbedPage.ToolbarPlacement="Bottom"
-            SelectedTabColor="White"
-            UnselectedTabColor="Black"
-            BarBackgroundColor="Gray"
+            SelectedTabColor="Blue"
+            UnselectedTabColor="Gray"
+            BarBackgroundColor="White"
              x:Class="GpsNotepad.View.TabbedPage1">
     <TabbedPage.Children>
         <local:MainMapTabbedPageView IconImageSource="ic_map.png" />

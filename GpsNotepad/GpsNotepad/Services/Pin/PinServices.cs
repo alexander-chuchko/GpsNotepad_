@@ -1,12 +1,9 @@
 ﻿using Acr.UserDialogs;
-using GpsNotepad.Extension;
 using GpsNotepad.Model;
-using GpsNotepad.Model.Pin;
 using GpsNotepad.Service.Settings;
 using GpsNotepad.Services.Repository;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -48,7 +45,6 @@ namespace GpsNotepad.Services.Pin
         public async Task<bool> SaveOrUpdatePinModelToStorageAsync(PinModel pinModel)
         {
             bool resultOfAction = false;
-            int idAddedPin = -1;
             try
             {
                 if (pinModel != null)
@@ -56,12 +52,12 @@ namespace GpsNotepad.Services.Pin
                     if (pinModel.UserId == 0)
                     {
                         pinModel.UserId = _settingsManager.AuthorizedUserID;
-                        idAddedPin=await _repository.InsertAsync<PinModel>(pinModel);
+                        await _repository.InsertAsync<PinModel>(pinModel);
                         resultOfAction = true;
                     }
                     else
                     {
-                        idAddedPin=await _repository.UpdateAsync<PinModel>(pinModel);
+                        await _repository.UpdateAsync<PinModel>(pinModel);
                         resultOfAction = true;
                     }
                 }

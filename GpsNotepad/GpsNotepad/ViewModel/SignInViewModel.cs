@@ -8,6 +8,7 @@ using GpsNotepad.View;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using System;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -34,10 +35,17 @@ namespace GpsNotepad.ViewModel
             _pageDialogService = pageDialogService;
             NavigateToListView = new DelegateCommand(ExecuteNavigationToMainList, CanExecuteNavigateToSignUp).ObservesProperty(() => IsEnabled);
             NavigationToSingUp = new Command(ExecuteNavigateToSignUp);
+            NavigateToMainPageCommand = new Command(OnNavigateToMainPage);
+        }
+
+        private async void OnNavigateToMainPage()
+        {
+           await _navigationService.GoBackAsync();
         }
         #region---PublicProperties---
         public ICommand NavigationToSingUp { get; set; }
         public ICommand NavigateToListView { get; set; }
+        public ICommand NavigateToMainPageCommand { get; set; }
 
         public string EmailAddress
         {

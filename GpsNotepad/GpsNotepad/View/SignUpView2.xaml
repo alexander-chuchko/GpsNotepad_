@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:GpsNotepad.Converter"
+             xmlns:local1="clr-namespace:GpsNotepad.Controls"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False"
+             x:Class="GpsNotepad.View.SignUpView2">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:MultiTriggerConverter x:Key="dataHasBeenEntered"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowDefinitions="0.12*,*"
+              RowSpacing="0">
+
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="0.2*,0.6*,0.2*"
+                  ColumnSpacing="0" Padding="10">
+
+                <Image Grid.Column="0"
+                       Source="ic_left_blue.png"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center">
+
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToSignUpCommand}"/>
+                    </Image.GestureRecognizers>
+
+                </Image>
+
+                <Label Grid.Column="1"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Text="Create an acount"
+                       TextColor="Black" 
+                       FontSize="20"/>
+            </Grid>
+
+            <BoxView VerticalOptions="EndAndExpand"
+                     HeightRequest="1.5"
+                     BackgroundColor="LightGray"/>
+
+            <StackLayout Spacing="40" 
+                         Padding="20"
+                         Grid.Row="1">
+
+                <StackLayout Spacing="0" >
+
+                    <Label Text="Password"
+                           Padding="2"
+                           FontSize="16"/>
+
+                    <local1:CustomEntry
+                        x:Name="Password"
+                        Placeholder="Create password"
+                        Text="{Binding Password}"/>
+                    
+                </StackLayout>
+
+                <StackLayout Spacing="0">
+
+                    <Label Text="Confirm password" Padding="2"
+                           FontSize="16"/>
+
+                    <local1:CustomEntry Placeholder="Repeat password"
+                                        x:Name="ConfirmPassword"
+                                        Text="{Binding ConfirmPassword}"/>
+                </StackLayout>
+                
+                <StackLayout Spacing="23">
+
+                    <Button BackgroundColor="#475cde"
+                            Text="Create account"
+                            FontSize="20"
+                            TextColor="White"
+                            FontFamily="Montserrat-Medium"
+                            CornerRadius="3"
+                            IsEnabled="{Binding IsEnabled}"       
+                            TextTransform="None"
+                            Command="{Binding CheckDataCommand}">
+
+                        <Button.Triggers>
+                            <MultiTrigger TargetType="Button">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition 
+                                Binding="{Binding Source={x:Reference Password},
+                                Path=Text.Length, 
+                                Converter={StaticResource dataHasBeenEntered}}"
+                                Value="true"/>
+                                    <BindingCondition 
+                                Binding="{Binding Source={x:Reference ConfirmPassword},
+                                Path=Text.Length, 
+                                Converter={StaticResource dataHasBeenEntered}}"
+                                Value="true"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </MultiTrigger>
+
+                        </Button.Triggers>
+
+                    </Button>
+                    <StackLayout Orientation="Horizontal"
+                                 Spacing="5">
+
+                        <BoxView VerticalOptions="Center"
+                                 HorizontalOptions="FillAndExpand"
+                                 HeightRequest="1.5"
+                                 BackgroundColor="LightGray"/>
+
+                        <Label Text="or"
+                               VerticalOptions="Center"
+                               FontSize="18" HorizontalOptions="Center"/>
+
+                        <BoxView  VerticalOptions="CenterAndExpand"
+                                  HorizontalOptions="FillAndExpand" 
+                                  HeightRequest="1.5"
+                                  BackgroundColor="LightGray"/>
+
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="FillAndExpand"
+                                 Spacing="15">
+                        
+                        <Button BackgroundColor="White"
+                            BorderColor="LightGray"
+                            ImageSource="ic_google.png"
+                            BorderWidth="1.5"
+                            HorizontalOptions="FillAndExpand"
+                            CornerRadius="3"/>
+                        
+                        <Button BackgroundColor="White"
+                            BorderColor="LightGray"
+                            ImageSource="ic_facebook.png"
+                            BorderWidth="1.5"
+                            HorizontalOptions="FillAndExpand"
+                            CornerRadius="3"/>
+                        
+                        <Button BackgroundColor="White"
+                            BorderColor="LightGray"
+                            ImageSource="ic_apple.png"
+                            HorizontalOptions="FillAndExpand"
+                            BorderWidth="1.5"
+                            CornerRadius="3"/>
+
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

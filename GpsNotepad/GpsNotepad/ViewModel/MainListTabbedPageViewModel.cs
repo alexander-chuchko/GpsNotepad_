@@ -24,7 +24,10 @@ namespace GpsNotepad.ViewModel
         #region---PrivateFields---
         private bool _isVisibleLabel;
         private bool _isVisibleListView;
-        
+        private string _imageSource= "ic_like_gray.png";
+
+
+
         private PinViewModel _pinViewModel;
         private ObservableCollection<PinViewModel> _pinViewModelList;
         private readonly IPinServices _pinServices;
@@ -42,9 +45,14 @@ namespace GpsNotepad.ViewModel
            UpdateCommand = new Command(UpdateModel);
            NavigationToSingIn = new Command(OnNavigationToSingIn);
            NavigationToMainMap = new Command(ExecuteGoToMainMap);
+            ItemTappedCommand = new Command(OnItemTapped);
+            ImageTapCommand = new Command(OnImageTap);
            PinViewModelList = new ObservableCollection<PinViewModel>();
             //PathPicture = "ic_like_gray.png";
         }
+
+
+
 
         #region---PublicProperties---
         public ICommand NavigationToSettingsView { get; set; }
@@ -53,8 +61,15 @@ namespace GpsNotepad.ViewModel
         public ICommand NavigationToMainMap { get; set; }
         public ICommand RemoveCommand { set; get; }
         public ICommand UpdateCommand { set; get; }
+        public ICommand ItemTappedCommand { set; get; }
+        public ICommand ImageTapCommand { get; set; }
 
 
+        public string ImageSource
+        {
+            get { return _imageSource; }
+            set { SetProperty(ref _imageSource, value); }
+        }
         public PinViewModel PinViewModel
         {
             set { SetProperty(ref _pinViewModel, value); }
@@ -78,6 +93,15 @@ namespace GpsNotepad.ViewModel
         #endregion
 
         #region---Methods---
+        private void OnImageTap(object parametr)
+        {
+            PinViewModel pinViewModel = parametr as PinViewModel; //Corrrect property PinViewModel 
+            if (pinViewModel != null)
+            {
+                pinViewModel.Favorite = pinViewModel.Favorite == false ? true : false;
+                ImageSource = pinViewModel.Favorite == false ? "ic_like_gray.png" : "ic_like_blue.png";
+            }
+        }
         private async void ExecuteGoToAddPin()
         {
             await _navigationService.NavigateAsync($"{ nameof(AddEditPinView)}");
@@ -85,6 +109,16 @@ namespace GpsNotepad.ViewModel
         private async void ExecuteGoToSettingsPage()
         {
             await _navigationService.NavigateAsync($"{ nameof(SettingsView)}");
+
+        }
+        private void OnItemTapped(object parametr)
+        {
+            PinViewModel pinViewModel = parametr as PinViewModel;
+            if (pinViewModel != null)
+            {
+                PinViewModel = pinViewModel;
+                ShowPinOnMap();
+            }
         }
         private async void UpdateModel(object selectObject)
         {
@@ -102,14 +136,12 @@ namespace GpsNotepad.ViewModel
         }
         private async void ExecuteGoToMainMap()
         {
-            //await _navigationService.NavigateAsync($"{ nameof(NavigationPage)}/{ nameof( MainMapTabbedPageView)}");
             await _navigationService.NavigateAsync($"{ nameof(MainMapTabbedPageView)}");
         }
 
         private async void OnNavigationToSingIn()
         {
             DeletingCurrentUserSettings();
-            //await _navigationService.NavigateAsync($"{ nameof(NavigationPage)}/{ nameof(SignInView)}");
             await _navigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(SignInView)}");
         }
         public IEnumerable<PinViewModel> ConvertingPinModelToPinViewModel(IEnumerable<PinModel> PinModellist)
@@ -209,10 +241,6 @@ namespace GpsNotepad.ViewModel
         {
             if (parameters.TryGetValue<PinViewModel>(ListOfNames.PinViewModel, out PinViewModel pinViewModel))
             {
-                if(PinViewModelList.Contains(pinViewModel))
-                {
-
-                }
                 var pinViewModelUpdate = PinViewModelList.FirstOrDefault(x => x.Id == pinViewModel.Id);
                 if(pinViewModelUpdate != null)
                 {
@@ -227,6 +255,10 @@ namespace GpsNotepad.ViewModel
                 else
                 {
                     PinViewModelList.Add(pinViewModel);
+                    if (PinViewModelList.Count != 0&& !IsVisableListView)
+                    {
+                        ToggleVisibility(false, true);
+                    }
                 }
             }
         }
@@ -238,7 +270,7 @@ namespace GpsNotepad.ViewModel
             base.OnPropertyChanged(args);
             if (args.PropertyName == nameof(PinViewModel))
             {
-                ShowPinOnMap();
+                //ShowPinOnMap();
             }
         }
         #endregion

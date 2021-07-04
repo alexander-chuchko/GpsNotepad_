@@ -1,12 +1,8 @@
 ﻿using GpsNotepad.Model.Pin;
 using GpsNotepad.Services.Camera;
 using GpsNotepad.Services.Pin;
-using Plugin.Geolocator;
-using Prism.Commands;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
@@ -19,6 +15,8 @@ using GpsNotepad.Services.Permissions;
 using Plugin.Permissions.Abstractions;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using GpsNotepad.Service.Authorization;
 
 namespace GpsNotepad.ViewModel
 {
@@ -36,34 +34,74 @@ namespace GpsNotepad.ViewModel
         private readonly IPinServices _pinServices;
         private readonly ICameraService _cameraService;
         private readonly IPermissionService _permissionService;
+        private readonly IAuthorizationService _authorizationService;
         private CameraUpdate _initialCameraUpdate;
         private bool _myLocationButtonVisibility = false;
         private string _pathImageOfLocation = "icons_mylocation_off.png";
-        private bool _isVisibleCommand=false;
+        private bool _isVisibleCommand;
         private bool _isVisibleScrollView;
-        const int itemVisibleElementOfListView= 5;
-        private double SizeRow;
+        const int ItemVisibleElementOfListView= 5;
+        private int _sizeRow=50;
+        private int _sizeHightListView;
 
-        public MainMapTabbedPageViewModel(INavigationService navigationService, ICameraService cameraService, IPinServices pinServices, IPermissionService permissionService) : base(navigationService)
+        public int SizeHightListView
         {
+            get => _sizeHightListView;
+            set => SetProperty(ref _sizeHightListView, value);
+        }
+        public int SizeRow
+        {
+            get => _sizeRow;
+            set => SetProperty(ref _sizeRow, value);
+        }
+        public MainMapTabbedPageViewModel(INavigationService navigationService, ICameraService cameraService, IPinServices pinServices, IPermissionService permissionService, IAuthorizationService authorizationService) : base(navigationService)
+        {
+            _authorizationService = authorizationService;
             _cameraService = cameraService;
             _pinServices= pinServices;
             _permissionService = permissionService;
             GetAllPins();
-            //AddPinToMap();
-            NavigationToMainList = new Command(ExecuteGoToMainList);
+            //NavigationToMainList = new Command(ExecuteGoToMainList);
             SaveLastPositionAfterMoveCommand = new Command<CameraPosition>(SaveLastPosition);
             InitialCameraUpdate = CameraUpdateFactory.NewPosition(new Position(0, 0));
             Task.Run(() => RequestLocationPermission());
+            IsVisibleCommand = false;
+            SizeRow = ListOfNames.HeightRow;
         }
         public ICommand SaveLastPositionAfterMoveCommand { get; set; }
-        public ICommand NavigationToMainList { get; set; }
+        //public ICommand NavigationToMainList { get; set; }
         public ICommand NavigationToSignIn => new Command(OnNavigationToSignIn);
         public ICommand SavePositionCommand => new Command(SaveDataCameraPosition);
         public ICommand CloseCommand => new Command(MakeFormInactive);
         public ICommand PerformSearchCommand => new Command(OnPerformSearchCommand);
         public ICommand TextChangedCommand => new Command(OnTextChangedCommand);
         public ICommand ListItemTapCommand => new Command(OnListItemTapCommand);
+        private ICommand _NavigationToSettingsView;
+        public ICommand NavigationToSettingsView => _NavigationToSettingsView ??(_NavigationToSettingsView = new Command(OnNavigationToSettingsView));
+        
+        private ICommand _BackTapCommand;
+        public ICommand BackTapCommand => _BackTapCommand ?? (_BackTapCommand = new Command(OnBackTapCommand));
+
+        private void OnBackTapCommand(object obj)
+        {
+            ExitSearch = true;
+        }
+        private async void OnNavigationToSettingsView()
+        {
+            await _navigationService.NavigateAsync($"{ nameof(SettingsView)}");
+        }
+        private bool exitSearch;
+        public bool ExitSearch
+        {
+            get => exitSearch;
+            set => SetProperty(ref exitSearch, value);
+        }
+        private string searchText;
+        public string SearchText
+        {
+            get => searchText;
+            set => SetProperty(ref searchText, value);
+        }
 
         public bool IsVisibleScrollView
         {
@@ -142,6 +180,7 @@ namespace GpsNotepad.ViewModel
             get { return _myLocationButtonVisibility; }
             set { SetProperty(ref _myLocationButtonVisibility, value); }
         }
+
         private ObservableCollection <PinViewModel> _placesList;
         public ObservableCollection <PinViewModel> PlacesList
         {
@@ -150,6 +189,7 @@ namespace GpsNotepad.ViewModel
         }
         private void OnPerformSearchCommand(object parametr)
         {
+
         }
         public IEnumerable<PinViewModel> ConvertingPinModelToPinViewModel(IEnumerable<PinModel> PinModellist)
         {
@@ -167,7 +207,13 @@ namespace GpsNotepad.ViewModel
 
         private async void OnNavigationToSignIn()
         {
-            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}");
+            DeletingCurrentUserSettings();
+            //await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}");
+            await _navigationService.NavigateAsync($"/{nameof(MainPage)}");
+        }
+        private void DeletingCurrentUserSettings() //When logging out, delete all user settings
+        {
+            _authorizationService.Unauthorize();
         }
         private void OnListItemTapCommand(object parametr)
         {
@@ -175,6 +221,7 @@ namespace GpsNotepad.ViewModel
             if (PinViewModell != null)
             {
                 IsVisibleCommand = false;
+                ExitSearch = true;
                 MovingCameraPosition = new Position(PinViewModell.Latitude, PinViewModell.Longitude);
             }
         }
@@ -186,19 +233,17 @@ namespace GpsNotepad.ViewModel
                 var resultGetPins = await _pinServices.GetPinListAsync(result);
                 if (resultGetPins.Count != 0 && resultGetPins != null)
                 {
-                    IsVisibleCommand = true;
-                    if(itemVisibleElementOfListView<= resultGetPins.Count)
+                    if(ItemVisibleElementOfListView>= resultGetPins.Count)
                     {
-                        IsVisibleScrollView = true;
+                        SizeHightListView = resultGetPins.Count * SizeRow;
                     }
                     else
                     {
-                        IsVisibleScrollView = false;
+                        SizeHightListView = ItemVisibleElementOfListView * SizeRow;
                     }
+                    IsVisibleCommand = true;
                     var profileViewModelList = ConvertingPinModelToPinViewModel(resultGetPins);
                     PlacesList = (ObservableCollection<PinViewModel>)profileViewModelList;
-                    double _size = SizeRow;
-                    //_pinServices.SetStateOfTextInSearchBar(result);
                 }
                 else
                 {
@@ -211,11 +256,12 @@ namespace GpsNotepad.ViewModel
             }
             //Save state of text
         }
+        /*
         private async void ExecuteGoToMainList()
         {
             //await _navigationService.GoBackAsync();
             await _navigationService.NavigateAsync($"{ nameof(NavigationPage)}/{ nameof(MainListTabbedPageView)}");
-        }
+        }*/
         private void SaveLastPosition(object itemObject)
         {
             CameraPosition cameraPosition = itemObject as CameraPosition;
@@ -237,9 +283,9 @@ namespace GpsNotepad.ViewModel
             IsInfoVisible = false;
         }
         public ICommand PinClickedCommand => new Command<Pin>(OnPinClick);
-        private void OnPinClick(object selectedObject)
+        private void OnPinClick(object parametr)
         {
-            Pin pin = selectedObject as Pin;
+            Pin pin = parametr as Pin;
             if (pin != null)
             {
                 Pin = pin;
@@ -343,12 +389,53 @@ namespace GpsNotepad.ViewModel
             if (parameters.TryGetValue<PinViewModel>(ListOfNames.SelectedPin, out PinViewModel pinViewModel))
             {
                 PinViewModell = parameters.GetValue<PinViewModel>(ListOfNames.SelectedPin);
-                MovingCameraPosition = new Position(PinViewModell.Latitude, PinViewModell.Longitude);
+                if(PinViewModell!=null)
+                {
+                    GetAllPins(); 
+                    MovingCameraPosition = new Position(PinViewModell.Latitude, PinViewModell.Longitude);
+                }
             }
         }
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
         }
         #endregion
+        private async void ShowRelevantPins()
+        {
+            if(!string.IsNullOrWhiteSpace(SearchText))
+            {
+                var resultGetPins = await _pinServices.GetPinListAsync(SearchText);
+                if (resultGetPins.Count != 0 && resultGetPins != null)
+                {
+                    if (ItemVisibleElementOfListView >= resultGetPins.Count)
+                    {
+                        SizeHightListView = resultGetPins.Count * SizeRow;
+                    }
+                    else
+                    {
+                        SizeHightListView = ItemVisibleElementOfListView * SizeRow;
+                    }
+                    IsVisibleCommand = true;
+                    var profileViewModelList = ConvertingPinModelToPinViewModel(resultGetPins);
+                    PlacesList = (ObservableCollection<PinViewModel>)profileViewModelList;
+                }
+                else
+                {
+                    IsVisibleCommand = false;
+                }
+            }
+            else
+            {
+                IsVisibleCommand = false;
+            }
+        }
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+            if (args.PropertyName == nameof(SearchText))
+            {
+                ShowRelevantPins();
+            }
+        }
     }
 }

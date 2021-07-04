@@ -3,46 +3,114 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:resource="clr-namespace:GpsNotepad.Recource"
              Title="{x:Static resource:AppResource.title_add_pin}"
+             xmlns:prism="http://prismlibrary.com"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False"
              x:Class="GpsNotepad.View.AddEditPinView"
              xmlns:local="clr-namespace:GpsNotepad.Controls">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="ic_save.png"
-                     Priority="1"
-                     Order="Primary"
-                     Command="{Binding Path=SaveCommand}">
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
-        <Grid RowDefinitions="auto, auto, auto, auto">
-            <Grid Grid.Row="0">
-                <StackLayout>
-                    <Entry Placeholder="{x:Static resource:AppResource.label_of_pin}" 
-                           Grid.Column="0"
-                           Text="{Binding Path= Label}">
-                    </Entry>
-                </StackLayout>    
-            </Grid>
-            <Grid Grid.Row="1">
-                <StackLayout>
-                    <Entry Placeholder="{x:Static resource:AppResource.description}"
-                           Grid.Column="0"
-                           Text="{Binding Path= Description}">
-                    </Entry>
+        <Grid RowDefinitions="0.12*,*" RowSpacing="0">
+            <StackLayout Orientation="Horizontal" Grid.Row="0" Spacing="0"
+                         VerticalOptions="CenterAndExpand">
+                    <Image Source="ic_left_blue.png"
+                   HorizontalOptions="Start"
+                   Margin="10, 0, 0, 0">
+
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigationToMainListCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+
+                    <Label Grid.Column="0"
+                   Text="Add Pin" TextColor="Black" 
+                       FontSize="20"
+                   HorizontalOptions="CenterAndExpand"/>
+
+                <Image Grid.Column="0"
+                   Source="ic_save.png"
+                   HorizontalOptions="End"
+                   Margin="0, 0, 15, 0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SaveCommand}"/>
+                    </Image.GestureRecognizers>
+                </Image>
                 </StackLayout>
-            </Grid>
-            <Grid Grid.Row="2">
-                <StackLayout>
-                    <Entry Placeholder="{x:Static resource:AppResource.longitude}"
-                           Grid.Column="0"
-                           MaxLength="120"
-                           Text="{Binding Path= Longitude}">
-                    </Entry>
-                    <Entry Placeholder="{x:Static resource:AppResource.latitude}"
-                           Grid.Column="1"
-                           Text="{Binding Path=Latitude}">
-                    </Entry>
+            
+            <BoxView VerticalOptions="EndAndExpand" 
+                     HeightRequest="2"
+                     BackgroundColor="LightGray"/>
+            
+            <StackLayout Spacing="0" 
+                         Padding="0"
+                         Grid.Row="1">
+
+                <StackLayout Margin="10"
+                             Spacing="0">
+
+                    <Label Text="Label"
+                       FontSize="16"
+                       Margin="5"
+                       TextColor="Black"/>
+
+                    <local:CustomEntry Placeholder="Enter the label"
+                                   PlaceholderColor="Black"
+                                   Text="{Binding Label}"/>
                 </StackLayout>
-            </Grid>
+
+                <StackLayout Margin="10"
+                         Spacing="0">
+
+                    <Label Text="Description"
+                       FontSize="16"
+                       Padding="5"
+                       TextColor="Black"/>
+
+                    <local:CustomEntry Placeholder="Write a description"
+                                   PlaceholderColor="Black"
+                                   Text="{Binding Description}"/>
+                </StackLayout>
+
+                <StackLayout Margin="10"
+                         Spacing="0">
+
+                    <Label Text="Coordinates"
+                       FontSize="16"
+                       Padding="5"
+                       TextColor="Black"/>
+
+                    <StackLayout Orientation="Horizontal"
+                             Spacing="10">
+
+                        <local:CustomEntry Placeholder="Longitude"
+                                       HorizontalOptions="FillAndExpand"
+                                       PlaceholderColor="Black"
+                                       Text="{Binding Longitude}"/>
+
+                        <local:CustomEntry Placeholder="Latitude"
+                                       HorizontalOptions="FillAndExpand"
+                                       PlaceholderColor="Black"
+                                       Text="{Binding Latitude}"/>
+                    </StackLayout>
+
+                </StackLayout>
+
+                <local:CustomMap x:Name="map" VerticalOptions="FillAndExpand"
+                             InitialCameraUpdate="{Binding InitialCameraUpdate}"
+                             IsMyLocationButtonVisible="{Binding MyLocationButtonVisibility}" 
+                             CameraMovingPosition="{Binding MovingCameraPosition}"
+                             PinsList="{Binding PinViewModelList}">
+                    <local:CustomMap.Behaviors>
+
+                        <prism:EventToCommandBehavior EventName="MapClicked"
+                                              Command="{Binding MapClickCommand}"
+                                              EventArgsParameterPath="Point"/>
+                    </local:CustomMap.Behaviors>
+
+                </local:CustomMap>
+
+            </StackLayout>
         </Grid>
+       
     </ContentPage.Content>
 </ContentPage>

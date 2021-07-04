@@ -1,12 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:GpsNotepad.Controls"
              x:Class="GpsNotepad.View.SettingsView">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid RowDefinitions="0.1*, *" RowSpacing="0">
+
+            <StackLayout Grid.Column="0" BackgroundColor="Red" IsVisible="true"
+                         Padding="0"
+                         Margin="0">
+
+
+            </StackLayout>
+            <BoxView VerticalOptions="EndAndExpand" IsVisible="false"
+                     HeightRequest="2"
+                     BackgroundColor="LightGray"/>
+            <StackLayout Grid.Row="1" Padding="0" BackgroundColor="Green">
+
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

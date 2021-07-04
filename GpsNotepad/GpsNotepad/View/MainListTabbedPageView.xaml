@@ -3,27 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:resource="clr-namespace:GpsNotepad.Recource"
              xmlns:prism="http://prismlibrary.com"
-             Title="{x:Static resource:AppResource.title_main_list}"
+             Title="Pins"
+             xmlns:local="clr-namespace:GpsNotepad.Controls"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False"
              x:Class="GpsNotepad.View.MainListTabbedPageView">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="ic_settings.png"
-                     Priority="2"
-                     Order="Primary"
-                     Command="{Binding Path= NavigationToSettingsView}"/>
-        <ToolbarItem IconImageSource="ic_exit_to_app.png"
-                     Priority="1"
-                     Order="Primary"
-                     Command="{Binding Path= NavigationToSingIn}"/>
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid RowDefinitions="Auto">
+        
+        <Grid RowDefinitions="0.12*, *"
+              RowSpacing="0">
+            <StackLayout Grid.Column="0"
+                         Padding="0"
+                         Margin="0"
+                         Spacing="0">
+                
+                <local:CustomNavBar SettingsTapCommand="{Binding NavigationToSettingsView}" 
+                                    ExitTapCommand="{Binding NavigationToSignIn}"
+                                    SearchText="{Binding SearchText}"
+                                    ExitSearch="{Binding ExitSearch}"
+                                    BackTapCommand="{Binding BackTapCommand}"
+                                    VerticalOptions="CenterAndExpand"/>
+            </StackLayout>
+            <StackLayout Grid.Row="1"
+                         Padding="0"
+                         Spacing="0" >
+                
+            <BoxView IsVisible="true"
+                     HeightRequest="2"
+                     BackgroundColor="LightGray"/>
+                
             <ListView x:Name="MyListView"
-                  Margin="15" 
-                  Grid.Row="0" 
-                  ItemsSource="{Binding PinViewModelList}"
-                  SelectedItem="{Binding PinViewModel}"
-                  HasUnevenRows="True" 
-                  IsVisible="{Binding IsVisableListView}">
+                      SelectionMode="None"
+                      Grid.Row="1" Margin="10,0,10,0"
+                      ItemsSource="{Binding PinViewModelList}"
+                      HasUnevenRows="true" 
+                      IsVisible="{Binding IsVisableListView}">
+                    <ListView.Behaviors>
+                        <prism:EventToCommandBehavior EventName="ItemTapped"
+                                                      EventArgsParameterPath="Item"
+                                                      Command="{Binding ItemTappedCommand}"/>
+                    </ListView.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -35,13 +55,22 @@
                                       Command="{Binding Path=BindingContext.RemoveCommand, Source={x:Reference Name=MyListView}}"
                                       CommandParameter="{Binding .}"/>
                             </ViewCell.ContextActions>
-                            <ViewCell.View>
-                                <StackLayout Orientation="Vertical">
-                                    <Label Text="{Binding Label}" TextColor="Red"/>
-                                    <StackLayout Orientation="Horizontal" Margin="10">
-                                        <Label Text="{Binding Latitude}" />
-                                        <Label Text="{Binding Longitude}" />
-                                    </StackLayout>
+                            <ViewCell.View >
+                                <StackLayout Orientation="Horizontal" Spacing="10" Padding="10">
+                                        <ImageButton Source="{Binding ImageSource}" x:Name="MyImage" HeightRequest="40"
+                                                     WidthRequest="{Binding Source={x:Reference MyImage}, Path=HeightRequest}"
+                                                     CornerRadius="5"
+                                                     Command="{Binding Path=BindingContext.ImageTapCommand, 
+                                                                   Source={x:Reference MyListView}}"
+                                                     CommandParameter="{Binding .}"
+                                                     BackgroundColor="LightGray"/>
+                                        <StackLayout Orientation="Vertical"  x:Name="MyStack">
+                                            <Label Text="{Binding Label}" TextColor="Black" FontSize="16"/>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding Latitude}"/>
+                                                <Label Text="{Binding Longitude}" />
+                                            </StackLayout>
+                                        </StackLayout>
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>
@@ -59,18 +88,17 @@
                FontSize="28" 
                TextColor="Brown" 
                Text="{x:Static resource:AppResource.no_pins_added}"/>
-            <Button Grid.Row="0"
-                Text="+"
-                BorderColor="CadetBlue" 
-                BorderWidth="3" 
+            </StackLayout>
+            <Button Grid.Row="1"
+                    ImageSource="ic_plus.png"
                 FontAttributes="Bold" 
-                BackgroundColor="Gray" 
-                BorderRadius="40" 
+                BackgroundColor="#475cde" 
+                BorderRadius="30" 
                 TextColor="White"
-                FontSize="42"
+                FontSize="30"
                 HorizontalOptions="End" 
-                WidthRequest="80" 
-                HeightRequest="80" 
+                WidthRequest="60" 
+                HeightRequest="60" 
                 Margin="0,0,20,22" 
                 VerticalOptions="End"
                 Command="{Binding Path=NavigationToAddPin}">

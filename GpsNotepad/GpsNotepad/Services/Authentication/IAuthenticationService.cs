@@ -5,7 +5,7 @@ namespace GpsNotepad.Service
 {
     public interface IAuthenticationService
     {
-        Task<UserModel> SignUpAsync(string login, string password);
-        Task<bool> SignInAsync(string login, string password);
+        Task<UserModel> SignUpAsync(string email, string password, string name);
+        Task<bool> SignInAsync(string email, string password);
     }
 }

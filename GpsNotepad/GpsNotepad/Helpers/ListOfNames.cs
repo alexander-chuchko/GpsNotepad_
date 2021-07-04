@@ -4,6 +4,7 @@
     {
         //the keys
         public const string NewUser = "NewUser";
+        public const string UserRegistrationData = "UserRegistrationData";
         public const string PinModel = "PinModel";
         public const string PinViewModel = "PinViewModel";
         public const string SelectedPin = "SelectedPin";
@@ -14,5 +15,7 @@
         public const string BasePicture = "pic_Pin.png";
         public const string PictureForFolder = "folder_image.png";
         public const string PictureForCamera = "camera.png";
+
+        public const int HeightRow = 50;
     }
 }

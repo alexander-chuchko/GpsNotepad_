@@ -92,7 +92,6 @@ namespace GpsNotepad.Controls
                 if (newValue is Position)
                 {
                     map._cameraMovingPosition = (Position)newValue;
-                    // map.MoveCamera(CameraUpdateFactory.NewPositionZoom(map._cameraMovingPosition, 5));
                     map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(map._cameraMovingPosition.Latitude, map._cameraMovingPosition.Longitude), Distance.FromMiles(1)));
                 }
             }

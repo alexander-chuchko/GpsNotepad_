@@ -12,6 +12,7 @@ namespace GpsNotepad.Model.Pin
         private string _label;
         private string _address;
         private string _description;
+        public bool _favorite;
 
         public int Id
         {
@@ -47,6 +48,11 @@ namespace GpsNotepad.Model.Pin
         {
             get { return _description; }
             set { SetProperty(ref _description, value); }
+        }
+        public bool Favorite
+        {
+            get { return _favorite; }
+            set { SetProperty(ref _favorite, value); }
         }
     }
 }

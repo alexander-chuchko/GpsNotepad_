@@ -3,69 +3,152 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GpsNotepad.View.SignUpView"
              xmlns:local="clr-namespace:GpsNotepad.Converter"
-             xmlns:resource="clr-namespace:GpsNotepad.Recource"
-             Title="{x:Static resource:AppResource.title_sign_in}">
+             xmlns:local1="clr-namespace:GpsNotepad.Controls"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False">
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:MultiTriggerConverter x:Key="dataHasBeenEntered"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid RowDefinitions="0.75*, 0.25*">
-            <Grid Grid.Row="0">
-                <StackLayout VerticalOptions="Center"  Padding="30">
-                    <Entry x:Name="EmailAddressSignUp"
-                       Placeholder="{x:Static resource:AppResource.your_email}"
-                       Text="{Binding Path=EmailAddress}"
-                       ClearButtonVisibility="WhileEditing"/>
-                    <Entry x:Name="PasswordSignUp"
-                       Placeholder="Password"
-                       IsPassword="True"
-                       Text="{Binding Path= Password}"
-                       ClearButtonVisibility="WhileEditing"/>
-                    <Entry x:Name="ConfirmPasswordSignUp"
-                       Placeholder="{x:Static resource:AppResource.confirm_password}"
-                       IsPassword="True"
-                       Text="{Binding Path=ConfirmPassword}"
-                       ClearButtonVisibility="WhileEditing"/>
-                </StackLayout>
+        <Grid RowDefinitions="0.12*,*"
+              RowSpacing="0">
+
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="0.2*,0.6*,0.2*"
+                  ColumnSpacing="0" Padding="10">
+
+                <Image Grid.Column="0"
+                       Source="ic_left_blue.png"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center">
+
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigationSignInCommand}"/>
+                    </Image.GestureRecognizers>
+
+                </Image>
+
+                <Label Grid.Column="1"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Text="Create an acount"
+                       TextColor="Black" 
+                       FontSize="20"/>
             </Grid>
-            <Grid Grid.Row="1">
-                <StackLayout VerticalOptions="Start"  Padding="30">
-                    <Button Text="{x:Static resource:AppResource.sign_up}"
-                        TextColor="Black"
-                        TextTransform="Uppercase"
-                        BackgroundColor="Orange"
-                        CornerRadius="5"
-                        FontSize="18"
-                        BorderWidth="3"
-                        BorderColor="Black"
-                        IsEnabled="{Binding Path=IsEnabled}"
-                        Command="{Binding Path= SignUpCommand}">
+
+            <BoxView VerticalOptions="EndAndExpand"
+                     HeightRequest="1.5"
+                     BackgroundColor="LightGray"/>
+
+            <StackLayout Spacing="40" 
+                         Padding="20"
+                         Grid.Row="1">
+
+                <StackLayout Spacing="0" >
+
+                    <Label Text="Name"
+                           Padding="2"
+                           FontSize="16"/>
+
+                    <local1:CustomEntry
+                        x:Name="Name"
+                        Placeholder="Enter your name"
+                        Text="{Binding Name}"/>
+
+                </StackLayout>
+
+                <StackLayout Spacing="0">
+
+                    <Label Text="Email" Padding="2"
+                           FontSize="16"/>
+
+                    <local1:CustomEntry Placeholder="Enter email"
+                                        x:Name="Email"
+                                        Text="{Binding EmailAddress}"/>
+                </StackLayout>
+
+                <StackLayout Spacing="23">
+
+                    <Button BackgroundColor="#475cde"
+                            Text="Create account"
+                            FontSize="20"
+                            TextColor="White"
+                            FontFamily="Montserrat-Medium"
+                            CornerRadius="3"
+                            IsEnabled="{Binding IsEnabled}"       
+                            TextTransform="None"
+                            Command="{Binding CheckDataCommand}">
+
                         <Button.Triggers>
                             <MultiTrigger TargetType="Button">
                                 <MultiTrigger.Conditions>
                                     <BindingCondition 
-                                    Binding="{Binding Source={x:Reference EmailAddressSignUp},
-                                    Path=Text.Length,
-                                    Converter={StaticResource dataHasBeenEntered}}"
-                                    Value="true"/>
-                                    <BindingCondition
-                                    Binding="{Binding Source={x:Reference PasswordSignUp}, Path=Text.Length, 
-                                    Converter={StaticResource dataHasBeenEntered}}"
-                                    Value="true"/>
-                                    <BindingCondition
-                                    Binding="{Binding Source={x:Reference ConfirmPasswordSignUp},
-                                    Path=Text.Length, 
-                                    Converter={StaticResource dataHasBeenEntered}}"
-                                    Value="true"/>
+                                Binding="{Binding Source={x:Reference Name},
+                                Path=Text.Length, 
+                                Converter={StaticResource dataHasBeenEntered}}"
+                                Value="true"/>
+                                    <BindingCondition 
+                                Binding="{Binding Source={x:Reference Email},
+                                Path=Text.Length, 
+                                Converter={StaticResource dataHasBeenEntered}}"
+                                Value="true"/>
                                 </MultiTrigger.Conditions>
                                 <Setter Property="IsEnabled" Value="True"/>
                             </MultiTrigger>
+
                         </Button.Triggers>
+
                     </Button>
+                    <StackLayout Orientation="Horizontal"
+                                 Spacing="5">
+
+                        <BoxView VerticalOptions="Center"
+                                 HorizontalOptions="FillAndExpand"
+                                 HeightRequest="1.5"
+                                 BackgroundColor="LightGray"/>
+
+                        <Label Text="or"
+                               VerticalOptions="Center"
+                               FontSize="18" HorizontalOptions="Center"/>
+
+                        <BoxView  VerticalOptions="CenterAndExpand"
+                                  HorizontalOptions="FillAndExpand" 
+                                  HeightRequest="1.5"
+                                  BackgroundColor="LightGray"/>
+
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="FillAndExpand"
+                                 Spacing="15">
+
+                        <Button BackgroundColor="White"
+                            BorderColor="LightGray"
+                            ImageSource="ic_google.png"
+                            BorderWidth="1.5"
+                            HorizontalOptions="FillAndExpand"
+                            CornerRadius="3"/>
+
+                        <Button BackgroundColor="White"
+                            BorderColor="LightGray"
+                            ImageSource="ic_facebook.png"
+                            BorderWidth="1.5"
+                            HorizontalOptions="FillAndExpand"
+                            CornerRadius="3"/>
+
+                        <Button BackgroundColor="White"
+                            BorderColor="LightGray"
+                            ImageSource="ic_apple.png"
+                            HorizontalOptions="FillAndExpand"
+                            BorderWidth="1.5"
+                            CornerRadius="3"/>
+
+                    </StackLayout>
                 </StackLayout>
-            </Grid>
+            </StackLayout>
+
         </Grid>
+
     </ContentPage.Content>
 </ContentPage>

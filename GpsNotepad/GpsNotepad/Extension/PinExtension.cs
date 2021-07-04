@@ -19,7 +19,8 @@ namespace GpsNotepad.Extension
                     Address=pinViewModel.Address,
                     Label=pinViewModel.Label,
                     Latitude=pinViewModel.Latitude,
-                    Longitude=pinViewModel.Longitude
+                    Longitude=pinViewModel.Longitude,
+                    Favorite=pinViewModel.Favorite
                 };
             }
             return pinModel;
@@ -37,7 +38,8 @@ namespace GpsNotepad.Extension
                     Longitude=pinModel.Longitude,
                     Label=pinModel.Label,
                     Address=pinModel.Address,
-                    Description=pinModel.Description
+                    Description=pinModel.Description,
+                    Favorite=pinModel.Favorite
                 };
             }
             return pinViewModel;
