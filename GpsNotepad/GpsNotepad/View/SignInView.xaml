@@ -53,7 +53,8 @@
                     <local1:CustomEntry
                         x:Name="EmailAddressSignIn"
                         Placeholder="Enter email"
-                        Text="{Binding EmailAddress}"/>
+                        Text="{Binding EmailAddress}"
+                        ClearButtonVisibility="WhileEditing"/>
                 </StackLayout>
 
                 <StackLayout Spacing="0">
@@ -63,7 +64,8 @@
 
                     <local1:CustomEntry Placeholder="Enter password"
                                         x:Name="PasswordSignIn"
-                                   Text="{Binding Password}"/>
+                                   Text="{Binding Password}"
+                                        ClearButtonVisibility="WhileEditing"/>
                 </StackLayout>
                 <StackLayout Spacing="23">
 

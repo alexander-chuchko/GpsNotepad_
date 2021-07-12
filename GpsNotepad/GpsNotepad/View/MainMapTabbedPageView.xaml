@@ -46,10 +46,10 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Horizontal">
-                                    <Image Source="ic_pin_gray.png" />
-                                    <StackLayout Orientation="Vertical" >
-                                        <Label Text="{Binding Label}" TextColor="Red"/>
+                                <StackLayout Orientation="Horizontal" Padding="2" Spacing="8">
+                                    <Image Source="ic_pin_gray.png" Margin="5,0,0,0"/>
+                                    <StackLayout Orientation="Vertical">
+                                        <Label Text="{Binding Label}" FontAttributes="Bold" TextColor="Black" FontSize="14"/>
                                         <Label Text="{Binding Description}"/>
                                     </StackLayout>
                                 </StackLayout>
@@ -81,6 +81,8 @@
                         <prism:EventToCommandBehavior EventName="CameraIdled"
                                                       Command="{Binding SaveLastPositionAfterMoveCommand}"
                                                       EventArgsParameterPath ="Position" />
+                        <prism:EventToCommandBehavior EventName="MapClicked"
+                                              Command="{Binding MapClickCommand}"/>
                     </local:CustomMap.Behaviors>
                 </local:CustomMap>
 

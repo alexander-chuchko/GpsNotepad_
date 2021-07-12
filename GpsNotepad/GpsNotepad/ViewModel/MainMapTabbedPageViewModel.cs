@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GpsNotepad.Service.Authorization;
+using System;
 
 namespace GpsNotepad.ViewModel
 {
@@ -81,6 +82,16 @@ namespace GpsNotepad.ViewModel
         
         private ICommand _BackTapCommand;
         public ICommand BackTapCommand => _BackTapCommand ?? (_BackTapCommand = new Command(OnBackTapCommand));
+        private ICommand _MapClickCommand;
+        public ICommand MapClickCommand => _MapClickCommand ?? new Command(OnMapClickCommand);
+
+        private void OnMapClickCommand()
+        {
+            if(IsVisibleCommand)
+            {
+                IsVisibleCommand = false;
+            }
+        }
 
         private void OnBackTapCommand(object obj)
         {

@@ -10,9 +10,9 @@
         double ZoomCameraPosition { get; set; }
         bool IsEnabledUserLocationButton { get; set; }
         string StateOfTextInSearchBar{get; set;}
+        int ThemType { get; set; }
 
         //int SortingType { get; set; }
-        //int ThemType { get; set; }
         //string SelectedLanguage { get; set; }
         void ClearData();
     }

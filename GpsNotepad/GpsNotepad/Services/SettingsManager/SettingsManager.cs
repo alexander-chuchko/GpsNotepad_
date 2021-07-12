@@ -46,6 +46,11 @@ namespace GpsNotepad.Service.Settings
             get => Preferences.Get(nameof(StateOfTextInSearchBar), default(string));
             set => Preferences.Set(nameof(StateOfTextInSearchBar), value);
         }
+        public int ThemType
+        {
+            get => Preferences.Get(nameof(ThemType), default(int));
+            set => Preferences.Set(nameof(ThemType), value);
+        }
 
         /*
         public int SortingType

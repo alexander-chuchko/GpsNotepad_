@@ -2,22 +2,54 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:GpsNotepad.Controls"
+             xmlns:local1="clr-namespace:GpsNotepad.Controls"
              x:Class="GpsNotepad.View.SettingsView">
     <ContentPage.Content>
-        <Grid RowDefinitions="0.1*, *" RowSpacing="0">
+        <Grid RowDefinitions="0.12*,*"
+              RowSpacing="0">
 
-            <StackLayout Grid.Column="0" BackgroundColor="Red" IsVisible="true"
-                         Padding="0"
-                         Margin="0">
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="0.2*,0.6*,0.2*"
+                  ColumnSpacing="0" Padding="10">
 
+                <Image Grid.Column="0"
+                       Source="ic_left_blue.png"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center">
 
-            </StackLayout>
-            <BoxView VerticalOptions="EndAndExpand" IsVisible="false"
-                     HeightRequest="2"
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BackTapCommand}"/>
+                    </Image.GestureRecognizers>
+
+                </Image>
+
+                <Label Grid.Column="1"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Text="Settings"
+                       TextColor="Black" 
+                       FontSize="20"/>
+            </Grid>
+
+            <BoxView VerticalOptions="EndAndExpand"
+                     HeightRequest="1.5"
                      BackgroundColor="LightGray"/>
-            <StackLayout Grid.Row="1" Padding="0" BackgroundColor="Green">
+
+            <StackLayout Spacing="40" 
+                         Padding="20"
+                         Grid.Row="1" Orientation="Horizontal">
+                <Label HorizontalOptions="StartAndExpand"
+                       VerticalOptions="StartAndExpand"
+                       Text="Dark theme" FontSize="Medium"
+                       FontAttributes="Bold"/>
+                <Switch HorizontalOptions="EndAndExpand"
+                        VerticalOptions="StartAndExpand">
+                    
+                </Switch>
 
             </StackLayout>
+
         </Grid>
+
     </ContentPage.Content>
 </ContentPage>

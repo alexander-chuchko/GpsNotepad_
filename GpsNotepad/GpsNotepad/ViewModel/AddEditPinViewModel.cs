@@ -16,7 +16,6 @@ using GpsNotepad.Services.Camera;
 using System.Collections.Generic;
 using System.Linq;
 using GpsNotepad.Model;
-using System.Collections.ObjectModel;
 
 namespace GpsNotepad.ViewModel
 {
@@ -136,7 +135,7 @@ namespace GpsNotepad.ViewModel
         private bool IsFieldsFilled()
         {
             bool resultFilling = true;
-            if (!Validation.IsInformationInLabelAndLatitudeAndLongitude(Label, Latitude, Longitude))
+            if (!Validation.IsInformationInLabelAndLatitudeAndLongitude(Label, Description, Latitude, Longitude))
             {
                 resultFilling = false;
             }
@@ -202,12 +201,13 @@ namespace GpsNotepad.ViewModel
         private async Task<bool> AddPinModel()
         {
             bool resultOfAction = false;
-            PinViewModel=new PinViewModel()
+            PinViewModel = new PinViewModel()
             {
-                Label=Label,
+                Label = Label,
                 Description = Description,
-                Latitude=Convert.ToDouble(Latitude),
-                Longitude=Convert.ToDouble(Longitude)
+                Latitude = Convert.ToDouble(Latitude),
+                Longitude = Convert.ToDouble(Longitude), //To do
+                ImagePath = "ic_like_gray.png"
             };
             var PinModel = PinViewModel.ToPinModel();
             if (PinModel != null)

@@ -51,10 +51,10 @@ namespace GpsNotepad.Helpers
             return comparisonResult;
         }
         //Method for checking the existence of information
-        public static bool IsInformationInLabelAndLatitudeAndLongitude(string label, string latitude, string longitude)
+        public static bool IsInformationInLabelAndLatitudeAndLongitude(string label, string description, string latitude, string longitude)
         {
             var validationResult = false;
-            if (!string.IsNullOrWhiteSpace(label) && !string.IsNullOrWhiteSpace(latitude)&&!string.IsNullOrWhiteSpace(longitude)) //I will finish
+            if (!string.IsNullOrWhiteSpace(label) && !string.IsNullOrWhiteSpace(description)&&!string.IsNullOrWhiteSpace(latitude)&&!string.IsNullOrWhiteSpace(longitude)) //I will finish
             {
                 validationResult = true;
             }

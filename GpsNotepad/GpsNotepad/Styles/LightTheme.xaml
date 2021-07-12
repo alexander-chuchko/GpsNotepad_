@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProfileBook.Styles.LightTheme">
+    <Color x:Key="PageBackgroundColor">#fef6f7</Color>
+    <Color x:Key="NavigationBarColor">#007fff</Color>
+    <Color x:Key="PrimaryColor">#007fff</Color>
+    <Color x:Key="SecondaryColor">White</Color>
+    <Color x:Key="PrimaryTextColor">Black</Color>
+    <Color x:Key="SecondaryTextColor">White</Color>
+    <Color x:Key="EntryBackgroundColor">Transparent</Color>
+    <Color x:Key="TertiaryTextColor">Gray</Color>
+    <Color x:Key="RadioButtonBorderColor">Black</Color>
+    <Color x:Key="Transparent">Transparent</Color>
+    <Color x:Key="LabelListViewColor">Black</Color>
+</ResourceDictionary>

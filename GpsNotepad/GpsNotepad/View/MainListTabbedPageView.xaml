@@ -17,13 +17,12 @@
                          Padding="0"
                          Margin="0"
                          Spacing="0">
-                
-                <local:CustomNavBar SettingsTapCommand="{Binding NavigationToSettingsView}" 
+
+                <local:CustomNavBar SettingsTapCommand="{Binding NavigationToSettingsView}" VerticalOptions="CenterAndExpand"
                                     ExitTapCommand="{Binding NavigationToSignIn}"
                                     SearchText="{Binding SearchText}"
                                     ExitSearch="{Binding ExitSearch}"
-                                    BackTapCommand="{Binding BackTapCommand}"
-                                    VerticalOptions="CenterAndExpand"/>
+                                    BackTapCommand="{Binding BackTapCommand}"/>
             </StackLayout>
             <StackLayout Grid.Row="1"
                          Padding="0"
@@ -32,38 +31,39 @@
             <BoxView IsVisible="true"
                      HeightRequest="2"
                      BackgroundColor="LightGray"/>
-                
-            <ListView x:Name="MyListView"
+  
+                <ListView x:Name="MyListView"
                       SelectionMode="None"
+                      BackgroundColor="Transparent"
                       Grid.Row="1" Margin="10,0,10,0"
                       ItemsSource="{Binding PinViewModelList}"
                       HasUnevenRows="true" 
                       IsVisible="{Binding IsVisableListView}">
-                    <ListView.Behaviors>
-                        <prism:EventToCommandBehavior EventName="ItemTapped"
-                                                      EventArgsParameterPath="Item"
-                                                      Command="{Binding ItemTappedCommand}"/>
-                    </ListView.Behaviors>
-                <ListView.ItemTemplate>
+                    <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.ContextActions>
-                                <MenuItem Text="{x:Static resource:AppResource.edit}"
-                                      Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference Name=MyListView}}"
-                                      CommandParameter="{Binding .}"/>
-                                <MenuItem Text="{x:Static resource:AppResource.delete}"
-                                      Command="{Binding Path=BindingContext.RemoveCommand, Source={x:Reference Name=MyListView}}"
-                                      CommandParameter="{Binding .}"/>
-                            </ViewCell.ContextActions>
-                            <ViewCell.View >
-                                <StackLayout Orientation="Horizontal" Spacing="10" Padding="10">
-                                        <ImageButton Source="{Binding ImageSource}" x:Name="MyImage" HeightRequest="40"
+                            <ViewCell>
+                                <ViewCell.View >
+                                    <SwipeView>
+                                        <SwipeView.RightItems>
+                                            <SwipeItem IconImageSource="ic_delete.png"
+                                                   BackgroundColor="Red"
+                                                   Command="{Binding Path=BindingContext.RemoveCommand, Source={x:Reference Name=MyListView}}"
+                                                   CommandParameter="{Binding .}"/>
+                                            <SwipeItem IconImageSource="ic_edit.png" 
+                                                   BackgroundColor="#475cde"
+                                                   Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference Name=MyListView}}"
+                                                   CommandParameter="{Binding .}"/>
+                                        </SwipeView.RightItems>
+                                   
+                                    <StackLayout Orientation="Horizontal" Spacing="10" Padding="10">
+                                        <ImageButton Source="{Binding ImagePath}"
+                                                     BackgroundColor="#F1F3FD"
+                                                     x:Name="MyImage" HeightRequest="40"
                                                      WidthRequest="{Binding Source={x:Reference MyImage}, Path=HeightRequest}"
                                                      CornerRadius="5"
                                                      Command="{Binding Path=BindingContext.ImageTapCommand, 
                                                                    Source={x:Reference MyListView}}"
-                                                     CommandParameter="{Binding .}"
-                                                     BackgroundColor="LightGray"/>
+                                                     CommandParameter="{Binding .}"/>
                                         <StackLayout Orientation="Vertical"  x:Name="MyStack">
                                             <Label Text="{Binding Label}" TextColor="Black" FontSize="16"/>
                                             <StackLayout Orientation="Horizontal">
@@ -71,8 +71,15 @@
                                                 <Label Text="{Binding Longitude}" />
                                             </StackLayout>
                                         </StackLayout>
-                                </StackLayout>
-                            </ViewCell.View>
+                                            <ImageButton Source="ic_left_gray.png"
+                                                         BackgroundColor="Transparent"
+                                                         HorizontalOptions="EndAndExpand"
+                                                         Command="{Binding Path=BindingContext.ItemTappedCommand, 
+                                                                   Source={x:Reference MyListView}}"
+                                                         CommandParameter="{Binding .}"/>
+                                        </StackLayout>
+                                    </SwipeView>
+                                </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

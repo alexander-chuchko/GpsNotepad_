@@ -13,6 +13,7 @@ namespace GpsNotepad.Model.Pin
         private string _address;
         private string _description;
         public bool _favorite;
+        public string _imagePath;
 
         public int Id
         {
@@ -53,6 +54,11 @@ namespace GpsNotepad.Model.Pin
         {
             get { return _favorite; }
             set { SetProperty(ref _favorite, value); }
+        }
+        public string ImagePath
+        {
+            get { return _imagePath; }
+            set { SetProperty(ref _imagePath, value); }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace GpsNotepad.Droid.Renders
 
         }
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
-       {
+        {
             base.OnElementChanged(e);
 
             if (e.OldElement == null)

@@ -9,6 +9,7 @@ using GpsNotepad.Services.Pin;
 using GpsNotepad.View;
 using Prism.Navigation;
 using Prism.Navigation.TabbedPages;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -22,14 +23,13 @@ namespace GpsNotepad.ViewModel
     public class MainListTabbedPageViewModel: BaseViewModel, IInitializeAsync, INavigatedAware
     {
         #region---PrivateFields---
+        const int ItemVisibleElementOfListView = 5; //To do
         private bool _isVisibleLabel;
         private bool _isVisibleListView;
         private string _imageSource= "ic_like_gray.png";
-
-
-
         private PinViewModel _pinViewModel;
         private ObservableCollection<PinViewModel> _pinViewModelList;
+        private ObservableCollection<PinViewModel> _firstValueOfList = null;
         private readonly IPinServices _pinServices;
         private readonly IAuthorizationService _authorizationService;
 
@@ -51,9 +51,6 @@ namespace GpsNotepad.ViewModel
             //PathPicture = "ic_like_gray.png";
         }
 
-
-
-
         #region---PublicProperties---
         public ICommand NavigationToSettingsView { get; set; }
         public ICommand NavigationToAddPin { get; set; }
@@ -63,8 +60,61 @@ namespace GpsNotepad.ViewModel
         public ICommand UpdateCommand { set; get; }
         public ICommand ItemTappedCommand { set; get; }
         public ICommand ImageTapCommand { get; set; }
+        public ICommand NavigationToSignIn => new Command(OnNavigationToSignIn);
 
+        private async void OnNavigationToSignIn()
+        {
+            DeletingCurrentUserSettings();
+            await _navigationService.NavigateAsync($"/{nameof(MainPage)}");
+        }
+        private ICommand _BackTapCommand;
+        public ICommand BackTapCommand => _BackTapCommand ?? (_BackTapCommand = new Command(OnBackTapCommand));
+        private void OnBackTapCommand()
+        {
+            ExitSearch = true;
+        }
 
+        private bool exitSearch;
+        public bool ExitSearch
+        {
+            get => exitSearch;
+            set => SetProperty(ref exitSearch, value);
+        }
+
+        private ObservableCollection<PinViewModel> _placesList;
+        public ObservableCollection<PinViewModel> PlacesList
+        {
+            get { return _placesList; }
+            set { SetProperty(ref _placesList, value); }
+        }
+        private bool _isVisibleCommand;
+        public bool IsVisibleCommand
+        {
+            get => _isVisibleCommand;
+            set => SetProperty(ref _isVisibleCommand, value);
+        }
+
+        private int _sizeRow = 50;
+        public int SizeRow
+        {
+            get => _sizeRow;
+            set => SetProperty(ref _sizeRow, value);
+        }
+
+        private int _sizeHightListView;
+
+        public int SizeHightListView
+        {
+            get => _sizeHightListView;
+            set => SetProperty(ref _sizeHightListView, value);
+        }
+
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set => SetProperty(ref _searchText, value);
+        }
         public string ImageSource
         {
             get { return _imageSource; }
@@ -89,7 +139,7 @@ namespace GpsNotepad.ViewModel
         {
             get { return _pinViewModelList; }
             set { SetProperty(ref _pinViewModelList, value); }
-        }
+        } 
         #endregion
 
         #region---Methods---
@@ -99,18 +149,21 @@ namespace GpsNotepad.ViewModel
             if (pinViewModel != null)
             {
                 pinViewModel.Favorite = pinViewModel.Favorite == false ? true : false;
-                ImageSource = pinViewModel.Favorite == false ? "ic_like_gray.png" : "ic_like_blue.png";
+                pinViewModel.ImagePath= pinViewModel.Favorite == false ? "ic_like_gray.png" : "ic_like_blue.png";
             }
         }
+
         private async void ExecuteGoToAddPin()
         {
             await _navigationService.NavigateAsync($"{ nameof(AddEditPinView)}");
         }
+
         private async void ExecuteGoToSettingsPage()
         {
             await _navigationService.NavigateAsync($"{ nameof(SettingsView)}");
 
         }
+
         private void OnItemTapped(object parametr)
         {
             PinViewModel pinViewModel = parametr as PinViewModel;
@@ -120,6 +173,7 @@ namespace GpsNotepad.ViewModel
                 ShowPinOnMap();
             }
         }
+
         private async void UpdateModel(object selectObject)
         {
             PinViewModel  pinViewModel = selectObject as PinViewModel;
@@ -128,12 +182,15 @@ namespace GpsNotepad.ViewModel
                 var parametr = new NavigationParameters();
                 parametr.Add(ListOfNames.PinModel, pinViewModel);
                 await _navigationService.NavigateAsync($"{ nameof(AddEditPinView)}", parametr);
+                //OnBackTapCommand();
             }
         }
+
         private void DeletingCurrentUserSettings() //When logging out, delete all user settings
         {
             _authorizationService.Unauthorize();
         }
+
         private async void ExecuteGoToMainMap()
         {
             await _navigationService.NavigateAsync($"{ nameof(MainMapTabbedPageView)}");
@@ -144,6 +201,7 @@ namespace GpsNotepad.ViewModel
             DeletingCurrentUserSettings();
             await _navigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(SignInView)}");
         }
+
         public IEnumerable<PinViewModel> ConvertingPinModelToPinViewModel(IEnumerable<PinModel> PinModellist)
         {
             var pinViewModelList = new ObservableCollection<PinViewModel>();
@@ -152,11 +210,13 @@ namespace GpsNotepad.ViewModel
                 var convertingPinViewModel = pinModel.ToPinViewModel();
                 if (convertingPinViewModel != null)
                 {
+                    convertingPinViewModel.ImagePath = convertingPinViewModel.Favorite == false ? "ic_like_gray.png" : "ic_like_blue.png";
                     pinViewModelList.Add(convertingPinViewModel);
                 }
             }
             return pinViewModelList;
         }
+
         private async void RemoveModel(object selectObject)
         {
             PinViewModel  pinViewModel = selectObject as PinViewModel;
@@ -184,20 +244,52 @@ namespace GpsNotepad.ViewModel
                 }
             }
         }
+
         private void ToggleVisibility(bool visableLabel, bool visableListView)
         {
             IsVisableListView = visableListView;
             IsVisableLabel = visableLabel;
         }
+
         private async void ShowPinOnMap()
         {
             var parametr = new NavigationParameters();
             parametr.Add(ListOfNames.SelectedPin, PinViewModel);
             await _navigationService.SelectTabAsync($"{ nameof(MainMapTabbedPageView)}", parametr);
         }
-        #endregion
-        #region---Overriding---
 
+        private async void ShowRelevantPins() //Refactor
+        {
+            if(PinViewModelList.Count!=0)
+            {
+                if (_firstValueOfList == null)
+                {
+                    _firstValueOfList = PinViewModelList;
+                }
+                if (!string.IsNullOrWhiteSpace(SearchText))
+                {
+                    var resultGetPins = await _pinServices.GetPinListAsync(SearchText);
+                    if (resultGetPins.Count != 0 && resultGetPins != null)
+                    {
+                        var profileViewModelList = ConvertingPinModelToPinViewModel(resultGetPins);
+                        PinViewModelList = (ObservableCollection<PinViewModel>)profileViewModelList;
+                        ToggleVisibility(false, true);
+                    }
+                    else
+                    {
+                        ToggleVisibility(true, false);
+                    }
+                }
+                else
+                {
+                    ToggleVisibility(false, true);
+                    PinViewModelList = _firstValueOfList;
+                }
+            }
+        }
+        #endregion
+
+        #region---Overriding---
         public async Task InitializeAsync(INavigationParameters parameters)
         {
             var listPinModelsOfCurrentUser = await _pinServices.GetPinListAsync();
@@ -268,12 +360,11 @@ namespace GpsNotepad.ViewModel
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
-            if (args.PropertyName == nameof(PinViewModel))
+            if (args.PropertyName == nameof(SearchText))
             {
-                //ShowPinOnMap();
+                ShowRelevantPins();
             }
         }
         #endregion
-
     }
 }

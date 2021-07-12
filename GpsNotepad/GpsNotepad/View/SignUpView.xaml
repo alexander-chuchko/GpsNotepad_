@@ -25,7 +25,7 @@
                        VerticalOptions="Center">
 
                     <Image.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding NavigationSignInCommand}"/>
+                        <TapGestureRecognizer Command="{Binding BackTapCommand}"/>
                     </Image.GestureRecognizers>
 
                 </Image>
@@ -72,7 +72,7 @@
                 <StackLayout Spacing="23">
 
                     <Button BackgroundColor="#475cde"
-                            Text="Create account"
+                            Text="Next"
                             FontSize="20"
                             TextColor="White"
                             FontFamily="Montserrat-Medium"

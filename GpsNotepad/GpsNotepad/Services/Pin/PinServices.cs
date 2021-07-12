@@ -24,16 +24,19 @@ namespace GpsNotepad.Services.Pin
             try
             {
                 var resultOfGettingAllPins = await _repository.GetAllAsync<PinModel>();
-                if (string.IsNullOrEmpty(keyWord))
+                if (string.IsNullOrWhiteSpace(keyWord))
                 {
                     pinViewModelsById = resultOfGettingAllPins.Where(x => x.UserId == _settingsManager.AuthorizedUserID).ToList();
                 }
                 else
                 {
+                    pinViewModelsById = resultOfGettingAllPins.Where(x =>(x.UserId == _settingsManager.AuthorizedUserID) && x.Label.StartsWith(keyWord, StringComparison.OrdinalIgnoreCase)&&x.Label.Contains(keyWord)).ToList();
+                    /*
                     pinViewModelsById = resultOfGettingAllPins.Where(x => (x.UserId == _settingsManager.AuthorizedUserID)&&
                         (x.Label.Contains(keyWord)||x.Description.Contains(keyWord)||
                         x.Latitude.ToString().Contains(keyWord)||
                         x.Longitude.ToString().Contains(keyWord))).ToList();
+                    */
                 }
             }
             catch (Exception ex)
