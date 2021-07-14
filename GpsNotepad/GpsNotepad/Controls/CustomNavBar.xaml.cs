@@ -157,11 +157,8 @@ namespace GpsNotepad.Controls
             Grid.SetColumnSpan(searchBar1, 2);
             grid.Padding = new Thickness(0, 0, 15, 0);
             imageClear.IsVisible = true;
-            //settingsIcon.Source = "ic_left_blue.png";
-            /*-----------*/
             settingsIcon.IsVisible = false;
             backIcon.IsVisible = true;
-
         }
 
         private void ImageClear_Tapped(object sender, EventArgs e)

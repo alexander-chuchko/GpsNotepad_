@@ -1,6 +1,6 @@
 ﻿using GpsNotepad.Enum;
 using GpsNotepad.Service.Settings;
-using ProfileBook.Styles;
+using GpsNotepad.Styles;
 using System.Collections.Generic;
 using Xamarin.Forms;
 

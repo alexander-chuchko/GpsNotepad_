@@ -82,7 +82,7 @@ namespace GpsNotepad.ViewModel
         private async void NavigationToSignIn()
         {
             var parametr = new NavigationParameters();
-            parametr.Add(ListOfNames.NewUser, UserModel);
+            parametr.Add(ListOfConstants.NewUser, UserModel);
             //await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInView)}", parametr);
             await _navigationService.NavigateAsync($"/{nameof(SignInView)}", parametr);
         }
@@ -143,7 +143,7 @@ namespace GpsNotepad.ViewModel
         }
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue<(string, string)>(ListOfNames.UserRegistrationData, out (string, string) userData))
+            if (parameters.TryGetValue<(string, string)>(ListOfConstants.UserRegistrationData, out (string, string) userData))
             {
                 //UserModel.Name = userData.Item1;
                 //UserModel.Email = userData.Item2;

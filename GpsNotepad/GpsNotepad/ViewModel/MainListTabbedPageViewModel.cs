@@ -180,7 +180,7 @@ namespace GpsNotepad.ViewModel
             if (pinViewModel != null)
             {
                 var parametr = new NavigationParameters();
-                parametr.Add(ListOfNames.PinModel, pinViewModel);
+                parametr.Add(ListOfConstants.PinModel, pinViewModel);
                 await _navigationService.NavigateAsync($"{ nameof(AddEditPinView)}", parametr);
                 //OnBackTapCommand();
             }
@@ -254,7 +254,7 @@ namespace GpsNotepad.ViewModel
         private async void ShowPinOnMap()
         {
             var parametr = new NavigationParameters();
-            parametr.Add(ListOfNames.SelectedPin, PinViewModel);
+            parametr.Add(ListOfConstants.SelectedPin, PinViewModel);
             await _navigationService.SelectTabAsync($"{ nameof(MainMapTabbedPageView)}", parametr);
         }
 
@@ -331,7 +331,7 @@ namespace GpsNotepad.ViewModel
         */
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue<PinViewModel>(ListOfNames.PinViewModel, out PinViewModel pinViewModel))
+            if (parameters.TryGetValue<PinViewModel>(ListOfConstants.PinViewModel, out PinViewModel pinViewModel))
             {
                 var pinViewModelUpdate = PinViewModelList.FirstOrDefault(x => x.Id == pinViewModel.Id);
                 if(pinViewModelUpdate != null)

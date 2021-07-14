@@ -161,7 +161,7 @@ namespace GpsNotepad.ViewModel
                 if (resultOfAction)
                 {
                     var parametr = new NavigationParameters();
-                    parametr.Add(ListOfNames.PinViewModel, PinViewModel);
+                    parametr.Add(ListOfConstants.PinViewModel, PinViewModel);
                     await _navigationService.GoBackAsync(parametr);
                 }
             }
@@ -239,9 +239,9 @@ namespace GpsNotepad.ViewModel
         #region--Iterface INavigatedAware implementation-- 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue<PinViewModel>(ListOfNames.PinModel, out PinViewModel pinViewModel))
+            if (parameters.TryGetValue<PinViewModel>(ListOfConstants.PinModel, out PinViewModel pinViewModel))
             {
-                PinViewModel = parameters.GetValue<PinViewModel>(ListOfNames.PinModel);
+                PinViewModel = parameters.GetValue<PinViewModel>(ListOfConstants.PinModel);
                 if (PinViewModel != null)
                 {
                     Label = PinViewModel.Label;

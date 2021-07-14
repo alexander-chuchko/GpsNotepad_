@@ -2,10 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:GpsNotepad.Controls"
-             xmlns:local1="clr-namespace:GpsNotepad.Controls"
              x:Class="GpsNotepad.View.SettingsView">
     <ContentPage.Content>
-        <Grid RowDefinitions="0.12*,*"
+        <Grid RowDefinitions="0.12*,*, 0.15"
               RowSpacing="0">
 
             <Grid Grid.Row="0"
@@ -37,7 +36,7 @@
 
             <StackLayout Spacing="40" 
                          Padding="20"
-                         Grid.Row="1" Orientation="Horizontal">
+                         Grid.Row="1" Orientation="Horizontal" IsVisible="false">
                 <Label HorizontalOptions="StartAndExpand"
                        VerticalOptions="StartAndExpand"
                        Text="Dark theme" FontSize="Medium"
@@ -47,6 +46,11 @@
                     
                 </Switch>
 
+            </StackLayout>
+            <StackLayout Grid.Row="1" Margin="10">
+                <local:CustomFrameForInput>
+
+                </local:CustomFrameForInput>
             </StackLayout>
 
         </Grid>

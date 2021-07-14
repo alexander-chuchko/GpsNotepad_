@@ -41,20 +41,24 @@
                      HeightRequest="1.5"
                      BackgroundColor="LightGray"/>
 
-            <StackLayout Spacing="40" 
+            <StackLayout Spacing="25" 
                          Padding="20"
                          Grid.Row="1">
 
-                <StackLayout Spacing="0" >
+                <StackLayout Spacing="0">
 
                     <Label Text="Email" 
                        FontSize="16"/>
-
-                    <local1:CustomEntry
+                    
+                    <local1:CustomFrameForInput
                         x:Name="EmailAddressSignIn"
-                        Placeholder="Enter email"
-                        Text="{Binding EmailAddress}"
-                        ClearButtonVisibility="WhileEditing"/>
+                        PlaceholderText="{Binding PlaceholderForEmail}"
+                        EntryBorderColor="{Binding EmailBorderColor}"
+                        LabelInfo="{Binding ErrorEmail}"
+                        ImageSource="{Binding ImageSourceForEmail}"
+                        TextEntry="{Binding EmailAddress}"
+                        TapImage="{Binding IsTapedImageOfEmail}"/>
+
                 </StackLayout>
 
                 <StackLayout Spacing="0">
@@ -62,11 +66,17 @@
                     <Label Text="Password"
                        FontSize="16"/>
 
-                    <local1:CustomEntry Placeholder="Enter password"
-                                        x:Name="PasswordSignIn"
-                                   Text="{Binding Password}"
-                                        ClearButtonVisibility="WhileEditing"/>
+                    <local1:CustomFrameForInput x:Name="PasswordSignIn"
+                        PlaceholderText="{Binding PlaceholderForPassword}"
+                        EntryBorderColor="{Binding PasswordBorderColor}"
+                        LabelInfo="{Binding ErrorPassword}"
+                        ImageSource="{Binding ImageSourceForPassword}"
+                        TextEntry="{Binding Password}"
+                        TapImage="{Binding IsTapedImageOfPassword}"
+                        IsPasswordEntry="{Binding IsPassword}"/>
+                    
                 </StackLayout>
+                
                 <StackLayout Spacing="23">
 
                     <Button BackgroundColor="#475cde"
@@ -77,19 +87,19 @@
                             CornerRadius="3"
                             IsEnabled="{Binding IsEnabled}"       
                             TextTransform="None"
-                            Command="{Binding NavigateToListView}">
+                            Command="{Binding CheckDataCommand}">
 
                         <Button.Triggers>
                             <MultiTrigger TargetType="Button">
                                 <MultiTrigger.Conditions>
                                     <BindingCondition 
                                 Binding="{Binding Source={x:Reference EmailAddressSignIn},
-                                Path=Text.Length, 
+                                Path=TextEntry.Length, 
                                 Converter={StaticResource dataHasBeenEntered}}"
                                 Value="true"/>
                                     <BindingCondition 
                                 Binding="{Binding Source={x:Reference PasswordSignIn},
-                                Path=Text.Length, 
+                                Path=TextEntry.Length, 
                                 Converter={StaticResource dataHasBeenEntered}}"
                                 Value="true"/>
                                 </MultiTrigger.Conditions>

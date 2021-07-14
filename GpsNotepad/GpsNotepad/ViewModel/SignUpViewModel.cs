@@ -77,7 +77,7 @@ namespace GpsNotepad.ViewModel
         {
             (string, string) userData = (Name, EmailAddress);
             var parametr = new NavigationParameters();
-            parametr.Add(ListOfNames.UserRegistrationData, userData);
+            parametr.Add(ListOfConstants.UserRegistrationData, userData);
             await _navigationService.NavigateAsync(nameof(SignUpView2), parametr);
         }
         private void ClearFields()

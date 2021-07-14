@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GpsNotepad.Controls.CustomFrameForInput">
+    
+  <ContentView.Content>
+      
+      <StackLayout Spacing="0">
+          
+            <Frame x:Name="frame"
+               CornerRadius="2"
+               BorderColor="LightGray"
+               BackgroundColor="Transparent"
+               Padding="8,0,8,0"
+               HasShadow="False">
+
+                <Grid ColumnDefinitions="0.9*, 0.1*"
+                  Padding="0">
+
+                    <Entry x:Name="entry"
+                           Text="{Binding TextEntry}"
+                           IsPassword="{Binding IsPasswordEntry}"
+                           Placeholder="{Binding PlaceholderText}"
+                           Grid.Column="0"
+                           HeightRequest="45"
+                           TextChanged="Entry_ChangedText"
+                           VerticalOptions="FillAndExpand"
+                           MaxLength="30"/>
+
+                    <ImageButton  x:Name="clearButton"
+                              Grid.Column="1"
+                              VerticalOptions="Center"
+                              Source="{Binding ImageSource}"
+                              BackgroundColor="Transparent"
+                              IsVisible="false"
+                              Clicked="ImageButton_Tapped"/>
+                </Grid>
+                
+            </Frame>
+          
+            <Label x:Name="Error"
+                   TextColor="Red"
+                   FontSize="14"
+                   Margin="6"/>
+          
+        </StackLayout>
+      
+  </ContentView.Content>
+    
+</ContentView>

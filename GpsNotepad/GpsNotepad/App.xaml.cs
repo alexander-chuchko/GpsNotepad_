@@ -67,14 +67,14 @@ namespace GpsNotepad
         {
             InitializeComponent();
             //var result1 = await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainPage)}");
-            /*
-            var result1 = await NavigationService.NavigateAsync(nameof(SettingsView));
+            
+            var result1 = await NavigationService.NavigateAsync(nameof(SignInView));
             if (!result1.Success)
             {
                 System.Diagnostics.Debugger.Break();
             }
-            */
             
+            /*
             if (AuthorizationService.IsAuthorized)
             {
                 //var result= await NavigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(TabbedPage1)}");
@@ -93,7 +93,7 @@ namespace GpsNotepad
                     System.Diagnostics.Debugger.Break();
                 }
             }
-           
+           */
             //var result= await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInView)}");
             //var result = await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainMapTabbedPageView)}");
             //var result= await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainListTabbedPageView)}");

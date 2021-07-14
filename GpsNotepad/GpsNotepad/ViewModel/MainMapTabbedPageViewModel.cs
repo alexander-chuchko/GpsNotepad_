@@ -67,7 +67,7 @@ namespace GpsNotepad.ViewModel
             InitialCameraUpdate = CameraUpdateFactory.NewPosition(new Position(0, 0));
             Task.Run(() => RequestLocationPermission());
             IsVisibleCommand = false;
-            SizeRow = ListOfNames.HeightRow;
+            SizeRow = ListOfConstants.HeightRow;
         }
         public ICommand SaveLastPositionAfterMoveCommand { get; set; }
         //public ICommand NavigationToMainList { get; set; }
@@ -397,9 +397,9 @@ namespace GpsNotepad.ViewModel
         #region--Iterface INavigatedAware implementation--
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue<PinViewModel>(ListOfNames.SelectedPin, out PinViewModel pinViewModel))
+            if (parameters.TryGetValue<PinViewModel>(ListOfConstants.SelectedPin, out PinViewModel pinViewModel))
             {
-                PinViewModell = parameters.GetValue<PinViewModel>(ListOfNames.SelectedPin);
+                PinViewModell = parameters.GetValue<PinViewModel>(ListOfConstants.SelectedPin);
                 if(PinViewModell!=null)
                 {
                     GetAllPins(); 
