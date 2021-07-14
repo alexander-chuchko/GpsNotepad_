@@ -26,10 +26,15 @@
         //placeholder
         public const string PlaceholderEnterEmail = "Enter email";
         public const string PlaceholderEnterPassword = "Enter password";
+        public const string PlaceholderEnterName = "Enter you name";
+        public const string PlaceholderEnterConfirmPassword = "Repeat password";
 
         //error
         public const string WrongEmail = "Wrong Email";
         public const string WrongPassword = "The password is incorrect";
+        public const string WrongName = "The name is incorrect";
+        public const string WrongConfirmPassword = "Password mismatch";
+
 
 
 

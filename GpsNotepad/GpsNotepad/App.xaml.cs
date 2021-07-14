@@ -68,7 +68,7 @@ namespace GpsNotepad
             InitializeComponent();
             //var result1 = await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainPage)}");
             
-            var result1 = await NavigationService.NavigateAsync(nameof(SignInView));
+            var result1 = await NavigationService.NavigateAsync(nameof(SignUpView2));
             if (!result1.Success)
             {
                 System.Diagnostics.Debugger.Break();

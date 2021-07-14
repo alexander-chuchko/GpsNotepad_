@@ -1,6 +1,5 @@
 ﻿using GpsNotepad.Helpers;
 using GpsNotepad.Model;
-using GpsNotepad.Recource;
 using GpsNotepad.Service;
 using GpsNotepad.Service.Authorization;
 using GpsNotepad.Service.User;
@@ -8,7 +7,6 @@ using GpsNotepad.View;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
-using System;
 using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -17,7 +15,13 @@ namespace GpsNotepad.ViewModel
 {
     public class SignInViewModel : BaseViewModel, INavigatedAware
     {
-        #region---PrivateFields---
+        #region   ---PrivateFields---
+
+        private readonly IAuthenticationService _authenticationService;
+        private readonly IUserService _userService;
+        private readonly IAuthorizationService _authorizationService;
+        private readonly IPageDialogService _pageDialogService;
+
         private string _emailAddress;
         private string _password;
         private bool _isEnabled;
@@ -27,14 +31,12 @@ namespace GpsNotepad.ViewModel
         private string _errorPassword = string.Empty;
         private string _imageSourceForEmail = ListOfConstants.ButtonClear;
         private string _imageSourceForPassword=ListOfConstants.ButtonEye;
-        private string _email;
-        
-        private readonly IAuthenticationService _authenticationService;
-        private readonly IUserService _userService;
-        private readonly IAuthorizationService _authorizationService;
-        private readonly IPageDialogService _pageDialogService;
+        private Color _emailBorderColor = Color.LightGray;
+        private Color _passwordBorderColor = Color.LightGray;
         private UserModel _userModel;
+
         #endregion
+
         public SignInViewModel(INavigationService navigationService, IAuthenticationService authenticationService, IAuthorizationService authorizationService, IUserService userService, IPageDialogService pageDialogService) : base(navigationService)
         {
             IsEnabled = false;
@@ -42,19 +44,9 @@ namespace GpsNotepad.ViewModel
             _authorizationService = authorizationService;
             _userService = userService;
             _pageDialogService = pageDialogService;
-            CheckDataCommand = new DelegateCommand(OnCheckData, CanOnCheckData).ObservesProperty(() => IsEnabled);
-            NavigationToSingUpCommand = new Command(OnNavigationToSingUp);
-            NavigateToMainPageCommand = new Command(OnNavigateToMainPage);
         }
 
-        private async void OnNavigateToMainPage()
-        {
-           await _navigationService.GoBackAsync();
-        }
-        #region---PublicProperties---
-        public ICommand NavigationToSingUpCommand { get; set; }
-        public ICommand CheckDataCommand { get; set; }
-        public ICommand NavigateToMainPageCommand { get; set; }
+        #region  ---  PublicProperties  ---
 
         private bool _isPassword;
         public bool IsPassword
@@ -77,14 +69,12 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _isTapedImageOfPassword, value); }
         }
 
-        private Color _emailBorderColor=Color.LightGray;
         public Color EmailBorderColor
         {
             get { return _emailBorderColor; }
             set { SetProperty(ref _emailBorderColor, value); }
         }
 
-        private Color _passwordBorderColor=Color.LightGray;
         public Color PasswordBorderColor
         {
             get { return _passwordBorderColor; }
@@ -141,8 +131,23 @@ namespace GpsNotepad.ViewModel
             get { return _userModel; }
             set { SetProperty(ref _userModel, value); }
         }
+
+        private ICommand _NavigationToSingUpCommand;
+        public ICommand NavigationToSingUpCommand => _NavigationToSingUpCommand ?? (_NavigationToSingUpCommand = new Command(OnNavigationToSingUp));
+
+        private ICommand _CheckDataCommand;
+        public ICommand CheckDataCommand => _CheckDataCommand ?? (_CheckDataCommand = new DelegateCommand(OnCheckData, CanOnCheckData).ObservesProperty(() => IsEnabled));
+
+        private ICommand _NavigateToMainPageCommand;
+        public ICommand NavigateToMainPageCommand => _NavigateToMainPageCommand ?? (_NavigateToMainPageCommand = new Command(OnNavigateToMainPage));
+
         #endregion
+
         #region---Methods---
+        private async void OnNavigateToMainPage()
+        {
+            await _navigationService.GoBackAsync();
+        }
         private async void OnNavigationToSingUp()
         {
             await _navigationService.NavigateAsync($"{ nameof(SignUpView)}");
@@ -169,10 +174,10 @@ namespace GpsNotepad.ViewModel
                 ErrorPassword= ListOfConstants.WrongPassword;
             }
         }
+
         #endregion
 
         #region -- Overrides --
-
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
@@ -180,6 +185,7 @@ namespace GpsNotepad.ViewModel
             {
                 EmailAddress = string.Empty;
             }
+
             else if(args.PropertyName==nameof(IsTapedImageOfPassword))
             {
                 ImageSourceForPassword = IsTapedImageOfPassword ? ListOfConstants.ButtonEyeOff : ListOfConstants.ButtonEye;
@@ -197,6 +203,7 @@ namespace GpsNotepad.ViewModel
                 }
             }
         }
+
         #endregion
 
         #region--Iterface INavigatedAware implementation--
@@ -211,6 +218,7 @@ namespace GpsNotepad.ViewModel
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
         }
+
         #endregion
     }
 }

@@ -8,6 +8,7 @@
       <StackLayout Spacing="0">
           
             <Frame x:Name="frame"
+               
                CornerRadius="2"
                BorderColor="LightGray"
                BackgroundColor="Transparent"

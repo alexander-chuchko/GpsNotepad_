@@ -3,15 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GpsNotepad.View.SignInView"
              xmlns:local="clr-namespace:GpsNotepad.Converter"
-             xmlns:local1="clr-namespace:GpsNotepad.Controls"
+             xmlns:control="clr-namespace:GpsNotepad.Controls"
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False">
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:MultiTriggerConverter x:Key="dataHasBeenEntered"/>
         </ResourceDictionary>
     </ContentPage.Resources>
+    
     <ContentPage.Content>
+        
         <Grid RowDefinitions="0.12*,*"
               RowSpacing="0">
             
@@ -41,7 +44,7 @@
                      HeightRequest="1.5"
                      BackgroundColor="LightGray"/>
 
-            <StackLayout Spacing="25" 
+            <StackLayout Spacing="20" 
                          Padding="20"
                          Grid.Row="1">
 
@@ -50,7 +53,8 @@
                     <Label Text="Email" 
                        FontSize="16"/>
                     
-                    <local1:CustomFrameForInput
+                    <control:CustomFrameForInput
+                        
                         x:Name="EmailAddressSignIn"
                         PlaceholderText="{Binding PlaceholderForEmail}"
                         EntryBorderColor="{Binding EmailBorderColor}"
@@ -66,7 +70,8 @@
                     <Label Text="Password"
                        FontSize="16"/>
 
-                    <local1:CustomFrameForInput x:Name="PasswordSignIn"
+                    <control:CustomFrameForInput
+                        x:Name="PasswordSignIn"
                         PlaceholderText="{Binding PlaceholderForPassword}"
                         EntryBorderColor="{Binding PasswordBorderColor}"
                         LabelInfo="{Binding ErrorPassword}"
@@ -90,6 +95,7 @@
                             Command="{Binding CheckDataCommand}">
 
                         <Button.Triggers>
+                            
                             <MultiTrigger TargetType="Button">
                                 <MultiTrigger.Conditions>
                                     <BindingCondition 
@@ -109,6 +115,7 @@
                         </Button.Triggers>
 
                     </Button>
+                    
                     <StackLayout Orientation="Horizontal"
                                  Spacing="5">
 
@@ -127,19 +134,25 @@
                                   BackgroundColor="LightGray"/>
 
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand"  Spacing="15">
+                    
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="FillAndExpand"
+                                 Spacing="15">
+                        
                         <Button BackgroundColor="White"
                             BorderColor="LightGray"
                             ImageSource="ic_google.png"
                             BorderWidth="1.5"
                             HorizontalOptions="FillAndExpand"
                             CornerRadius="3"/>
+                        
                         <Button BackgroundColor="White"
                             BorderColor="LightGray"
                             ImageSource="ic_facebook.png"
                             BorderWidth="1.5"
                             HorizontalOptions="FillAndExpand"
                             CornerRadius="3"/>
+                        
                         <Button BackgroundColor="White"
                             BorderColor="LightGray"
                             ImageSource="ic_apple.png"
@@ -148,10 +161,13 @@
                             CornerRadius="3"/>
 
                     </StackLayout>
+                    
                 </StackLayout>
+                
             </StackLayout>
             
         </Grid>
         
     </ContentPage.Content>
+    
 </ContentPage>

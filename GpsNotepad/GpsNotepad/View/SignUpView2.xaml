@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:GpsNotepad.Converter"
-             xmlns:local1="clr-namespace:GpsNotepad.Controls"
+             xmlns:control="clr-namespace:GpsNotepad.Controls"
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False"
              x:Class="GpsNotepad.View.SignUpView2">
@@ -51,12 +51,16 @@
                     <Label Text="Password"
                            Padding="2"
                            FontSize="16"/>
-
-                    <local1:CustomEntry
+                    <control:CustomFrameForInput
                         x:Name="Password"
-                        Placeholder="Create password"
-                        Text="{Binding Password}"/>
-                    
+                        PlaceholderText="{Binding PlaceholderForPassword}"
+                        EntryBorderColor="{Binding PasswordBorderColor}"
+                        LabelInfo="{Binding ErrorPassword}"
+                        ImageSource="{Binding ImageSourceForPassword}"
+                        TextEntry="{Binding Password}"
+                        TapImage="{Binding IsTapedImageOfPassword}"
+                        IsPasswordEntry="{Binding IsPassword}"/>
+
                 </StackLayout>
 
                 <StackLayout Spacing="0">
@@ -64,9 +68,16 @@
                     <Label Text="Confirm password" Padding="2"
                            FontSize="16"/>
 
-                    <local1:CustomEntry Placeholder="Repeat password"
-                                        x:Name="ConfirmPassword"
-                                        Text="{Binding ConfirmPassword}"/>
+                    <control:CustomFrameForInput
+                        x:Name="ConfirmPassword"
+                        PlaceholderText="{Binding PlaceholderForConfirmPassword}"
+                        EntryBorderColor="{Binding ConfirmPasswordBorderColor}"
+                        LabelInfo="{Binding ErrorConfirmPassword}"
+                        ImageSource="{Binding ImageSourceForConfirmPassword}"
+                        TextEntry="{Binding ConfirmPassword}"
+                        TapImage="{Binding IsTapedImageOfConfirmPassword}"
+                        IsPasswordEntry="{Binding IsConfirmPassword}"/>
+                    
                 </StackLayout>
                 
                 <StackLayout Spacing="23">
@@ -86,12 +97,12 @@
                                 <MultiTrigger.Conditions>
                                     <BindingCondition 
                                 Binding="{Binding Source={x:Reference Password},
-                                Path=Text.Length, 
+                                Path=TextEntry.Length, 
                                 Converter={StaticResource dataHasBeenEntered}}"
                                 Value="true"/>
                                     <BindingCondition 
                                 Binding="{Binding Source={x:Reference ConfirmPassword},
-                                Path=Text.Length, 
+                                Path=TextEntry.Length, 
                                 Converter={StaticResource dataHasBeenEntered}}"
                                 Value="true"/>
                                 </MultiTrigger.Conditions>

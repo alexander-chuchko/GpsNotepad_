@@ -178,7 +178,7 @@ namespace GpsNotepad.Controls
 
         private void ImageButton_Tapped(object sender, EventArgs e)
         {
-            TapImage = TapImage == false ? true : false;
+            TapImage = TapImage == false? true : false;
         }
         private void Entry_ChangedText(object sender, TextChangedEventArgs e)
         {

@@ -3,15 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GpsNotepad.View.SignUpView"
              xmlns:local="clr-namespace:GpsNotepad.Converter"
-             xmlns:local1="clr-namespace:GpsNotepad.Controls"
+             xmlns:control="clr-namespace:GpsNotepad.Controls"
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False">
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:MultiTriggerConverter x:Key="dataHasBeenEntered"/>
         </ResourceDictionary>
     </ContentPage.Resources>
+    
     <ContentPage.Content>
+
         <Grid RowDefinitions="0.12*,*"
               RowSpacing="0">
 
@@ -42,20 +45,24 @@
                      HeightRequest="1.5"
                      BackgroundColor="LightGray"/>
 
-            <StackLayout Spacing="40" 
+            <StackLayout Spacing="20" 
                          Padding="20"
                          Grid.Row="1">
-
+                
                 <StackLayout Spacing="0" >
 
                     <Label Text="Name"
                            Padding="2"
                            FontSize="16"/>
 
-                    <local1:CustomEntry
-                        x:Name="Name"
-                        Placeholder="Enter your name"
-                        Text="{Binding Name}"/>
+                    <control:CustomFrameForInput
+                        x:Name="name"
+                        EntryBorderColor="{Binding NameBorderColor}"
+                        ImageSource="{Binding ImageSourceForName}"
+                        TextEntry="{Binding Name}"
+                        LabelInfo="{Binding ErrorName}"
+                        PlaceholderText="{Binding PlaceholderForName}"
+                        TapImage="{Binding IsTapedImageOfName}"/>
 
                 </StackLayout>
 
@@ -64,9 +71,15 @@
                     <Label Text="Email" Padding="2"
                            FontSize="16"/>
 
-                    <local1:CustomEntry Placeholder="Enter email"
-                                        x:Name="Email"
-                                        Text="{Binding EmailAddress}"/>
+                    <control:CustomFrameForInput
+                        x:Name="email"
+                        EntryBorderColor="{Binding EmailBorderColor}"
+                        ImageSource="{Binding ImageSourceForEmail}"
+                        TextEntry="{Binding EmailAddress}"
+                        LabelInfo="{Binding ErrorEmail}"
+                        PlaceholderText="{Binding PlaceholderForEmail}"
+                        TapImage="{Binding IsTapedImageOfEmail}"/>
+                    
                 </StackLayout>
 
                 <StackLayout Spacing="23">
@@ -82,16 +95,17 @@
                             Command="{Binding CheckDataCommand}">
 
                         <Button.Triggers>
+
                             <MultiTrigger TargetType="Button">
                                 <MultiTrigger.Conditions>
                                     <BindingCondition 
-                                Binding="{Binding Source={x:Reference Name},
-                                Path=Text.Length, 
+                                Binding="{Binding Source={x:Reference name},
+                                Path=TextEntry.Length, 
                                 Converter={StaticResource dataHasBeenEntered}}"
                                 Value="true"/>
                                     <BindingCondition 
-                                Binding="{Binding Source={x:Reference Email},
-                                Path=Text.Length, 
+                                Binding="{Binding Source={x:Reference email},
+                                Path=TextEntry.Length, 
                                 Converter={StaticResource dataHasBeenEntered}}"
                                 Value="true"/>
                                 </MultiTrigger.Conditions>
@@ -101,6 +115,7 @@
                         </Button.Triggers>
 
                     </Button>
+
                     <StackLayout Orientation="Horizontal"
                                  Spacing="5">
 
@@ -119,6 +134,7 @@
                                   BackgroundColor="LightGray"/>
 
                     </StackLayout>
+
                     <StackLayout Orientation="Horizontal"
                                  HorizontalOptions="FillAndExpand"
                                  Spacing="15">
@@ -145,10 +161,12 @@
                             CornerRadius="3"/>
 
                     </StackLayout>
+
                 </StackLayout>
+
             </StackLayout>
 
         </Grid>
-
+        
     </ContentPage.Content>
 </ContentPage>
