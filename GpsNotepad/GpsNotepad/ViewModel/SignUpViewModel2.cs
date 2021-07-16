@@ -1,6 +1,5 @@
 ﻿using GpsNotepad.Helpers;
 using GpsNotepad.Model;
-using GpsNotepad.Recource;
 using GpsNotepad.Service;
 using GpsNotepad.Service.Authorization;
 using GpsNotepad.Service.User;
@@ -23,26 +22,8 @@ namespace GpsNotepad.ViewModel
         private readonly IAuthorizationService _authorizationService;
         private readonly IPageDialogService _pageDialogService;
 
-        private string _password;
-        private string _confirmPasword;
-        private bool _isEnabled;
-        private string _emailAddress;
-        private string _name;
-
-        private string _placeholderForPassword = ListOfConstants.PlaceholderEnterPassword;
-        private string _placeholderForConfirmPassword = ListOfConstants.PlaceholderEnterConfirmPassword;
-
-        private Color _passwordBorderColor = Color.LightGray;
-        private Color _passwordConfirmBorderColor = Color.LightGray;
-
-        private string _errorConfirmPassword = string.Empty;
-        private string _errorPassword = string.Empty;
-
-        private string _imageSourceForPassword = ListOfConstants.ButtonEye;
-        private string _imageSourceForConfirmPassword = ListOfConstants.ButtonEye;
-
-        private UserModel _userModel;
         #endregion
+
         public SignUpViewModel2(INavigationService navigationService, IAuthenticationService authenticationService, IAuthorizationService authorizationService, IUserService userService, IPageDialogService pageDialogService) : base(navigationService)
         {
             IsEnabled = false;
@@ -53,110 +34,131 @@ namespace GpsNotepad.ViewModel
         }
 
         #region---PublicProperties---
-        private bool _isPassword;
+
+        private bool _IsPassword;
         public bool IsPassword
         {
-            get { return _isPassword; }
-            set { SetProperty(ref _isPassword, value); }
+            get { return _IsPassword; }
+            set { SetProperty(ref _IsPassword, value); }
         }
 
-        private bool _isConfirmPassword;
+        private bool _IsConfirmPassword;
         public bool IsConfirmPassword
         {
-            get { return _isConfirmPassword; }
-            set { SetProperty(ref _isConfirmPassword, value); }
+            get { return _IsConfirmPassword; }
+            set { SetProperty(ref _IsConfirmPassword, value); }
         }
 
-        private bool _isTapedImageOfConfirmPassword;
+        private bool _IsTapedImageOfConfirmPassword;
         public bool IsTapedImageOfConfirmPassword
         {
-            get { return _isTapedImageOfConfirmPassword; }
-            set { SetProperty(ref _isTapedImageOfConfirmPassword, value); }
+            get { return _IsTapedImageOfConfirmPassword; }
+            set { SetProperty(ref _IsTapedImageOfConfirmPassword, value); }
         }
 
-        private bool _isTapedImageOfPassword;
+        private bool _IsTapedImageOfPassword;
         public bool IsTapedImageOfPassword
         {
-            get { return _isTapedImageOfPassword; }
-            set { SetProperty(ref _isTapedImageOfPassword, value); }
+            get { return _IsTapedImageOfPassword; }
+            set { SetProperty(ref _IsTapedImageOfPassword, value); }
         }
 
+        private string _ImageSourceForPassword = ListOfConstants.ButtonEye;
         public string ImageSourceForPassword
         {
-            get { return _imageSourceForPassword; }
-            set { SetProperty(ref _imageSourceForPassword, value); }
+            get { return _ImageSourceForPassword; }
+            set { SetProperty(ref _ImageSourceForPassword, value); }
         }
 
+        private string _ImageSourceForConfirmPassword = ListOfConstants.ButtonEye;
         public string ImageSourceForConfirmPassword
         {
-            get { return _imageSourceForConfirmPassword; }
-            set { SetProperty(ref _imageSourceForConfirmPassword, value); }
+            get { return _ImageSourceForConfirmPassword; }
+            set { SetProperty(ref _ImageSourceForConfirmPassword, value); }
         }
 
+        private string _ErrorPassword = string.Empty;
         public string ErrorPassword
         {
-            get { return _errorPassword; }
-            set { SetProperty(ref _errorPassword, value); }
+            get { return _ErrorPassword; }
+            set { SetProperty(ref _ErrorPassword, value); }
         }
 
+        private string _ErrorConfirmPassword = string.Empty;
         public string ErrorConfirmPassword
         {
-            get { return _errorConfirmPassword; }
-            set { SetProperty(ref _errorConfirmPassword, value); }
+            get { return _ErrorConfirmPassword; }
+            set { SetProperty(ref _ErrorConfirmPassword, value); }
         }
 
+        private Color _PasswordBorderColor = Color.LightGray;
         public Color PasswordBorderColor
         {
-            get { return _passwordBorderColor; }
-            set { SetProperty(ref _passwordBorderColor, value); }
+            get { return _PasswordBorderColor; }
+            set { SetProperty(ref _PasswordBorderColor, value); }
         }
 
+        private Color _PasswordConfirmBorderColor = Color.LightGray;
         public Color ConfirmPasswordBorderColor
         {
-            get { return _passwordConfirmBorderColor; }
-            set { SetProperty(ref _passwordConfirmBorderColor, value); }
+            get { return _PasswordConfirmBorderColor; }
+            set { SetProperty(ref _PasswordConfirmBorderColor, value); }
         }
+
+        private string _PlaceholderForPassword = ListOfConstants.PlaceholderEnterPassword;
         public string PlaceholderForPassword
         {
-            get { return _placeholderForPassword; }
-            set { SetProperty(ref _placeholderForPassword, value); }
+            get { return _PlaceholderForPassword; }
+            set { SetProperty(ref _PlaceholderForPassword, value); }
         }
 
+        private string _PlaceholderForConfirmPassword = ListOfConstants.PlaceholderEnterConfirmPassword;
         public string PlaceholderForConfirmPassword
         {
-            get { return _placeholderForConfirmPassword; }
-            set { SetProperty(ref _placeholderForConfirmPassword, value); }
-        }
-        public string Name
-        {
-            get { return _name; }
-            set { SetProperty(ref _name, value); }
-        }
-        public string EmailAddress
-        {
-            get { return _emailAddress; }
-            set { SetProperty(ref _emailAddress, value); }
+            get { return _PlaceholderForConfirmPassword; }
+            set { SetProperty(ref _PlaceholderForConfirmPassword, value); }
         }
 
+        private string _Name;
+        public string Name
+        {
+            get { return _Name; }
+            set { SetProperty(ref _Name, value); }
+        }
+
+        private string _EmailAddress;
+        public string EmailAddress
+        {
+            get { return _EmailAddress; }
+            set { SetProperty(ref _EmailAddress, value); }
+        }
+
+        private string _ConfirmPasword;
         public string ConfirmPassword
         {
-            get { return _confirmPasword; }
-            set { SetProperty(ref _confirmPasword, value); }
+            get { return _ConfirmPasword; }
+            set { SetProperty(ref _ConfirmPasword, value); }
         }
+
+        private string _Password;
         public string Password
         {
-            get { return _password; }
-            set { SetProperty(ref _password, value); }
+            get { return _Password; }
+            set { SetProperty(ref _Password, value); }
         }
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set { SetProperty(ref _isEnabled, value); }
-        }
+
+        private UserModel _UserModel;
         public UserModel UserModel
         {
-            get { return _userModel; }
-            set { SetProperty(ref _userModel, value); }
+            get { return _UserModel; }
+            set { SetProperty(ref _UserModel, value); }
+        }
+
+        private bool _IsEnabled;
+        public bool IsEnabled
+        {
+            get { return _IsEnabled; }
+            set { SetProperty(ref _IsEnabled, value); }
         }
 
         private ICommand _NavigateToSignUpCommand;
@@ -179,12 +181,6 @@ namespace GpsNotepad.ViewModel
             parametr.Add(ListOfConstants.NewUser, UserModel);
             await _navigationService.NavigateAsync($"/{nameof(SignInView)}", parametr);
         }
-      
-        private void ClearFields()
-        {
-            Password = string.Empty;
-            ConfirmPassword = string.Empty;
-        }
 
         private async void OnCheckData()
         {
@@ -195,7 +191,6 @@ namespace GpsNotepad.ViewModel
                 result = false;
                 ErrorConfirmPassword =ListOfConstants.WrongConfirmPassword;
                 ConfirmPasswordBorderColor = Color.Red;
-                //await _pageDialogService.DisplayAlertAsync(AppResource.requirements_for_password_and_confirm_password, AppResource.invalid_data_entered, "OK");
             }
 
             if (result && !Validation.IsValidatedPassword(Password))
@@ -203,7 +198,6 @@ namespace GpsNotepad.ViewModel
                 result = false;
                 ErrorPassword = ListOfConstants.WrongPassword;
                 PasswordBorderColor = Color.Red;
-                //await _pageDialogService.DisplayAlertAsync(AppResource.requirements_to_password, AppResource.invalid_data_entered, "OK");
             }
 
             if (result)
@@ -217,15 +211,6 @@ namespace GpsNotepad.ViewModel
                         NavigationToSignIn();
                     }
                 }
-                else
-                {
-                    //Correct
-                    await _pageDialogService.DisplayAlertAsync(AppResource.this_login_is_already_taken, AppResource.invalid_data_entered, "OK");
-                }
-            }
-            if (!result)
-            {
-                //ClearFields();
             }
         }
         private bool CanOnCheckData()
@@ -268,8 +253,7 @@ namespace GpsNotepad.ViewModel
         #region---   Iterface INavigatedAware implementation   ---
 
         public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
+        { 
         }
         public void OnNavigatedTo(INavigationParameters parameters)
         {

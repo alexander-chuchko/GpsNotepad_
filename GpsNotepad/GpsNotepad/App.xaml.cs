@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using GpsNotepad.Popup;
 using GpsNotepad.Service;
 using GpsNotepad.Service.Authorization;
 using GpsNotepad.Service.Settings;
@@ -61,24 +62,26 @@ namespace GpsNotepad
             containerRegistry.RegisterForNavigation<TabbedPage1>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<SignUpView2, SignUpViewModel2>();
+            containerRegistry.RegisterForNavigation<PopupView, PopupViewModel>();
         }
 
         protected override async void OnInitialized()
         {
             InitializeComponent();
             //var result1 = await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainPage)}");
-            
+            /*
             var result1 = await NavigationService.NavigateAsync(nameof(SignUpView2));
             if (!result1.Success)
             {
                 System.Diagnostics.Debugger.Break();
             }
+            */
             
-            /*
             if (AuthorizationService.IsAuthorized)
             {
+                var result = await NavigationService.NavigateAsync($"{nameof(MainPage)}");
                 //var result= await NavigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(TabbedPage1)}");
-                var result=await NavigationService.NavigateAsync($"{ nameof(TabbedPage1)}");
+                //var result=await NavigationService.NavigateAsync($"{ nameof(TabbedPage1)}");
                 if (!result.Success)
                 {
                     System.Diagnostics.Debugger.Break();
@@ -87,17 +90,12 @@ namespace GpsNotepad
             else
             {
                 //var result=  await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInView)}");
-                var result = await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainPage)}");
+                var result = await NavigationService.NavigateAsync($"{nameof(MainPage)}");
                 if (!result.Success)
                 {
                     System.Diagnostics.Debugger.Break();
                 }
             }
-           */
-            //var result= await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInView)}");
-            //var result = await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainMapTabbedPageView)}");
-            //var result= await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainListTabbedPageView)}");
-            //var result = await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(AddEditPinView)}");
         }
         #endregion
     }

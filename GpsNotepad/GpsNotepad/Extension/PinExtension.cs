@@ -58,5 +58,21 @@ namespace GpsNotepad.Extension
             }
             return pin;
         }
+
+        public static PinModel ToPinModelFromPin(this Pin pin)
+        {
+            PinModel pinModel = null;
+            if (pinModel != null)
+            {
+                pinModel =new PinModel
+                { 
+                    Label = pin.Label, 
+                    Latitude=pin.Position.Latitude,
+                    Longitude=pin.Position.Longitude,
+                    Address = pinModel.Address
+                };
+            }
+            return pinModel;
+        }
     }
 }

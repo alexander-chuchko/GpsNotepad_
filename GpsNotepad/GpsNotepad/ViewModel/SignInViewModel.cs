@@ -17,23 +17,10 @@ namespace GpsNotepad.ViewModel
     {
         #region   ---PrivateFields---
 
-        private readonly IAuthenticationService _authenticationService;
         private readonly IUserService _userService;
+        private readonly IAuthenticationService _authenticationService;
         private readonly IAuthorizationService _authorizationService;
         private readonly IPageDialogService _pageDialogService;
-
-        private string _emailAddress;
-        private string _password;
-        private bool _isEnabled;
-        private string _placeholderForEmail=ListOfConstants.PlaceholderEnterEmail;
-        private string _placeholderForPassword = ListOfConstants.PlaceholderEnterPassword;
-        private string _errorEmail =string.Empty;
-        private string _errorPassword = string.Empty;
-        private string _imageSourceForEmail = ListOfConstants.ButtonClear;
-        private string _imageSourceForPassword=ListOfConstants.ButtonEye;
-        private Color _emailBorderColor = Color.LightGray;
-        private Color _passwordBorderColor = Color.LightGray;
-        private UserModel _userModel;
 
         #endregion
 
@@ -48,88 +35,109 @@ namespace GpsNotepad.ViewModel
 
         #region  ---  PublicProperties  ---
 
-        private bool _isPassword;
+        private bool _IsPassword;
         public bool IsPassword
         {
-            get { return _isPassword; }
-            set { SetProperty(ref _isPassword, value); }
+            get { return _IsPassword; }
+            set { SetProperty(ref _IsPassword, value); }
         }
 
-        private bool _isTapedImageOfEmail;
+        private bool _IsTapedImageOfEmail;
         public bool IsTapedImageOfEmail
         {
-            get { return _isTapedImageOfEmail; }
-            set { SetProperty(ref _isTapedImageOfEmail, value); }
+            get { return _IsTapedImageOfEmail; }
+            set { SetProperty(ref _IsTapedImageOfEmail, value); }
         }
 
-        private bool _isTapedImageOfPassword;
+        private bool _IsTapedImageOfPassword;
         public bool IsTapedImageOfPassword
         {
-            get { return _isTapedImageOfPassword; }
-            set { SetProperty(ref _isTapedImageOfPassword, value); }
+            get { return _IsTapedImageOfPassword; }
+            set { SetProperty(ref _IsTapedImageOfPassword, value); }
         }
 
+        private Color _EmailBorderColor = Color.LightGray;
         public Color EmailBorderColor
         {
-            get { return _emailBorderColor; }
-            set { SetProperty(ref _emailBorderColor, value); }
+            get { return _EmailBorderColor; }
+            set { SetProperty(ref _EmailBorderColor, value); }
         }
 
+        private Color _PasswordBorderColor = Color.LightGray;
         public Color PasswordBorderColor
         {
-            get { return _passwordBorderColor; }
-            set { SetProperty(ref _passwordBorderColor, value); }
+            get { return _PasswordBorderColor; }
+            set { SetProperty(ref _PasswordBorderColor, value); }
         }
 
+        private string _ImageSourceForEmail = ListOfConstants.ButtonClear;
         public string ImageSourceForEmail
         {
-            get { return _imageSourceForEmail; }
-            set { SetProperty(ref _imageSourceForEmail, value); }
+            get { return _ImageSourceForEmail; }
+            set { SetProperty(ref _ImageSourceForEmail, value); }
         }
+
+        private string _ImageSourceForPassword = ListOfConstants.ButtonEye;
         public string ImageSourceForPassword
         {
-            get { return _imageSourceForPassword; }
-            set { SetProperty(ref _imageSourceForPassword, value); }
+            get { return _ImageSourceForPassword; }
+            set { SetProperty(ref _ImageSourceForPassword, value); }
         }
+
+        private string _ErrorEmail = string.Empty;
         public string ErrorEmail
         {
-            get { return _errorEmail; }
-            set { SetProperty(ref _errorEmail, value); }
+            get { return _ErrorEmail; }
+            set { SetProperty(ref _ErrorEmail, value); }
         }
+
+        private string _ErrorPassword = string.Empty;
         public string ErrorPassword
         {
-            get { return _errorPassword; }
-            set { SetProperty(ref _errorPassword, value); }
+            get { return _ErrorPassword; }
+            set { SetProperty(ref _ErrorPassword, value); }
         }
+
+        private string _PlaceholderForEmail = ListOfConstants.PlaceholderEnterEmail;
         public string PlaceholderForEmail
         {
-            get { return _placeholderForEmail; }
-            set { SetProperty(ref _placeholderForEmail, value); }
+            get { return _PlaceholderForEmail; }
+            set { SetProperty(ref _PlaceholderForEmail, value); }
         }
+
+        private string _PlaceholderForPassword = ListOfConstants.PlaceholderEnterPassword;
         public string PlaceholderForPassword
         {
-            get { return _placeholderForPassword; }
-            set { SetProperty(ref _placeholderForPassword, value); }
+            get { return _PlaceholderForPassword; }
+            set { SetProperty(ref _PlaceholderForPassword, value); }
         }
+
+        private string _EmailAddress;
         public string EmailAddress
         {
-            get { return _emailAddress; }
-            set { SetProperty(ref _emailAddress, value); }
+            get { return _EmailAddress; }
+            set { SetProperty(ref _EmailAddress, value); }
         }
+
+        private string _Password;
         public string Password
         {
-            get { return _password; }
-            set { SetProperty(ref _password, value); }
+            get { return _Password; }
+            set { SetProperty(ref _Password, value); }
         }
+
+        private bool _IsEnabled;
         public bool IsEnabled
         {
-            get { return _isEnabled; }
-            set { SetProperty(ref _isEnabled, value); }
+            get { return _IsEnabled; }
+            set { SetProperty(ref _IsEnabled, value); }
         }
+
+        private UserModel _UserModel;
         public UserModel UserModel
         {
-            get { return _userModel; }
-            set { SetProperty(ref _userModel, value); }
+            get { return _UserModel; }
+            set { SetProperty(ref _UserModel, value); }
         }
 
         private ICommand _NavigationToSingUpCommand;
@@ -155,10 +163,6 @@ namespace GpsNotepad.ViewModel
         private bool CanOnCheckData()
         {
             return IsEnabled;
-        }
-        private void DeletingCurrentUserSettings() //When logging out, delete all user settings
-        {
-            _authorizationService.Unauthorize();
         }
         private async void OnCheckData()
         {

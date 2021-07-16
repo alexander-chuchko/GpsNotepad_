@@ -43,6 +43,9 @@
     <EmbeddedResource Update="Controls\CustomNavBar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Popup\PopupView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Recource\AppResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResource.Designer.cs</LastGenOutput>

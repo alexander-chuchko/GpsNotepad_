@@ -342,7 +342,6 @@ namespace GpsNotepad.ViewModel
                     PinViewModelList[index].Latitude = pinViewModel.Latitude;
                     PinViewModelList[index].Longitude = pinViewModel.Longitude;
                     PinViewModelList[index].Address = pinViewModel.Address;
-                    
                 }
                 else
                 {

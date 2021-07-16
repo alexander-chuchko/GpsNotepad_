@@ -12,8 +12,8 @@ namespace GpsNotepad.Controls
 
         public CustomMap()
         {
-            MyLocationEnabled = true;
-            UiSettings.MyLocationButtonEnabled = true;
+            MyLocationEnabled = false;
+            UiSettings.MyLocationButtonEnabled = false;
         }
         /* Display list of pins */
         public static readonly BindableProperty PinsListProperty =

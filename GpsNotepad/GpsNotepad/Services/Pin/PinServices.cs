@@ -30,19 +30,16 @@ namespace GpsNotepad.Services.Pin
                 }
                 else
                 {
-                    pinViewModelsById = resultOfGettingAllPins.Where(x =>(x.UserId == _settingsManager.AuthorizedUserID) && x.Label.StartsWith(keyWord, StringComparison.OrdinalIgnoreCase)&&x.Label.Contains(keyWord)).ToList();
-                    /*
-                    pinViewModelsById = resultOfGettingAllPins.Where(x => (x.UserId == _settingsManager.AuthorizedUserID)&&
-                        (x.Label.Contains(keyWord)||x.Description.Contains(keyWord)||
-                        x.Latitude.ToString().Contains(keyWord)||
-                        x.Longitude.ToString().Contains(keyWord))).ToList();
-                    */
+                    pinViewModelsById = resultOfGettingAllPins.Where(x =>(x.UserId == _settingsManager.AuthorizedUserID) &&
+                    x.Label.StartsWith(keyWord, StringComparison.OrdinalIgnoreCase)&&
+                    x.Label.Contains(keyWord)).ToList();
                 }
             }
             catch (Exception ex)
             {
                 UserDialogs.Instance.Alert(ex.Message);
             }
+
             return pinViewModelsById;
         }
         public async Task<bool> SaveOrUpdatePinModelToStorageAsync(PinModel pinModel)

@@ -37,6 +37,7 @@ namespace GpsNotepad.Services.Permissions
 					if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
 					{
 						await _userDialogs.AlertAsync("Need location", "Gunna need that location", "OK");
+						//status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
 					}
 					//
 					status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();

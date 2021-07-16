@@ -35,6 +35,10 @@
         public const string WrongName = "The name is incorrect";
         public const string WrongConfirmPassword = "Password mismatch";
 
+        //Size
+        public const int ItemVisibleElementOfListView = 5;
+        public const int SizeRow = 50;
+
 
 
 
