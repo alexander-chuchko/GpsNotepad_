@@ -4,9 +4,11 @@
              x:Class="GpsNotepad.Controls.CustomNavBar"
              xmlns:local="clr-namespace:GpsNotepad.Controls"
              x:Name="Entry">
+    
     <Grid x:Name="grid"
-              ColumnDefinitions="0.15*, *, 0.15*" Margin="4"
-              Padding="0, 0, 0, 0">
+          ColumnDefinitions="0.15*, *, 0.15*"
+          Margin="4"
+          Padding="0, 0, 0, 0">
 
         <ImageButton BindingContext="{x:Reference Name=Entry}"
                      x:Name="settingsIcon"
@@ -28,23 +30,20 @@
                      Command="{Binding BackTapCommand}"/>
 
         <Frame x:Name="searchBar1" 
-               BackgroundColor="LightGray"
+               
+               Style="{StaticResource frameOfNavbar}"
                Grid.Column="1"
-               CornerRadius="4"
-               HasShadow="false"
-               WidthRequest="20"
-               HeightRequest="40"
-               Padding="0"
-               VerticalOptions="Center">
+               HasShadow="false">
 
             <Grid ColumnDefinitions="0.9*, 0.1*">
-                <local:CustomEntry x:Name="searchEntry"
-                                   VerticalOptions="CenterAndExpand"
-                                   BackgroundColor="LightGray"
-                                   FontSize="16"
-                                   Placeholder="Search"
-                                   Focused="SearchBar_Focused"
-                                   TextChanged="SearchEntry_TextChanged"/>
+                
+                <Entry x:Name="searchEntry"
+                       Margin="20,0,0,0"
+                       Style="{StaticResource entryOfNavbar}"
+                       VerticalOptions="CenterAndExpand"
+                       Placeholder="Search"
+                       Focused="SearchBar_Focused"
+                       TextChanged="SearchEntry_TextChanged"/>
 
                 <ImageButton x:Name="imageClear" 
                              Source="ic_clear.png"
@@ -57,12 +56,14 @@
         </Frame>
 
             <ImageButton BindingContext="{x:Reference Name=Entry}"
-                     Grid.Column="2"
-                     x:Name="logOutButton"
-                     Source="ic_exid.png"
-                     BackgroundColor="Transparent"
-                     VerticalOptions="CenterAndExpand"
-                     HorizontalOptions="CenterAndExpand" 
-                     Command="{Binding ExitTapCommand}" />
+                         Grid.Column="2"
+                         x:Name="logOutButton"
+                         Source="ic_exid.png"
+                         BackgroundColor="Transparent"
+                         VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="CenterAndExpand" 
+                         Command="{Binding ExitTapCommand}" />
+        
     </Grid>
+    
 </ContentView>

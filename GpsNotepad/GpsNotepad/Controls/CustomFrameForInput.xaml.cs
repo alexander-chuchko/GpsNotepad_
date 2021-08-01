@@ -1,5 +1,4 @@
-﻿using GpsNotepad.Helpers;
-using System;
+﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,6 +13,22 @@ namespace GpsNotepad.Controls
         }
 
         #region --- Public properties ---
+
+        public static readonly BindableProperty MaxLengthProperty =
+            BindableProperty.Create(nameof(MaxLength),
+                typeof(int),
+                typeof(CustomFrameForInput),
+                defaultValue: 100,
+                defaultBindingMode: BindingMode.TwoWay,
+                propertyChanged: MaxLengthPropertyChanged);
+
+        public int MaxLength
+        {
+            get => (int)GetValue(MaxLengthProperty);
+            set => SetValue(MaxLengthProperty, value);
+        }
+
+
 
         public static readonly BindableProperty TextEntryProperty =
             BindableProperty.Create(nameof(TextEntry),
@@ -84,16 +99,6 @@ namespace GpsNotepad.Controls
             set => SetValue(IsPasswordEntryProperty, value);
         }
 
-        private static void IsPasswordEntryPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            CustomFrameForInput customEntry = bindable as CustomFrameForInput;
-            bool value = (bool)newValue;
-            if (customEntry != null)
-            {
-                customEntry.entry.IsPassword = value;
-            }
-        }
-
         public static readonly BindableProperty PlaceholderTextProperty =
             BindableProperty.Create(nameof(PlaceholderText),
                             typeof(string),
@@ -125,6 +130,26 @@ namespace GpsNotepad.Controls
         #endregion
 
         #region -- Private helpers --
+
+        private static void MaxLengthPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            CustomFrameForInput customEntry = bindable as CustomFrameForInput;
+            if (customEntry != null)
+            {
+                customEntry.entry.MaxLength = (int)newValue;
+
+            }
+        }
+
+        private static void IsPasswordEntryPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            CustomFrameForInput customEntry = bindable as CustomFrameForInput;
+            bool value = (bool)newValue;
+            if (customEntry != null)
+            {
+                customEntry.entry.IsPassword = value;
+            }
+        }
 
         private static void TextEntryPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {

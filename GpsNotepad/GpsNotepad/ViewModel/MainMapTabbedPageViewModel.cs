@@ -17,7 +17,9 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GpsNotepad.Service.Authorization;
-using GpsNotepad.Popup;
+using GpsNotepad.Services.ImagesOfPin;
+using GpsNotepad.Model.ImagePin;
+using GpsNotepad.Services.TimeZone;
 
 namespace GpsNotepad.ViewModel
 {
@@ -29,6 +31,8 @@ namespace GpsNotepad.ViewModel
         private readonly ICameraService _cameraService;
         private readonly IPermissionService _permissionService;
         private readonly IAuthorizationService _authorizationService;
+        private readonly IImagesPinService _imagesPinService;
+        private readonly ITimeZoneService _timeZoneService;
 
         #endregion
 
@@ -36,19 +40,47 @@ namespace GpsNotepad.ViewModel
             ICameraService cameraService,
             IPinServices pinServices,
             IPermissionService permissionService,
-            IAuthorizationService authorizationService) : base(navigationService)
+            IAuthorizationService authorizationService,
+            IImagesPinService imagesPinService,
+            ITimeZoneService timeZoneService) : base(navigationService)
         {
             _authorizationService = authorizationService;
             _cameraService = cameraService;
             _pinServices= pinServices;
             _permissionService = permissionService;
+            _imagesPinService = imagesPinService;
+            _timeZoneService = timeZoneService;
             GetAllPins();
             InitialCameraUpdate = CameraUpdateFactory.NewPosition(new Position(0, 0));
             Task.Run(() => RequestLocationPermission());
             IsVisibleListView = false;
+            IsInfoVisible = false;
         }
 
         #region---PublicProperties---
+
+        private bool _IsVisibleCollectionView;
+
+        public bool IsVisibleCollectionView
+        {
+            get { return _IsVisibleCollectionView; }
+            set { SetProperty(ref _IsVisibleCollectionView, value); }
+        }
+
+        private ImagePinViewModel _SelectedImage;
+        public ImagePinViewModel SelectedImage
+        {
+            get => _SelectedImage;
+            set => SetProperty(ref _SelectedImage, value);
+        }
+
+        private ObservableCollection<ImagePinViewModel> _ImagePinViewModels1;
+
+        public ObservableCollection<ImagePinViewModel> ImagePinViewModels1 
+        {
+            get => _ImagePinViewModels1;
+            set => SetProperty(ref _ImagePinViewModels1, value);
+        }
 
         private int _SizeHightListView;
         public int SizeHightListView
@@ -166,11 +198,11 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _labelSelectedPin, value); }
         }
 
-        private Pin _Pin;
-        public Pin Pin
+        private Pin _SelectedPin;
+        public Pin SelectedPin
         {
-            get { return _Pin; }
-            set { SetProperty(ref _Pin, value); }
+            get { return _SelectedPin; }
+            set { SetProperty(ref _SelectedPin, value); }
         }
 
         private PinViewModel _PinViewModel;
@@ -197,8 +229,9 @@ namespace GpsNotepad.ViewModel
         private ICommand _SaveLastPositionAfterMoveCommand;
         public ICommand SaveLastPositionAfterMoveCommand => _SaveLastPositionAfterMoveCommand ?? new Command(OnSaveLastPosition);
 
-        private ICommand _NavigationToSignIn;
-        public ICommand NavigationToSignIn => _NavigationToSignIn ?? new Command(OnNavigationToSignIn);
+
+        private ICommand _NavigationToMainPage;
+        public ICommand NavigationToMainPage => _NavigationToMainPage ?? new Command(OnNavigationToMainPage);
 
 
         private ICommand _SavePositionCommand;
@@ -228,13 +261,27 @@ namespace GpsNotepad.ViewModel
         private ICommand _MapClickCommand;
         public ICommand MapClickCommand => _MapClickCommand ?? new Command(OnMapClickCommand);
 
+
+        private ICommand _PinClickedCommand;
+        public ICommand PinClickedCommand => _PinClickedCommand?? new Command<Pin>(OnPinClick);
+
+        private ICommand _TapClockButtonCommand;
+        public ICommand TapClockButtonCommand => _TapClockButtonCommand ?? new Command(OnTapClockButton);
+
+
         #endregion
 
-
-
-
-
         #region---Methods---
+
+        private async void OnTapClockButton()
+        {
+            //var parametr = new NavigationParameters();
+            //parametr.Add(ListOfConstants.SelectedPin, SelectedPin);
+
+            _timeZoneService.GetCurrentTime(SelectedPin.Position);
+            await _navigationService.NavigateAsync($"{ nameof(ClockView)}", useModalNavigation:true, animated: true);
+        }
+
         private void OnPerformSearchCommand(object parametr)
         {
 
@@ -242,9 +289,10 @@ namespace GpsNotepad.ViewModel
 
         private void OnMapClickCommand()
         {
-            if (IsVisibleListView)
+            if (IsVisibleListView|| IsInfoVisible)
             {
                 IsVisibleListView = false;
+                IsInfoVisible = false;
             }
         }
 
@@ -270,7 +318,7 @@ namespace GpsNotepad.ViewModel
             return pinViewModelList;
         }
 
-        private async void OnNavigationToSignIn()
+        private async void OnNavigationToMainPage()
         {
             LoggingOutUser();
             await _navigationService.NavigateAsync($"/{nameof(MainPage)}");
@@ -338,14 +386,21 @@ namespace GpsNotepad.ViewModel
 
             }
         }
-        private async void OnMakeFormInactive()
-        {
 
+        private void OnMakeFormInactive()
+        {
             IsInfoVisible = false;
-            await _navigationService.GoBackAsync();
+            //await _navigationService.GoBackAsync();
         }
 
-        public ICommand PinClickedCommand => new Command<Pin>(OnPinClick);
+        private async void OnImagePreview()
+        {
+            (ImagePinViewModel, ObservableCollection<ImagePinViewModel>) imagePinData = (SelectedImage, ImagePinViewModels1);
+            var parameters = new NavigationParameters();
+
+            parameters.Add(ListOfConstants.SelectedImage, imagePinData);
+            await _navigationService.NavigateAsync(nameof(PhotoView), parameters, useModalNavigation: true);
+        }
 
         private async void OnPinClick(object parametr)
         {
@@ -353,26 +408,69 @@ namespace GpsNotepad.ViewModel
 
             if(pin!=null)
             {
+                SelectedPin = pin;
+
                 var resultPinModel = await _pinServices.GetPinListAsync(pin.Label);
+                var resultImagesPin = await _imagesPinService.GetAllImagePinModelAsync(resultPinModel[0].Id);  //TO DO
 
-                if(resultPinModel!=null)
+                if (resultPinModel.Count != 0)
                 {
-                    var resultPinViewModel= resultPinModel[0].ToPinViewModel();
-                    var parametr1 = new NavigationParameters();
-                    parametr1.Add(ListOfConstants.SelectedPin, resultPinViewModel);
-                    await _navigationService.NavigateAsync(nameof(PopupView), parametr1, useModalNavigation: true, animated: true);
+                    var resultPinViewModel = resultPinModel[0].ToPinViewModel();
+
+                    if (resultImagesPin != null)
+                    {
+                        ImagePinViewModels1 = new ObservableCollection<ImagePinViewModel>();
+                        foreach (ImagesPin imagesPins in resultImagesPin)
+                        {
+                            ImagePinViewModels1.Add(imagesPins.ToImagePinViewModel());
+                        }
+                    }
+
+                    IsInfoVisible = true;
+                    LabelSelectedPin = resultPinViewModel.Label;
+                    AddressSelectedPin = resultPinViewModel.Address;
+                    LatitudeSelectedPin = resultPinViewModel.Latitude;
+                    LongitudeSelectedPin = resultPinViewModel.Longitude;
+                    DescriptionSelectedPin = resultPinViewModel.Description;
+
+                    if (ImagePinViewModels1.Count != 0)
+                    {
+                        IsVisibleCollectionView = true;
+                    }
+                    else
+                    {
+                        IsVisibleCollectionView = false;
+                    }
+                    /*
+                    if (resultPinModel.Count!=0)
+                    {
+                        var resultPinViewModel= resultPinModel[0].ToPinViewModel();
+
+                        ObservableCollection<ImagePinViewModel> imagePinViewModels = null;
+                        if(resultImagesPin!=null)
+                        {
+                            imagePinViewModels=new ObservableCollection<ImagePinViewModel>();
+                            foreach (ImagesPin imagesPins in resultImagesPin)
+                            {
+                                imagePinViewModels.Add(imagesPins.ToImagePinViewModel());
+                            }
+                        }
+
+                        var parametr1 = new NavigationParameters();
+                        (ObservableCollection <ImagePinViewModel>, PinViewModel) pinData = (imagePinViewModels, resultPinViewModel);
+                        parametr1.Add(ListOfConstants.SelectedPinData, pinData);
+                        await _navigationService.NavigateAsync(nameof(PopupView), parametr1, useModalNavigation: true, animated: true);
+                    */
+
+                    //IsInfoVisible = true;
+                    //LabelSelectedPin = resultPinModel[0].Label;
+                    //AddressSelectedPin = resultPinModel[0].Address;
+                    //LatitudeSelectedPin = resultPinModel[0].Latitude;
+                    //LongitudeSelectedPin = resultPinModel[0].Longitude;
+                    //DescriptionSelectedPin = resultPinModel[0].Description;
+
                 }
-
-                /*
-                IsInfoVisible = true;
-                LabelSelectedPin = resultPinModel[0].Label;
-                AddressSelectedPin = resultPinModel[0].Address;
-               LatitudeSelectedPin = resultPinModel[0].Latitude;
-                LongitudeSelectedPin = resultPinModel[0].Longitude;
-               DescriptionSelectedPin = resultPinModel[0].Description;
-                */
             }
-
             /*
             Pin pin = parametr as Pin;
             if (pin != null)
@@ -420,15 +518,20 @@ namespace GpsNotepad.ViewModel
         private async void GetAllPins()
         {
             var result = await _pinServices.GetPinListAsync();
+            List<Pin> pins = new List<Pin>();
             if (result!=null&& result.Count()!=0)
             {
-                List<Pin> pins = new List<Pin>();
+                //pins = new List<Pin>();
                 foreach (PinModel pinModel in result)
                 {
                     Pin result1 = pinModel.ToPin();
                     pins.Add(result1);
                 }
                 PinViewModelList=pins;
+            }
+            else
+            {
+                PinViewModelList = pins;
             }
         }
         /*
@@ -479,18 +582,23 @@ namespace GpsNotepad.ViewModel
         #region--Iterface INavigatedAware implementation--
         public void OnNavigatedTo(INavigationParameters parameters)
         {
+            GetAllPins();
             if (parameters.TryGetValue<PinViewModel>(ListOfConstants.SelectedPin, out PinViewModel pinViewModel))
             {
                 PinViewModell = parameters.GetValue<PinViewModel>(ListOfConstants.SelectedPin);
                 if(PinViewModell!=null)
                 {
-                    GetAllPins(); 
+                    
                     MovingCameraPosition = new Position(PinViewModell.Latitude, PinViewModell.Longitude);
                 }
             }
         }
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
+            if(IsInfoVisible)
+            {
+                IsInfoVisible = false;
+            }
         }
         #endregion
         private async void ShowRelevantPins()
@@ -529,6 +637,11 @@ namespace GpsNotepad.ViewModel
             {
                 ShowRelevantPins();
             }
+            if (args.PropertyName == nameof(SelectedImage))
+            {
+                OnImagePreview();
+            }
         }
     }
 }
+

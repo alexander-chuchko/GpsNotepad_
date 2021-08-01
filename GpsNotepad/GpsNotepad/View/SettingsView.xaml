@@ -1,15 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:GpsNotepad.Controls"
-             x:Class="GpsNotepad.View.SettingsView">
-    <ContentPage.Content>
-        <Grid RowDefinitions="0.12*,*, 0.15"
+<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:local="clr-namespace:GpsNotepad.Controls"
+                       xmlns:views="clr-namespace:GpsNotepad.View"
+                       x:Class="GpsNotepad.View.SettingsView">
+
+    <views:BaseContentPage.Content>
+        
+        <Grid RowDefinitions="84,*, 0.15"
               RowSpacing="0">
 
             <Grid Grid.Row="0"
                   ColumnDefinitions="0.2*,0.6*,0.2*"
-                  ColumnSpacing="0" Padding="10">
+                  ColumnSpacing="0"
+                  Padding="10"
+                  BackgroundColor="{DynamicResource PrimaryColor}">
 
                 <Image Grid.Column="0"
                        Source="ic_left_blue.png"
@@ -23,37 +28,33 @@
                 </Image>
 
                 <Label Grid.Column="1"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
                        Text="Settings"
-                       TextColor="Black" 
-                       FontSize="20"/>
+                       Style="{StaticResource titlePage}"/>
+                
             </Grid>
 
-            <BoxView VerticalOptions="EndAndExpand"
-                     HeightRequest="1.5"
-                     BackgroundColor="LightGray"/>
+            <BoxView Style="{StaticResource separatorForPage}"
+                     VerticalOptions="EndAndExpand"/>
 
             <StackLayout Spacing="40" 
                          Padding="20"
-                         Grid.Row="1" Orientation="Horizontal" IsVisible="false">
+                         Grid.Row="1"
+                         Orientation="Horizontal" BackgroundColor="{DynamicResource PrimaryColor}">
+                
                 <Label HorizontalOptions="StartAndExpand"
                        VerticalOptions="StartAndExpand"
-                       Text="Dark theme" FontSize="Medium"
-                       FontAttributes="Bold"/>
+                       Text="Dark theme"
+                       FontSize="Medium" 
+                       TextColor="{DynamicResource PrimaryTextColor}"/>
+
                 <Switch HorizontalOptions="EndAndExpand"
-                        VerticalOptions="StartAndExpand">
-                    
-                </Switch>
+                        VerticalOptions="StartAndExpand"
+                        IsToggled="{Binding IsCheckedTheme}"/>
 
-            </StackLayout>
-            <StackLayout Grid.Row="1" Margin="10">
-                <local:CustomFrameForInput>
-
-                </local:CustomFrameForInput>
             </StackLayout>
 
         </Grid>
 
-    </ContentPage.Content>
-</ContentPage>
+    </views:BaseContentPage.Content>
+    
+</views:BaseContentPage>

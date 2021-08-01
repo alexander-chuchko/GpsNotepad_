@@ -1,6 +1,4 @@
-﻿using Acr.UserDialogs;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
@@ -14,7 +12,35 @@ namespace GpsNotepad.Controls
         {
             MyLocationEnabled = false;
             UiSettings.MyLocationButtonEnabled = false;
+            UiSettings.ZoomControlsEnabled = true;
         }
+
+        public static readonly BindableProperty IsEnableIconZoomProperty =
+            BindableProperty.Create(nameof(IsEnableIconZoom),
+                typeof(bool),
+                typeof(CustomMap),
+                defaultValue: false,
+                defaultBindingMode: BindingMode.TwoWay,
+                propertyChanged: OnIsEnableIconZoomPropertyChanged);
+
+        public bool IsEnableIconZoom
+        {
+            get => (bool)GetValue(IsEnableIconZoomProperty);
+            set => SetValue(IsEnableIconZoomProperty, value);
+        }
+
+        
+        private static void OnIsEnableIconZoomPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            CustomMap map = bindable as CustomMap;
+            bool value = (bool)newValue;
+            if (map != null)
+            {
+                map.UiSettings.ZoomControlsEnabled = value;
+            }
+        }
+        
+
         /* Display list of pins */
         public static readonly BindableProperty PinsListProperty =
             BindableProperty.Create(nameof(PinsList),
@@ -59,15 +85,8 @@ namespace GpsNotepad.Controls
             bool value = (bool)newValue;
             if (map != null)
             {
-                try
-                {
-                    map.UiSettings.MyLocationButtonEnabled = value;
-                    map.MyLocationEnabled = value;
-                }
-                catch (Exception ex)
-                {
-                    UserDialogs.Instance.Alert(ex.Message);
-                }
+                map.UiSettings.MyLocationButtonEnabled = value;
+                map.MyLocationEnabled = value;
             }
         }
 

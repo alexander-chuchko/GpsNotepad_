@@ -1,76 +1,111 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:resource="clr-namespace:GpsNotepad.Recource"
-             xmlns:prism="http://prismlibrary.com"
-             Title="Pins"
-             xmlns:local="clr-namespace:GpsNotepad.Controls"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             NavigationPage.HasNavigationBar="False"
-             NavigationPage.HasBackButton="False"
-             x:Class="GpsNotepad.View.MainListTabbedPageView">
-    <ContentPage.Content>
+<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:GpsNotepad.View"
+                       xmlns:resource="clr-namespace:GpsNotepad.Recource"
+                       xmlns:prism="http://prismlibrary.com"
+                       Title="Pins"
+                       xmlns:local="clr-namespace:GpsNotepad.Controls"
+                       prism:ViewModelLocator.AutowireViewModel="True"
+                       NavigationPage.HasNavigationBar="False"
+                       NavigationPage.HasBackButton="False"
+                       x:Class="GpsNotepad.View.MainListTabbedPageView">
+
+    <views:BaseContentPage.Content>
         
-        <Grid RowDefinitions="0.12*, *"
-              RowSpacing="0">
+        <Grid RowDefinitions="0.15*, *"
+              RowSpacing="0"
+              BackgroundColor="{DynamicResource PrimaryColor}">
+            
             <StackLayout Grid.Column="0"
                          Padding="0"
                          Margin="0"
                          Spacing="0">
 
-                <local:CustomNavBar SettingsTapCommand="{Binding NavigationToSettingsView}" VerticalOptions="CenterAndExpand"
-                                    ExitTapCommand="{Binding NavigationToSignIn}"
+                <local:CustomNavBar SettingsTapCommand="{Binding NavigationToSettingsCommand}"
+                                    VerticalOptions="CenterAndExpand"
+                                    ExitTapCommand="{Binding NavigationToMainPageCommand}"
                                     SearchText="{Binding SearchText}"
                                     ExitSearch="{Binding ExitSearch}"
                                     BackTapCommand="{Binding BackTapCommand}"/>
             </StackLayout>
+            
             <StackLayout Grid.Row="1"
                          Padding="0"
                          Spacing="0" >
-                
-            <BoxView IsVisible="true"
-                     HeightRequest="2"
-                     BackgroundColor="LightGray"/>
-  
+
+                <BoxView Style="{StaticResource separatorForPage}"/>
+
                 <ListView x:Name="MyListView"
-                      SelectionMode="None"
-                      BackgroundColor="Transparent"
-                      Grid.Row="1" Margin="10,0,10,0"
-                      ItemsSource="{Binding PinViewModelList}"
-                      HasUnevenRows="true" 
-                      IsVisible="{Binding IsVisableListView}">
+                          SelectionMode="None"
+                          BackgroundColor="{DynamicResource PrimaryColor}"
+                          Grid.Row="1" 
+                          Margin="10,0,10,0"
+                          ItemsSource="{Binding PinViewModelList}"
+                          HasUnevenRows="true" 
+                          SeparatorColor="{DynamicResource SecondaryColor}"
+                          IsVisible="{Binding IsVisableListView}">
+
                     <ListView.ItemTemplate>
-                    <DataTemplate>
+
+                        <DataTemplate>
+
                             <ViewCell>
+
                                 <ViewCell.View >
+
                                     <SwipeView>
+
                                         <SwipeView.RightItems>
+
                                             <SwipeItem IconImageSource="ic_delete.png"
-                                                   BackgroundColor="Red"
-                                                   Command="{Binding Path=BindingContext.RemoveCommand, Source={x:Reference Name=MyListView}}"
-                                                   CommandParameter="{Binding .}"/>
+                                                       BackgroundColor="{DynamicResource QuaternaryColor}"
+                                                       Command="{Binding Path=BindingContext.RemoveCommand, Source={x:Reference Name=MyListView}}"
+                                                       CommandParameter="{Binding .}"/>
+
                                             <SwipeItem IconImageSource="ic_edit.png" 
-                                                   BackgroundColor="#475cde"
-                                                   Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference Name=MyListView}}"
-                                                   CommandParameter="{Binding .}"/>
+                                                       BackgroundColor="{DynamicResource TertiaryColor}"
+                                                       Command="{Binding Path=BindingContext.UpdateCommand, Source={x:Reference Name=MyListView}}"
+                                                       CommandParameter="{Binding .}"/>
+
                                         </SwipeView.RightItems>
-                                   
-                                    <StackLayout Orientation="Horizontal" Spacing="10" Padding="10">
-                                        <ImageButton Source="{Binding ImagePath}"
-                                                     BackgroundColor="#F1F3FD"
-                                                     x:Name="MyImage" HeightRequest="40"
-                                                     WidthRequest="{Binding Source={x:Reference MyImage}, Path=HeightRequest}"
-                                                     CornerRadius="5"
-                                                     Command="{Binding Path=BindingContext.ImageTapCommand, 
+
+                                        <StackLayout Orientation="Horizontal"
+                                                     Spacing="10"
+                                                     Padding="10">
+
+                                            <ImageButton Source="{Binding ImagePath}"
+                                                         BackgroundColor="{DynamicResource SecondaryColor}"
+                                                         x:Name="MyImage"
+                                                         HeightRequest="40"
+                                                         WidthRequest="{Binding Source={x:Reference MyImage},
+                                                Path=HeightRequest}"
+                                                         CornerRadius="5"
+                                                         Command="{Binding Path=BindingContext.ImageTapCommand, 
                                                                    Source={x:Reference MyListView}}"
-                                                     CommandParameter="{Binding .}"/>
-                                        <StackLayout Orientation="Vertical"  x:Name="MyStack">
-                                            <Label Text="{Binding Label}" TextColor="Black" FontSize="16"/>
-                                            <StackLayout Orientation="Horizontal">
-                                                <Label Text="{Binding Latitude}"/>
-                                                <Label Text="{Binding Longitude}" />
+                                                         CommandParameter="{Binding .}"/>
+
+                                            <StackLayout Orientation="Vertical"
+                                                         x:Name="MyStack">
+
+                                                <Label Text="{Binding Label}"
+                                                       Style="{StaticResource labelForPin}"
+                                                       FontSize="16"/>
+
+                                                <StackLayout Orientation="Horizontal">
+
+                                                    <Label Text="{Binding Latitude}"
+                                                           Style="{StaticResource labelDescription}"
+                                                           FontSize="14"/>
+                                                    
+                                                    <Label Text="{Binding Longitude}"
+                                                           Style="{StaticResource labelDescription}"
+                                                           FontSize="14"/>
+
+                                                </StackLayout>
+
                                             </StackLayout>
-                                        </StackLayout>
+
                                             <ImageButton Source="ic_left_gray.png"
                                                          BackgroundColor="Transparent"
                                                          HorizontalOptions="EndAndExpand"
@@ -78,40 +113,37 @@
                                                                    Source={x:Reference MyListView}}"
                                                          CommandParameter="{Binding .}"/>
                                         </StackLayout>
+
                                     </SwipeView>
+
                                 </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <StackLayout  Orientation="Horizontal" VerticalOptions="End" Grid.Row="0" IsVisible="false">
-                <Button Grid.Column="0" Text="Pin" Command="{Binding NavigationToMainMap}"></Button>
-                <Button Grid.Column="1" Text="List" IsEnabled="False" ></Button>
+
+                            </ViewCell>
+
+                        </DataTemplate>
+
+                    </ListView.ItemTemplate>
+
+                </ListView>
+
+                <Label IsVisible="{Binding IsVisableLabel}" 
+                       Grid.Row="1" 
+                       Text="{x:Static resource:AppResource.no_pins_added}"
+                       Style="{StaticResource infoPin}"/>
+                
             </StackLayout>
-            <Label IsVisible="{Binding IsVisableLabel}" 
-               HorizontalOptions="CenterAndExpand"  
-               VerticalOptions="CenterAndExpand"
-               Grid.Row="1" 
-               FontSize="28" 
-               TextColor="Brown" 
-               Text="{x:Static resource:AppResource.no_pins_added}"/>
-            </StackLayout>
+
             <Button Grid.Row="1"
                     ImageSource="ic_plus.png"
-                FontAttributes="Bold" 
-                BackgroundColor="#475cde" 
-                BorderRadius="30" 
-                TextColor="White"
-                FontSize="30"
-                HorizontalOptions="End" 
-                WidthRequest="60" 
-                HeightRequest="60" 
-                Margin="0,0,20,22" 
-                VerticalOptions="End"
-                Command="{Binding Path=NavigationToAddPin}">
-            </Button>
+                    BorderRadius="30" 
+                    HorizontalOptions="End" 
+                    Margin="0,0,20,22" 
+                    VerticalOptions="End"
+                    Style="{StaticResource floatingButton}"
+                    Command="{Binding NavigationToAddPinCommand}"/>
 
         </Grid>
 
-    </ContentPage.Content>
-</ContentPage>
+    </views:BaseContentPage.Content>
+    
+</views:BaseContentPage>

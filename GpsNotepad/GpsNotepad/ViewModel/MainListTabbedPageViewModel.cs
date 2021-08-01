@@ -5,11 +5,11 @@ using GpsNotepad.Model;
 using GpsNotepad.Model.Pin;
 using GpsNotepad.Recource;
 using GpsNotepad.Service.Authorization;
+using GpsNotepad.Services.ImagesOfPin;
 using GpsNotepad.Services.Pin;
 using GpsNotepad.View;
 using Prism.Navigation;
 using Prism.Navigation.TabbedPages;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -23,126 +23,144 @@ namespace GpsNotepad.ViewModel
     public class MainListTabbedPageViewModel: BaseViewModel, IInitializeAsync, INavigatedAware
     {
         #region---PrivateFields---
-        const int ItemVisibleElementOfListView = 5; //To do
-        private bool _isVisibleLabel;
-        private bool _isVisibleListView;
-        private string _imageSource= "ic_like_gray.png";
-        private PinViewModel _pinViewModel;
-        private ObservableCollection<PinViewModel> _pinViewModelList;
-        private ObservableCollection<PinViewModel> _firstValueOfList = null;
+
         private readonly IPinServices _pinServices;
         private readonly IAuthorizationService _authorizationService;
+        private readonly IImagesPinService _imagesPinService;
+        private ObservableCollection<PinViewModel> _firstValueOfList = null;
 
         #endregion
-        public MainListTabbedPageViewModel(INavigationService navigationService, IPinServices pinServices, IAuthorizationService authorizationService) : base(navigationService)
-        {
 
+        public MainListTabbedPageViewModel(INavigationService navigationService,
+            IPinServices pinServices,
+            IAuthorizationService authorizationService,
+            IImagesPinService imagesPinService) : base(navigationService)
+        {
             _authorizationService = authorizationService;
             _pinServices = pinServices;
-           NavigationToSettingsView = new Command(ExecuteGoToSettingsPage);
-           NavigationToAddPin = new Command(ExecuteGoToAddPin);
-           RemoveCommand = new Command(RemoveModel);
-           UpdateCommand = new Command(UpdateModel);
-           NavigationToSingIn = new Command(OnNavigationToSingIn);
-           NavigationToMainMap = new Command(ExecuteGoToMainMap);
-            ItemTappedCommand = new Command(OnItemTapped);
-            ImageTapCommand = new Command(OnImageTap);
-           PinViewModelList = new ObservableCollection<PinViewModel>();
-            //PathPicture = "ic_like_gray.png";
+            _imagesPinService = imagesPinService;
+            PinViewModelList = new ObservableCollection<PinViewModel>();
         }
 
-        #region---PublicProperties---
-        public ICommand NavigationToSettingsView { get; set; }
-        public ICommand NavigationToAddPin { get; set; }
-        public ICommand NavigationToSingIn { get; set; }
-        public ICommand NavigationToMainMap { get; set; }
-        public ICommand RemoveCommand { set; get; }
-        public ICommand UpdateCommand { set; get; }
-        public ICommand ItemTappedCommand { set; get; }
-        public ICommand ImageTapCommand { get; set; }
-        public ICommand NavigationToSignIn => new Command(OnNavigationToSignIn);
+        #region  ---  PublicProperties  ---
 
-        private async void OnNavigationToSignIn()
-        {
-            DeletingCurrentUserSettings();
-            await _navigationService.NavigateAsync($"/{nameof(MainPage)}");
-        }
-        private ICommand _BackTapCommand;
-        public ICommand BackTapCommand => _BackTapCommand ?? (_BackTapCommand = new Command(OnBackTapCommand));
-        private void OnBackTapCommand()
-        {
-            ExitSearch = true;
-        }
-
-        private bool exitSearch;
+        private bool _ExitSearch;
         public bool ExitSearch
         {
-            get => exitSearch;
-            set => SetProperty(ref exitSearch, value);
+            get => _ExitSearch;
+            set => SetProperty(ref _ExitSearch, value);
         }
 
-        private ObservableCollection<PinViewModel> _placesList;
+        private ObservableCollection<PinViewModel> _PlacesList;
         public ObservableCollection<PinViewModel> PlacesList
         {
-            get { return _placesList; }
-            set { SetProperty(ref _placesList, value); }
+            get { return _PlacesList; }
+            set { SetProperty(ref _PlacesList, value); }
         }
-        private bool _isVisibleCommand;
+
+        private bool _IsVisibleCommand;
         public bool IsVisibleCommand
         {
-            get => _isVisibleCommand;
-            set => SetProperty(ref _isVisibleCommand, value);
+            get => _IsVisibleCommand;
+            set => SetProperty(ref _IsVisibleCommand, value);
         }
 
-        private int _sizeRow = 50;
+        private int _SizeRow =ListOfConstants.HeightRow;
         public int SizeRow
         {
-            get => _sizeRow;
-            set => SetProperty(ref _sizeRow, value);
+            get => _SizeRow;
+            set => SetProperty(ref _SizeRow, value);
         }
 
-        private int _sizeHightListView;
+        private int _SizeHightListView;
 
         public int SizeHightListView
         {
-            get => _sizeHightListView;
-            set => SetProperty(ref _sizeHightListView, value);
+            get => _SizeHightListView;
+            set => SetProperty(ref _SizeHightListView, value);
         }
 
-        private string _searchText;
+        private string _SearchText;
         public string SearchText
         {
-            get => _searchText;
-            set => SetProperty(ref _searchText, value);
+            get => _SearchText;
+            set => SetProperty(ref _SearchText, value);
         }
+
+        private string _ImageSource = "ic_like_gray.png";
         public string ImageSource
         {
-            get { return _imageSource; }
-            set { SetProperty(ref _imageSource, value); }
+            get { return _ImageSource; }
+            set { SetProperty(ref _ImageSource, value); }
         }
+
+        private PinViewModel _PinViewModel;
         public PinViewModel PinViewModel
         {
-            set { SetProperty(ref _pinViewModel, value); }
-            get { return _pinViewModel; }
+            set { SetProperty(ref _PinViewModel, value); }
+            get { return _PinViewModel; }
         }
+
+        private bool _IsVisibleListView;
         public bool IsVisableListView
         {
-            get { return _isVisibleListView; }
-            set { SetProperty(ref _isVisibleListView, value); }
+            get { return _IsVisibleListView; }
+            set { SetProperty(ref _IsVisibleListView, value); }
         }
+
+        private bool _IsVisibleLabel;
         public bool IsVisableLabel
         {
-            get { return _isVisibleLabel; }
-            set { SetProperty(ref _isVisibleLabel, value); }
+            get { return _IsVisibleLabel; }
+            set { SetProperty(ref _IsVisibleLabel, value); }
         }
+
+        private ObservableCollection<PinViewModel> _PinViewModelList;
         public ObservableCollection<PinViewModel>  PinViewModelList
         {
-            get { return _pinViewModelList; }
-            set { SetProperty(ref _pinViewModelList, value); }
-        } 
+            get { return _PinViewModelList; }
+            set { SetProperty(ref _PinViewModelList, value); }
+        }
+
+        private ICommand _NavigationToSettingsCommand;
+        public ICommand NavigationToSettingsCommand => _NavigationToSettingsCommand ?? new Command(OnNavigationToSettings);
+
+
+        private ICommand _NavigationToMainPageCommand;
+        public ICommand NavigationToMainPageCommand => _NavigationToMainPageCommand ?? new Command(OnNavigationToMainPage);
+
+
+        private ICommand _BackTapCommand;
+        public ICommand BackTapCommand => _BackTapCommand ?? (_BackTapCommand = new Command(OnBackTap));
+
+
+        private ICommand _RemoveCommand;
+        public ICommand RemoveCommand => _RemoveCommand ?? new Command(OnRemoveModel);
+
+
+        private ICommand _UpdateCommand;
+        public ICommand UpdateCommand => _UpdateCommand ?? new Command(OnUpdateModel);
+
+
+        private ICommand _ImageTapCommand;
+        public ICommand ImageTapCommand => _ImageTapCommand ?? new Command(OnImageTap);
+
+
+        private ICommand _ItemTappedCommand;
+        public ICommand ItemTappedCommand => _ItemTappedCommand ?? new Command(OnItemTapped);
+
+
+        private ICommand _NavigationToAddPinCommand;
+        public ICommand NavigationToAddPinCommand => _NavigationToAddPinCommand ?? new Command(OnNavigationToAddPin);
         #endregion
 
         #region---Methods---
+
+        private async void OnNavigationToMainPage()
+        {
+            LoggingOutUser();
+            await _navigationService.NavigateAsync($"/{nameof(MainPage)}");
+        }
         private void OnImageTap(object parametr)
         {
             PinViewModel pinViewModel = parametr as PinViewModel; //Corrrect property PinViewModel 
@@ -152,13 +170,17 @@ namespace GpsNotepad.ViewModel
                 pinViewModel.ImagePath= pinViewModel.Favorite == false ? "ic_like_gray.png" : "ic_like_blue.png";
             }
         }
+        private void OnBackTap()
+        {
+            ExitSearch = true;
+        }
 
-        private async void ExecuteGoToAddPin()
+        private async void OnNavigationToAddPin()
         {
             await _navigationService.NavigateAsync($"{ nameof(AddEditPinView)}");
         }
 
-        private async void ExecuteGoToSettingsPage()
+        private async void OnNavigationToSettings()
         {
             await _navigationService.NavigateAsync($"{ nameof(SettingsView)}");
 
@@ -174,32 +196,26 @@ namespace GpsNotepad.ViewModel
             }
         }
 
-        private async void UpdateModel(object selectObject)
+        private async void OnUpdateModel(object selectObject)
         {
             PinViewModel  pinViewModel = selectObject as PinViewModel;
+
             if (pinViewModel != null)
             {
                 var parametr = new NavigationParameters();
                 parametr.Add(ListOfConstants.PinModel, pinViewModel);
                 await _navigationService.NavigateAsync($"{ nameof(AddEditPinView)}", parametr);
-                //OnBackTapCommand();
             }
         }
 
-        private void DeletingCurrentUserSettings() //When logging out, delete all user settings
+        private void LoggingOutUser() //When logging out, delete all user settings
         {
             _authorizationService.Unauthorize();
         }
 
-        private async void ExecuteGoToMainMap()
+        private async void OnExecuteGoToMainMap()
         {
             await _navigationService.NavigateAsync($"{ nameof(MainMapTabbedPageView)}");
-        }
-
-        private async void OnNavigationToSingIn()
-        {
-            DeletingCurrentUserSettings();
-            await _navigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(SignInView)}");
         }
 
         public IEnumerable<PinViewModel> ConvertingPinModelToPinViewModel(IEnumerable<PinModel> PinModellist)
@@ -217,7 +233,7 @@ namespace GpsNotepad.ViewModel
             return pinViewModelList;
         }
 
-        private async void RemoveModel(object selectObject)
+        private async void OnRemoveModel(object selectObject)
         {
             PinViewModel  pinViewModel = selectObject as PinViewModel;
             if (pinViewModel != null)
@@ -228,12 +244,17 @@ namespace GpsNotepad.ViewModel
                     OkText = AppResource.delete.ToUpper(),
                     CancelText = AppResource.cancel.ToUpper()
                 };
+
                 var result = await UserDialogs.Instance.ConfirmAsync(confirmConfig);
+                
                 if (result)
                 {
                     var pinModel = pinViewModel.ToPinModel();
-                    bool resultOfAction = await _pinServices.DeletePinModelToStorageAsync(pinModel);
-                    if (resultOfAction)
+
+                    bool resultDeleteOfImagesPin = await _imagesPinService.DeleteAllImagePinModelAsync(pinModel.Id);
+                    bool resultDeleteOfPinModel = await _pinServices.DeletePinModelToStorageAsync(pinModel);
+                    
+                    if (resultDeleteOfPinModel&& resultDeleteOfImagesPin)
                     {
                         PinViewModelList.Remove(pinViewModel);
                     }
@@ -277,7 +298,7 @@ namespace GpsNotepad.ViewModel
                     }
                     else
                     {
-                        ToggleVisibility(true, false);
+                        ToggleVisibility(true, false);//Correct
                     }
                 }
                 else

@@ -5,7 +5,6 @@ using GpsNotepad.Services.Pin;
 using Xamarin.Forms;
 using System.Windows.Input;
 using GpsNotepad.Helpers;
-using GpsNotepad.Recource;
 using Prism.Services;
 using System.Threading.Tasks;
 using GpsNotepad.Extension;
@@ -16,51 +15,492 @@ using GpsNotepad.Services.Camera;
 using System.Collections.Generic;
 using System.Linq;
 using GpsNotepad.Model;
+using System.ComponentModel;
+using GpsNotepad.Model.ImagePin;
+using System.Collections.ObjectModel;
+using GpsNotepad.Services.ImagesOfPin;
+using Xamarin.Essentials;
+using Acr.UserDialogs;
+using GpsNotepad.Services.Media;
+using System.IO;
 
 namespace GpsNotepad.ViewModel
 {
     public class AddEditPinViewModel:BaseViewModel, INavigatedAware, IInitialize
     {
         #region---PrivateFields---
-        private string _label;
-        private string _description;
-        private string _latitude;
-        private string _longitude;
-        private bool _isEnable;
-        private PinViewModel  pinViewModel;
-        private Position _movingCameraPosition;
-        private CameraUpdate _initialCameraUpdate;
-        private bool _myLocationButtonVisibility;
-        private List<Pin> _pinViewModelList;
-        private readonly IAuthorizationService _authorizationService;
+
         private readonly IPinServices _pinServices;
-        private readonly IPageDialogService _pageDialogService;
         private readonly IPermissionService _permissionService;
         private readonly ICameraService _cameraService;
+        private readonly IImagesPinService _imagesPinService;
+        private readonly IMediaService _mediaService;
+
         #endregion
-        public AddEditPinViewModel(INavigationService navigationService, IAuthorizationService authorizationService, IPinServices pinServices, IPageDialogService pageDialogService, IPermissionService permissionService, ICameraService cameraService) :base(navigationService)
+
+        public AddEditPinViewModel(INavigationService navigationService,
+            IAuthorizationService authorizationService,
+            IPinServices pinServices,
+            IPageDialogService pageDialogService,
+            IPermissionService permissionService,
+            ICameraService cameraService, IImagesPinService imagesPinService, IMediaService mediaService) :base(navigationService)
         {
-            Label = string.Empty;
+            LabelOfPin = string.Empty;
             Description = string.Empty;
             Longitude = string.Empty;
             Latitude = string.Empty;
             IsEnable = false;
-            _authorizationService = authorizationService;
+            _mediaService = mediaService;
+            _imagesPinService = imagesPinService;
             _pinServices = pinServices;
-            _pageDialogService = pageDialogService;
             _permissionService= permissionService;
             _cameraService = cameraService;
             GetAllPins();
-            SaveCommand = new Command(SaveOrUpdatePinModel);
             InitialCameraUpdate = CameraUpdateFactory.NewPosition(new Position(0, 0));
+
+            //Task.Run(() => OnGetAllImagesPin());
+
+            OpenGallery = OnGetPathForImageFromGallery;
+            TakePhoto = OnGetPathForImageFromCamera;
         }
+
         #region---PublicProperties---
+
+        public Action OpenGallery { get; set; }
+        public Action TakePhoto { get; set; }
+
+        private bool _IsEnableIconZoom=true;
+        public bool IsEnableIconZoom
+        {
+            get { return _IsEnableIconZoom; }
+            set { SetProperty(ref _IsEnableIconZoom, value); }
+        }
+
+        //Label - Label
+
+        private ObservableCollection<ImagePinViewModel> _ImagesPin;
+        public ObservableCollection<ImagePinViewModel> ImagesPin
+        {
+            get => _ImagesPin;
+            set => SetProperty(ref _ImagesPin, value);
+        }
+
+        private string _LabelOfPin;
+        public string LabelOfPin
+        {
+            get { return _LabelOfPin; }
+            set { SetProperty(ref _LabelOfPin, value); }
+        }
+        private string _ImageSourceForLabel = ListOfConstants.ButtonClear;
+        public string ImageSourceForLabel
+        {
+            get { return _ImageSourceForLabel; }
+            set { SetProperty(ref _ImageSourceForLabel, value); }
+        }
+
+        private string _ErrorLabel = string.Empty;
+        public string ErrorLabel
+        {
+            get { return _ErrorLabel; }
+            set { SetProperty(ref _ErrorLabel, value); }
+        }
+
+        private string _PlaceholderForLabel = ListOfConstants.PlaceholderLabel;
+        public string PlaceholderForLabel
+        {
+            get { return _PlaceholderForLabel; }
+            set { SetProperty(ref _PlaceholderForLabel, value); }
+        }
+
+        private bool _IsTapedImageOfLabel;
+        public bool IsTapedImageOfLabel
+        {
+            get { return _IsTapedImageOfLabel; }
+            set { SetProperty(ref _IsTapedImageOfLabel, value); }
+        }
+
+        private Color _LabelBorderColor = Color.LightGray;
+        public Color LabelBorderColor
+        {
+            get { return _LabelBorderColor; }
+            set { SetProperty(ref _LabelBorderColor, value); }
+        }
+
+        //Description
+        private string _Description;
+        public string Description
+        {
+            get { return _Description; }
+            set { SetProperty(ref _Description, value); }
+        }
+        private string _ImageSourceForDescription = ListOfConstants.ButtonClear;
+        public string ImageSourceForDescription
+        {
+            get { return _ImageSourceForDescription; }
+            set { SetProperty(ref _ImageSourceForDescription, value); }
+        }
+
+        private string _ErrorDescription = string.Empty;
+        public string ErrorDescription
+        {
+            get { return _ErrorDescription; }
+            set { SetProperty(ref _ErrorDescription, value); }
+        }
+
+        private string _PlaceholderForDescription = ListOfConstants.PlaceholderDescription;
+        public string PlaceholderForDescription
+        {
+            get { return _PlaceholderForDescription; }
+            set { SetProperty(ref _PlaceholderForDescription, value); }
+        }
+
+        private bool _IsTapedImageOfDescription;
+        public bool IsTapedImageOfDescription
+        {
+            get { return _IsTapedImageOfDescription; }
+            set { SetProperty(ref _IsTapedImageOfDescription, value); }
+        }
+
+        private Color _DescriptionBorderColor = Color.LightGray;
+        public Color DescriptionBorderColor
+        {
+            get { return _DescriptionBorderColor; }
+            set { SetProperty(ref _DescriptionBorderColor, value); }
+        }
+
+        //Longitude
+        private string _Longitude;
+
+        public string Longitude
+        {
+            get { return _Longitude; }
+            set { SetProperty(ref _Longitude, value); }
+        }
+
+        private string _ImageSourceForLongitude = ListOfConstants.ButtonClear;
+        public string ImageSourceForLongitude
+        {
+            get { return _ImageSourceForLongitude; }
+            set { SetProperty(ref _ImageSourceForLongitude, value); }
+        }
+
+        private string _ErrorLongitude = string.Empty;
+        public string ErrorLongitude
+        {
+            get { return _ErrorLongitude; }
+            set { SetProperty(ref _ErrorLongitude, value); }
+        }
+
+        private string _PlaceholderForLongitude = ListOfConstants.PlaceholderLongitude;
+        public string PlaceholderForLongitude
+        {
+            get { return _PlaceholderForLongitude; }
+            set { SetProperty(ref _PlaceholderForLongitude, value); }
+        }
+
+        private bool _IsTapedImageOfLongitude;
+        public bool IsTapedImageOfLongitude
+        {
+            get { return _IsTapedImageOfLongitude; }
+            set { SetProperty(ref _IsTapedImageOfLongitude, value); }
+        }
+
+        private Color _LongitudeBorderColor = Color.LightGray;
+        public Color LongitudeBorderColor
+        {
+            get { return _LongitudeBorderColor; }
+            set { SetProperty(ref _LongitudeBorderColor, value); }
+        }
+
+
+        //Latitude
+        private string _Latitude;
+        public string Latitude
+        {
+            get { return string.Format(_Latitude); }
+            set { SetProperty(ref _Latitude, value); }
+        }
+
+        private string _ImageSourceForLatitude = ListOfConstants.ButtonClear;
+        public string ImageSourceForLatitude
+        {
+            get { return _ImageSourceForLatitude; }
+            set { SetProperty(ref _ImageSourceForLatitude, value); }
+        }
+
+        private string _ErrorLatitude = string.Empty;
+        public string ErrorLatitude
+        {
+            get { return _ErrorLatitude; }
+            set { SetProperty(ref _ErrorLatitude, value); }
+        }
+
+        private string _PlaceholderForLatitude = ListOfConstants.PlaceholderLatitude;
+        public string PlaceholderForLatitude
+        {
+            get { return _PlaceholderForLatitude; }
+            set { SetProperty(ref _PlaceholderForLatitude, value); }
+        }
+
+        private bool _IsTapedImageOfLatitude;
+        public bool IsTapedImageOfLatitude
+        {
+            get { return _IsTapedImageOfLatitude; }
+            set { SetProperty(ref _IsTapedImageOfLatitude, value); }
+        }
+
+        private Color _LatitudeBorderColor = Color.LightGray;
+        public Color LatitudeBorderColor
+        {
+            get { return _LatitudeBorderColor; }
+            set { SetProperty(ref _LatitudeBorderColor, value); }
+        }
+
+        private List<Pin> _PinViewModelList;
+        public List<Pin> PinViewModelList
+        {
+            get { return _PinViewModelList; }
+            set { SetProperty(ref _PinViewModelList, value); }
+        }
+
+        private bool _MyLocationButtonVisibility;
+        public bool MyLocationButtonVisibility
+        {
+            get { return _MyLocationButtonVisibility; }
+            set { SetProperty(ref _MyLocationButtonVisibility, value); }
+        }
+
+        private CameraUpdate _InitialCameraUpdate;
+        public CameraUpdate InitialCameraUpdate
+        {
+            get => _InitialCameraUpdate;
+            set => SetProperty(ref _InitialCameraUpdate, value);
+        }
+
+        private bool _IsEnable;
+        public bool IsEnable
+        {
+            get { return _IsEnable; }
+            set { SetProperty(ref _IsEnable, value); }
+        }
+
+        private PinViewModel _PinViewModel;
+        public PinViewModel PinViewModel
+        {
+            get { return _PinViewModel; }
+            set { SetProperty(ref _PinViewModel, value); }
+        }
+
+        private Position _MovingCameraPosition;
+        public Position MovingCameraPosition
+        {
+            get => _MovingCameraPosition;
+            set => SetProperty(ref _MovingCameraPosition, value);
+        }
+
+        private bool _IsVisibleListPicture;
+        public bool IsVisibleListPicture
+        {
+            get => _IsVisibleListPicture;
+            set => SetProperty(ref _IsVisibleListPicture, value);
+        }
+
+        private int _SizeRow = ListOfConstants.HeightRowForAddPage;
+        public int SizeRow
+        {
+            get => _SizeRow;
+            set => SetProperty(ref _SizeRow, value);
+        }
+
+        private int _SizeHightListView;
+        public int SizeHightListView
+        {
+            get => _SizeHightListView;
+            set => SetProperty(ref _SizeHightListView, value);
+        }
+
+        private ICommand _RemovePictureCommand;
+
+        public ICommand RemovePictureCommand => _RemovePictureCommand ?? new Command(OnRemovePicture);
+
+        private ICommand _AddPhotoCommand;
+
+        public ICommand AddPhotoCommand => _AddPhotoCommand ?? new Command(OnAddPhoto);
+
+        private void OnAddPhoto()
+        {
+            OnShowActionSheet();
+        }
+
+        private async void OnGetAllImagesPin()
+        {
+            var imagesPinAll = await _imagesPinService.GetAllImagePinModelAsync(PinViewModel.Id);
+            
+            if (imagesPinAll != null && imagesPinAll.ToList().Count != 0)
+            {
+                var imagePinViewModels = new ObservableCollection<ImagePinViewModel>();
+
+                foreach(ImagesPin imagesPin in imagesPinAll)
+                {
+                    var imagesPinViewModel = imagesPin.ToImagePinViewModel();
+                    if (imagesPinViewModel!=null)
+                    {
+                        imagePinViewModels.Add(imagesPinViewModel);
+                    }
+                }
+                ImagesPin=imagePinViewModels;
+
+                IsEnableIconZoom = false;
+                IsVisibleListPicture = true;
+
+                ChangeSizeListView(); 
+            }
+            else
+            {
+                IsVisibleListPicture = false;
+            }
+        }
+
+        private async void OnGetPathForImageFromGallery()
+        {
+            var pathImage = await _mediaService.GetPhotoFromGalleryAsync();
+
+            if(pathImage!=null)
+            {
+                OnCreateImagePin(pathImage);
+            }
+        }
+
+        private async void OnGetPathForImageFromCamera()
+        {
+            var pathImage = await _mediaService.TakingPicturesAsync();
+
+            if (pathImage != null)
+            {
+                OnCreateImagePin(pathImage);
+            }
+        }
+
+        private void OnShowActionSheet()
+        {
+            var config = new ActionSheetConfig
+            {
+                Title = "Action sheet"
+            };
+
+            config.Add("Gallery", OpenGallery);
+            config.Add("Camera", TakePhoto);
+
+            ActionSheetOption cancel = new ActionSheetOption("Cancel", null, null);
+            config.Cancel = cancel;
+
+            UserDialogs.Instance.ActionSheet(config);
+        }
+
+        private async void SaveImagesPinas()
+        {
+            if(ImagesPin!=null&& ImagesPin.Count!=0)
+            {
+                foreach (ImagePinViewModel imagePinViewModel in ImagesPin)
+                {
+                    bool resultOperation = true;
+                    if (imagePinViewModel.PinId == 0 && resultOperation)
+                    {
+                        imagePinViewModel.PinId = PinViewModel.Id;
+                        var imagePinModel = imagePinViewModel.ToImagesPin();
+
+                        if (imagePinModel != null)
+                        {
+                            resultOperation = await _imagesPinService.SaveImagePinModelAsync(imagePinModel);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void OnCreateImagePin(string pathNewImagePin)
+        {
+            ImagePinViewModel imagePinViewModel = new ImagePinViewModel()
+            {
+                PathImage = pathNewImagePin,
+                NameImage=Path.GetFileName(pathNewImagePin)
+            };
+
+            if (ImagesPin == null)
+            {
+                ImagesPin = new ObservableCollection<ImagePinViewModel>();
+            }
+
+            ImagesPin.Add(imagePinViewModel);
+
+            ChangeSizeListView();
+
+            IsVisibleListPicture = true;
+            IsEnableIconZoom = false;
+        }
+
+        private void ChangeSizeListView()
+        {
+            if (ListOfConstants.NumberOfVisibleListViewItemsForPageAddPin >= ImagesPin.Count)
+            {
+                SizeHightListView = ImagesPin.Count * SizeRow;
+            }
+            else
+            {
+                SizeHightListView = ListOfConstants.NumberOfVisibleListViewItemsForPageAddPin * SizeRow;
+            }
+        }
+
+        private void OnRemovePictureFromDB()
+        {
+
+        }
+
+        private async void OnRemovePicture(object parametr)
+        {
+            ImagePinViewModel imagePinViewModel = parametr as ImagePinViewModel;
+            
+            if(imagePinViewModel != null)
+            {
+                if(imagePinViewModel.PinId==0)
+                {
+                    ImagesPin.Remove(imagePinViewModel);
+                }
+                else
+                {
+                    var imagesPin = imagePinViewModel.ToImagesPin();
+                    var result = await _imagesPinService.DeleteImagePinModelAsync(imagesPin);
+
+                    if (result)
+                    {
+                        ImagesPin.Remove(imagePinViewModel);
+                    }
+                }
+
+                ChangeSizeListView();
+
+                if (ImagesPin.Count==0)
+                {
+                    IsVisibleListPicture = false;
+                    IsEnableIconZoom = true;
+                }
+            }
+        }
+
+        private ICommand _SaveCommand;
+        public ICommand SaveCommand => _SaveCommand ?? new Command(OnSaveOrUpdatePinModel);
+
         private ICommand _MapClickCommand;
         public ICommand MapClickCommand => _MapClickCommand ?? new Command(OnMapClickCommand);
         private ICommand _PinClickedCommand;
-        public ICommand PinClickedCommand => _PinClickedCommand?? new Command<Pin>(OnPinClickedCommand);
+        public ICommand PinClickedCommand => _PinClickedCommand ?? new Command<Pin>(OnPinClickedCommand);
         private ICommand _NavigationToMainListCommand;
-        public ICommand NavigationToMainListCommand=> _NavigationToMainListCommand?? new Command(OnNavigationToMainList);
+        public ICommand NavigationToMainListCommand => _NavigationToMainListCommand ?? new Command(OnNavigationToMainList);
+
+        #endregion
+
+        #region---Methods---
+
         private void OnPinClickedCommand(Pin parametr)
         {
             Pin pin = parametr as Pin;
@@ -69,85 +509,51 @@ namespace GpsNotepad.ViewModel
 
             }
         }
+
         private void OnMapClickCommand(object parametr)
         {
             Position position = (Position)parametr;
-            //MovingCameraPosition = position;
             Latitude = position.Latitude.ToString();
-            Longitude = position.Longitude.ToString();
-        }
-        public ICommand SaveCommand { get; set; }
-       
-
-        public List<Pin> PinViewModelList
-        {
-            get { return _pinViewModelList; }
-            set { SetProperty(ref _pinViewModelList, value); }
-        }
-        public bool MyLocationButtonVisibility
-        {
-            get { return _myLocationButtonVisibility; }
-            set { SetProperty(ref _myLocationButtonVisibility, value); }
+            Longitude =position.Longitude.ToString();
         }
 
-        public CameraUpdate InitialCameraUpdate
-        {
-            get => _initialCameraUpdate;
-            set => SetProperty(ref _initialCameraUpdate, value);
-        }
-        public bool IsEnable
-        {
-            get { return _isEnable; }
-            set { SetProperty(ref _isEnable, value); }
-        }
-        public PinViewModel PinViewModel
-        {
-            get { return pinViewModel; }
-            set { SetProperty(ref pinViewModel, value); }
-        }
-        public string Label
-        {
-            get { return _label; }
-            set{ SetProperty(ref _label, value); }
-        }
-        public string Description
-        {
-            get { return _description; }
-            set { SetProperty(ref _description, value); }
-        }
-        public string Latitude
-        {
-            get { return _latitude; }
-            set { SetProperty(ref _latitude, value); }
-        }
-        public string Longitude
-        {
-            get { return _longitude; }
-            set { SetProperty(ref _longitude, value); }
-        }
-        public Position MovingCameraPosition
-        {
-            get => _movingCameraPosition;
-            set => SetProperty(ref _movingCameraPosition, value);
-        }
-        #endregion
-        #region---Methods---
-        private bool IsFieldsFilled()
-        {
-            bool resultFilling = true;
-            if (!Validation.IsInformationInLabelAndLatitudeAndLongitude(Label, Description, Latitude, Longitude))
-            {
-                resultFilling = false;
-            }
-            return resultFilling;
-        }
         private async void OnNavigationToMainList()
         {
             await _navigationService.GoBackAsync();
         }
-        private async void SaveOrUpdatePinModel()
+
+        private async void OnSaveOrUpdatePinModel()
         {
-            if (IsFieldsFilled())
+            var result = true;
+            if (!Validation.IsValidatedLabelAndDescription(LabelOfPin) && result)
+            {
+                result = false;
+                ErrorLabel = ListOfConstants.WrongLabel;
+                LabelBorderColor = Color.Red;
+            }
+
+            if (!Validation.IsValidatedLabelAndDescription(Description) && result)
+            {
+                result = false;
+                ErrorDescription = ListOfConstants.WrongDescription;
+                DescriptionBorderColor = Color.Red;
+            }
+
+            if (!Validation.IsValidatedLongitude(Longitude) && result)
+            {
+                result = false;
+                ErrorLongitude = ListOfConstants.WrongLongitude;
+                LongitudeBorderColor = Color.Red;
+            }
+
+            if (!Validation.IsValidatedLatitude(Latitude) && result)
+            {
+                result = false;
+                ErrorLatitude = ListOfConstants.WrongLatitude;
+                LatitudeBorderColor = Color.Red;
+            }
+
+            if (result)
             {
                 bool resultOfAction = false;
                 if (PinViewModel != null)
@@ -160,23 +566,21 @@ namespace GpsNotepad.ViewModel
                 }
                 if (resultOfAction)
                 {
+                    SaveImagesPinas();
                     var parametr = new NavigationParameters();
                     parametr.Add(ListOfConstants.PinViewModel, PinViewModel);
                     await _navigationService.GoBackAsync(parametr);
                 }
             }
-            else
-            {
-                await _pageDialogService.DisplayAlertAsync(AppResource.information_is_missing_in_the_fields_label_and_latitude_and_longitude, AppResource.invalid_data_entered, "OK");
-            }
         }
+
         private async Task<bool> UpdatePinModel()
         {
             bool resultOfAction = false;
-            PinViewModel.Label = Label;
+            PinViewModel.Label = LabelOfPin;
             PinViewModel.Description = Description;
-            PinViewModel.Latitude =Convert.ToDouble(Latitude);//to do
-            PinViewModel.Longitude =Convert.ToDouble(Longitude);//to do
+            PinViewModel.Latitude = Convert.ToDouble(Latitude);
+            PinViewModel.Longitude = Convert.ToDouble(Longitude);
             var pinModel = PinViewModel.ToPinModel();
             if (pinModel != null)
             {
@@ -184,6 +588,7 @@ namespace GpsNotepad.ViewModel
             }
             return resultOfAction;
         }
+
         private async void GetAllPins()
         {
             var result = await _pinServices.GetPinListAsync();
@@ -198,15 +603,16 @@ namespace GpsNotepad.ViewModel
                 PinViewModelList = pins;
             }
         }
+
         private async Task<bool> AddPinModel()
         {
             bool resultOfAction = false;
             PinViewModel = new PinViewModel()
             {
-                Label = Label,
+                Label = LabelOfPin,
                 Description = Description,
                 Latitude = Convert.ToDouble(Latitude),
-                Longitude = Convert.ToDouble(Longitude), //To do
+                Longitude = Convert.ToDouble(Longitude),
                 ImagePath = "ic_like_gray.png"
             };
             var PinModel = PinViewModel.ToPinModel();
@@ -216,10 +622,12 @@ namespace GpsNotepad.ViewModel
                 if(resultOfAction)
                 {
                     PinViewModel.Id = PinModel.Id;
+                    PinViewModel.UserId = PinModel.UserId;
                 }
             }
             return resultOfAction;
         }
+
         #endregion
 
         public void Initialize(INavigationParameters parameters)
@@ -236,26 +644,78 @@ namespace GpsNotepad.ViewModel
             }
         }
 
+        #region ---  Overrides  ---
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(IsTapedImageOfLabel))
+            {
+                LabelOfPin = string.Empty;
+            }
+            else if (args.PropertyName == nameof(IsTapedImageOfDescription))
+            {
+                Description = string.Empty;
+            }
+            else if(args.PropertyName == nameof(IsTapedImageOfLongitude))
+            {
+                Longitude = string.Empty;
+            }
+            else if(args.PropertyName == nameof(IsTapedImageOfLatitude))
+            {
+                Latitude = string.Empty;
+            }
+
+            if (args.PropertyName == nameof(LabelOfPin) && LabelBorderColor == Color.Red && ErrorLabel != string.Empty)
+            {
+                LabelBorderColor = Color.FromHex("#D7DDE8");
+                ErrorLabel = string.Empty;
+            }
+            else if (args.PropertyName == nameof(Description) && DescriptionBorderColor == Color.Red && ErrorDescription != string.Empty)
+            {
+                DescriptionBorderColor = Color.FromHex("#D7DDE8");
+                ErrorDescription = string.Empty;
+            }
+            else if(args.PropertyName == nameof(Longitude) && LongitudeBorderColor == Color.Red && ErrorLongitude != string.Empty)
+            {
+                LongitudeBorderColor = Color.FromHex("#D7DDE8");
+                ErrorLongitude = string.Empty;
+            }
+            else if(args.PropertyName == nameof(Latitude) && LatitudeBorderColor == Color.Red && ErrorLatitude != string.Empty)
+            {
+                LatitudeBorderColor = Color.FromHex("#D7DDE8");
+                ErrorLatitude = string.Empty;
+            }
+        }
+
+        #endregion
+
+
         #region--Iterface INavigatedAware implementation-- 
+
         public void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.TryGetValue<PinViewModel>(ListOfConstants.PinModel, out PinViewModel pinViewModel))
             {
                 PinViewModel = parameters.GetValue<PinViewModel>(ListOfConstants.PinModel);
+
                 if (PinViewModel != null)
                 {
-                    Label = PinViewModel.Label;
+                    LabelOfPin = PinViewModel.Label;
                     Description = PinViewModel.Description;
-                    Longitude = PinViewModel.Longitude.ToString(); //No forget to correct!
-                    Latitude = PinViewModel.Latitude.ToString();  //No forget to correct!
+                    Longitude = PinViewModel.Longitude.ToString();
+                    Latitude = PinViewModel.Latitude.ToString();
                     MovingCameraPosition = new Position(PinViewModel.Latitude, PinViewModel.Longitude);
+                    OnGetAllImagesPin();
                 }
             }
         }
+
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
-
         }
+
         #endregion
     }
 }

@@ -1,16 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GpsNotepad.Styles.DarkTheme">
-    <Color x:Key="PageBackgroundColor">#433d3d</Color>
-    <Color x:Key="NavigationBarColor">Orange</Color>
-    <Color x:Key="PrimaryColor">Orange</Color>
-    <Color x:Key="SecondaryColor">White</Color>
-    <Color x:Key="PrimaryTextColor">White</Color>
-    <Color x:Key="SecondaryTextColor">White</Color>
-    <Color x:Key="EntryBackgroundColor">#292e2b</Color>
-    <Color x:Key="TertiaryTextColor">WhiteSmoke</Color>
-    <Color x:Key="RadioButtonBorderColor">White</Color>
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="GpsNotepad.Styles.DarkTheme">
+
+    <Color x:Key="NavigationBarColor">#007fff</Color>
+
+    <Color x:Key="EntryBackgroundColor">Transparent</Color>
+
+    <Color x:Key="RadioButtonBorderColor">Black</Color>
     <Color x:Key="Transparent">Transparent</Color>
-    <Color x:Key="LabelListViewColor">#d87520</Color>
+    <Color x:Key="LabelListViewColor">Black</Color>
+
+    <Color x:Key="PrimaryColor">#1E242B</Color>
+    <Color x:Key="SecondaryColor">#33374E</Color>
+    <Color x:Key="TertiaryColor">#7485FB</Color>
+    <Color x:Key="QuaternaryColor">#F24545</Color>
+    <Color x:Key="FivefoldColor">#D7DDE8</Color>
+
+    <Color x:Key="PrimaryTextColor">#FEFEFD</Color>     <!--  System black  -->
+    <Color x:Key="SecondaryTextColor">#FEFEFD</Color>   <!-- System Dark gray -->
+    <Color x:Key="TertiaryTextColor">#D7DDE8</Color>    <!--System gray -->
+    <Color x:Key="QuaternaryTextColor">#F24545</Color>  <!-- -->
+    <Color x:Key="FivefoldTextColor">#7485FB</Color>
+    <Color x:Key="HexTextColor">#858E9E</Color>
+
+    <!--Button-->
+
+    <Color x:Key="ButtonBackgroundColor">#596EFB</Color>
+    <Color x:Key="ButtonTextColor">#FEFEFD</Color>
+    
+    <!--Separator-->
+    <Color x:Key="SeparatorAndOrColor">#858E9E</Color>
+    <!--Title-->
+    <Color x:Key="TitleColor"></Color>
+
+    <!--EntryError-->
+    <Color x:Key="EntryError"></Color>
+
+    <!--TextEntryColor-->
+    <Color x:Key="EntryTextColor"></Color>
+
 </ResourceDictionary>

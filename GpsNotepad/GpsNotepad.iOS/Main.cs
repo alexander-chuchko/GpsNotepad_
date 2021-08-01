@@ -14,6 +14,9 @@ namespace GpsNotepad.iOS
         {
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.
+
+            //To do!!!
+
             UIApplication.Main(args, null, "AppDelegate");
         }
     }

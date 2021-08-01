@@ -60,5 +60,42 @@ namespace GpsNotepad.Helpers
             }
             return validationResult;
         }
+
+        public static bool IsValidatedLabelAndDescription(string parametr)
+        {
+            var validationResult = false;
+            if (!string.IsNullOrWhiteSpace(parametr))
+            {
+                validationResult = true;
+            }
+            return validationResult;
+        }
+
+        public static bool IsValidatedLongitude(string longitude)
+        {
+            var validationResult = false;
+            if (!string.IsNullOrWhiteSpace(longitude)&&double.TryParse(longitude, out double convertResult))
+            {
+                if(convertResult>=ListOfConstants.MinLongitude&&convertResult<=ListOfConstants.MaxLongitude)
+                {
+                    validationResult = true;
+                }
+            }
+            return validationResult;
+        }
+
+        public static bool IsValidatedLatitude(string latitude)
+        {
+            var validationResult = false;
+            if (!string.IsNullOrWhiteSpace(latitude) && double.TryParse(latitude, out double convertResult))
+            {
+                if (convertResult >= ListOfConstants.MinLatitude && convertResult <= ListOfConstants.MaxLatitude)
+                {
+                    validationResult = true;
+                }
+            }
+            return validationResult;
+        }
+
     }
 }

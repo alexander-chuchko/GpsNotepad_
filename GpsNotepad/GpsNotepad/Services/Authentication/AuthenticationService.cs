@@ -45,14 +45,17 @@ namespace GpsNotepad.Service
         {
             var relevanceСheckResult = false;
             var listOfUserModels = await _userService.GetAllUserModelAsync();
+
             if (listOfUserModels != null)
             {
                 foreach (var userModel in listOfUserModels)
                 {
-                    if (userModel.Email == email && userModel.Password == password)
+
+                    if (string.Compare(userModel.Email, email, false)==0 && string.Compare(userModel.Password, password, true)==0)
                     {
                         _settingsManager.AuthorizedUserID = userModel.Id;
                         relevanceСheckResult = true;
+
                     }
                 }
             }

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
-namespace GpsNotepad
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace GpsNotepad.View
 {
-    public partial class MainPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class PhotoView : ContentPage
     {
-        public MainPage()
+        public PhotoView()
         {
             InitializeComponent();
         }

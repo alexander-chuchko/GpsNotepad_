@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:views="clr-namespace:GpsNotepad.View"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       x:Class="GpsNotepad.View.MainPage"
+                       NavigationPage.HasNavigationBar="False"
+                       NavigationPage.HasBackButton="False">
+    
+    <StackLayout  Spacing="20"
+                  Padding="20"
+                  BackgroundColor="{DynamicResource PrimaryColor}">
+
+        <StackLayout VerticalOptions="CenterAndExpand">
+            
+            <Image Source="pic_enter_page.png"/>
+            
+            <Label Text="MapNotepad"
+                   Style="{StaticResource labelMapNotepad}"
+                   CharacterSpacing="0.04"/>
+            
+        </StackLayout>
+
+
+        <Button Text="Log in" 
+                Style="{StaticResource buttonRegistrationStyle}"
+                Command="{Binding NavigationToSignInCommand}"/>
+        
+        <Button Text="Create account"
+                Style="{StaticResource buttonCreateAccountStyle}"
+                Command="{Binding NavigationSignUpCommand}"/>
+        
+    </StackLayout>
+
+</views:BaseContentPage>

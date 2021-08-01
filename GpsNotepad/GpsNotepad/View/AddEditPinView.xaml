@@ -1,116 +1,210 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:resource="clr-namespace:GpsNotepad.Recource"
-             Title="{x:Static resource:AppResource.title_add_pin}"
-             xmlns:prism="http://prismlibrary.com"
-             NavigationPage.HasNavigationBar="False"
-             NavigationPage.HasBackButton="False"
-             x:Class="GpsNotepad.View.AddEditPinView"
-             xmlns:local="clr-namespace:GpsNotepad.Controls">
+<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:GpsNotepad.View"
+                       xmlns:resource="clr-namespace:GpsNotepad.Recource"
+                       Title="{x:Static resource:AppResource.title_add_pin}"
+                       xmlns:prism="http://prismlibrary.com"
+                       NavigationPage.HasNavigationBar="False"
+                       NavigationPage.HasBackButton="False"
+                       x:Class="GpsNotepad.View.AddEditPinView"
+                       xmlns:control="clr-namespace:GpsNotepad.Controls">
 
-    <ContentPage.Content>
-        <Grid RowDefinitions="0.12*,*" RowSpacing="0">
-            <StackLayout Orientation="Horizontal" Grid.Row="0" Spacing="0"
-                         VerticalOptions="CenterAndExpand">
-                    <Image Source="ic_left_blue.png"
-                   HorizontalOptions="Start"
-                   Margin="10, 0, 0, 0">
+    <views:BaseContentPage.Content>
+        
+        <Grid RowDefinitions="84,auto, *"
+              RowSpacing="0"
+              BackgroundColor="{DynamicResource PrimaryColor}">
+
+                <Grid Grid.Row="0"
+                      ColumnDefinitions="0.2*,0.6*,0.2*"
+                      ColumnSpacing="0"
+                      Padding="10"
+                      Background="{DynamicResource PrimaryColor}">
+                
+                    <Image Grid.Column="0"
+                           Source="ic_left_blue.png"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center">
 
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding NavigationToMainListCommand}"/>
                         </Image.GestureRecognizers>
                     </Image>
 
-                    <Label Grid.Column="0"
-                   Text="Add Pin" TextColor="Black" 
-                       FontSize="20"
-                   HorizontalOptions="CenterAndExpand"/>
-
-                <Image Grid.Column="0"
-                   Source="ic_save.png"
-                   HorizontalOptions="End"
-                   Margin="0, 0, 15, 0">
+                <Label Grid.Column="1"
+                       Style="{StaticResource titlePage}"
+                       Text="Add Pin"/>
+                
+                <Image Grid.Column="2"
+                       Source="ic_save.png"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center">
+                    
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SaveCommand}"/>
                     </Image.GestureRecognizers>
+                
                 </Image>
-                </StackLayout>
             
-            <BoxView VerticalOptions="EndAndExpand" 
-                     HeightRequest="2"
-                     BackgroundColor="LightGray"/>
-            
+            </Grid>
+
+            <BoxView VerticalOptions="EndAndExpand"
+                     Style="{StaticResource separatorForPage}"/>
+
             <StackLayout Spacing="0" 
-                         Padding="0"
-                         Grid.Row="1">
+                         Padding="0,20,0,0"
+                         Grid.Row="1"
+                         Background="{DynamicResource PrimaryColor}">
 
-                <StackLayout Margin="10"
-                             Spacing="0">
+                <StackLayout Spacing="0"
+                             Margin="20,0,20,0">
 
-                    <Label Text="Label"
-                       FontSize="16"
-                       Margin="5"
-                       TextColor="Black"/>
+                    <Label Text="Name"
+                           Style="{StaticResource labelOverEntry}"/>
 
-                    <local:CustomEntry Placeholder="Enter the label"
-                                   PlaceholderColor="Black"
-                                   Text="{Binding Label}"/>
+                    <!--Label-->
+                    <control:CustomFrameForInput PlaceholderText="{Binding PlaceholderForLabel}"
+                                                 EntryBorderColor="{Binding LabelBorderColor}"
+                                                 LabelInfo="{Binding ErrorLabel}"
+                                                 ImageSource="{Binding ImageSourceForLabel}"
+                                                 TextEntry="{Binding LabelOfPin}"
+                                                 TapImage="{Binding IsTapedImageOfLabel}"/>
+
                 </StackLayout>
 
-                <StackLayout Margin="10"
-                         Spacing="0">
+                <StackLayout Spacing="0"
+                             Margin="20,0,20,0">
 
                     <Label Text="Description"
-                       FontSize="16"
-                       Padding="5"
-                       TextColor="Black"/>
+                           Style="{StaticResource labelOverEntry}"/>
 
-                    <local:CustomEntry Placeholder="Write a description"
-                                   PlaceholderColor="Black"
-                                   Text="{Binding Description}"/>
+                    <!--Description-->
+                    <control:CustomFrameForInput PlaceholderText="{Binding PlaceholderForDescription}"
+                                                 EntryBorderColor="{Binding DescriptionBorderColor}"
+                                                 LabelInfo="{Binding ErrorDescription}"
+                                                 ImageSource="{Binding ImageSourceForDescription}"
+                                                 TextEntry="{Binding Description}"
+                                                 TapImage="{Binding IsTapedImageOfDescription}" />
+
                 </StackLayout>
 
-                <StackLayout Margin="10"
-                         Spacing="0">
+                <StackLayout Margin="20,0,20,0"
+                             Spacing="0">
 
                     <Label Text="Coordinates"
-                       FontSize="16"
-                       Padding="5"
-                       TextColor="Black"/>
+                           Style="{StaticResource labelOverEntry}"/>
 
-                    <StackLayout Orientation="Horizontal"
-                             Spacing="10">
+                    <Grid Grid.Row="1"
+                          ColumnDefinitions ="0.5*,0.5*"
+                          ColumnSpacing="10">
 
-                        <local:CustomEntry Placeholder="Longitude"
-                                       HorizontalOptions="FillAndExpand"
-                                       PlaceholderColor="Black"
-                                       Text="{Binding Longitude}"/>
+                        <!--Coordinates-->
+                        <control:CustomFrameForInput HorizontalOptions="FillAndExpand" Grid.Column="0"
+                                                     PlaceholderText="{Binding PlaceholderForLongitude}"
+                                                     EntryBorderColor="{Binding LongitudeBorderColor}"
+                                                     LabelInfo="{Binding ErrorLongitude}"
+                                                     ImageSource="{Binding ImageSourceForLongitude}"
+                                                     TextEntry="{Binding Longitude}"
+                                                     TapImage="{Binding IsTapedImageOfLongitude}"
+                                                     MaxLength="12"/>
 
-                        <local:CustomEntry Placeholder="Latitude"
-                                       HorizontalOptions="FillAndExpand"
-                                       PlaceholderColor="Black"
-                                       Text="{Binding Latitude}"/>
-                    </StackLayout>
+                        <control:CustomFrameForInput HorizontalOptions="FillAndExpand" Grid.Column="1"
+                                                     PlaceholderText="{Binding PlaceholderForLatitude}"
+                                                     EntryBorderColor="{Binding LatitudeBorderColor}"
+                                                     LabelInfo="{Binding ErrorLatitude}"
+                                                     ImageSource="{Binding ImageSourceForLatitude}"
+                                                     TextEntry="{Binding Latitude}"
+                                                     TapImage="{Binding IsTapedImageOfLatitude}"
+                                                     MaxLength="12"/>
+
+                    </Grid>
 
                 </StackLayout>
 
-                <local:CustomMap x:Name="map" VerticalOptions="FillAndExpand"
+                <StackLayout Margin="20,0,20,0" Spacing="0">
+
+                    <Label Text="Add photo"
+                           Style="{StaticResource labelOverEntry}"/>
+
+                    <ListView x:Name="imagePinList"
+                              RowHeight="{Binding SizeRow, Mode=TwoWay}"
+                              HeightRequest="{Binding SizeHightListView, Mode=TwoWay}"
+                              ItemsSource="{Binding ImagesPin}"
+                              BackgroundColor="{DynamicResource PrimaryColor}"
+                              VerticalOptions="EndAndExpand"
+                              IsVisible="{Binding IsVisibleListPicture}"
+                              SelectionMode="None"
+                              SeparatorVisibility="None">
+
+                        <ListView.ItemTemplate>
+
+                            <DataTemplate>
+
+                                <ViewCell>
+
+                                    <ViewCell.View>
+
+                                        <StackLayout Orientation="Horizontal"
+                                                     Spacing="0"
+                                                     HeightRequest="25">
+
+                                            <Label Text="{Binding NameImage}"
+                                                   Style="{StaticResource labelPathPicture}"/>
+
+                                            <ImageButton Source="ic_clear.png"
+                                                         Margin="0"
+                                                         BackgroundColor="Transparent"
+                                                         Command = "{Binding Path=BindingContext.RemovePictureCommand, 
+                                                                   Source={x:Reference imagePinList}}"
+                                                         CommandParameter="{Binding .}"/>
+
+                                        </StackLayout>
+
+                                    </ViewCell.View>
+
+                                </ViewCell>
+                                
+                            </DataTemplate>
+                            
+                        </ListView.ItemTemplate>
+                        
+                    </ListView>
+
+                    <Button Margin="0,10,0,10"
+                            Text="Add Photo"
+                            Style="{StaticResource buttonCreateAccountStyle}"
+                            Command="{Binding AddPhotoCommand}"/>
+
+                </StackLayout>
+
+            </StackLayout>
+
+            <Grid Grid.Row="2"
+                  VerticalOptions="FillAndExpand">
+
+                <control:CustomMap x:Name="map"
                              InitialCameraUpdate="{Binding InitialCameraUpdate}"
                              IsMyLocationButtonVisible="{Binding MyLocationButtonVisibility}" 
                              CameraMovingPosition="{Binding MovingCameraPosition}"
+                             IsEnableIconZoom="{Binding IsEnableIconZoom, Mode=TwoWay}"
                              PinsList="{Binding PinViewModelList}">
-                    <local:CustomMap.Behaviors>
+
+
+                    <control:CustomMap.Behaviors>
 
                         <prism:EventToCommandBehavior EventName="MapClicked"
                                               Command="{Binding MapClickCommand}"
                                               EventArgsParameterPath="Point"/>
-                    </local:CustomMap.Behaviors>
 
-                </local:CustomMap>
+                    </control:CustomMap.Behaviors>
 
-            </StackLayout>
+                </control:CustomMap>
+
+            </Grid>
+
         </Grid>
-       
-    </ContentPage.Content>
-</ContentPage>
+
+    </views:BaseContentPage.Content>
+
+</views:BaseContentPage>

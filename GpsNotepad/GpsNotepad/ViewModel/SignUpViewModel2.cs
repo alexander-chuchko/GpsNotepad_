@@ -236,14 +236,14 @@ namespace GpsNotepad.ViewModel
                 IsConfirmPassword = IsTapedImageOfConfirmPassword;
             }
 
-            if (args.PropertyName == nameof(Name) && PasswordBorderColor == Color.Red && ErrorPassword != string.Empty)
+            if (args.PropertyName == nameof(Password) && PasswordBorderColor == Color.Red && ErrorPassword != string.Empty)
             {
-                ConfirmPasswordBorderColor = Color.FromHex("#858E9E");
+                PasswordBorderColor = Color.FromHex("#D7DDE8");
                 ErrorPassword = string.Empty;
             }
-            else if (args.PropertyName == nameof(EmailAddress) && ConfirmPasswordBorderColor == Color.Red && ErrorConfirmPassword != string.Empty)
+            else if (args.PropertyName == nameof(ConfirmPassword) && ConfirmPasswordBorderColor == Color.Red && ErrorConfirmPassword != string.Empty)
             {
-                PasswordBorderColor = Color.FromHex("#858E9E");
+                ConfirmPasswordBorderColor = Color.FromHex("#D7DDE8");
                 ErrorConfirmPassword = string.Empty;
             }
         }

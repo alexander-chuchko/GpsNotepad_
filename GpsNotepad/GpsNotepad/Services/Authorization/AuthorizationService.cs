@@ -7,15 +7,17 @@ namespace GpsNotepad.Service.Authorization
     public class AuthorizationService: IAuthorizationService
     {
         private readonly ISettingsManager _settingsManager;
-        private bool _isAuthorized;
+
         public AuthorizationService(ISettingsManager settingsManager)
         {
             _settingsManager = settingsManager;
-            _isAuthorized = settingsManager.AuthorizedUserID != default(int) ? true : false;
+            _IsAuthorized = settingsManager.AuthorizedUserID != default(int) ? true : false;
         }
+
+        private bool _IsAuthorized;
         public bool IsAuthorized
         {
-            get { return _isAuthorized; }
+            get { return _IsAuthorized; }
         }
 
         public void Unauthorize()

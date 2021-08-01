@@ -1,23 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:GpsNotepad.View"
              xmlns:local="clr-namespace:GpsNotepad.Converter"
              xmlns:control="clr-namespace:GpsNotepad.Controls"
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False"
              x:Class="GpsNotepad.View.SignUpView2">
-    <ContentPage.Resources>
+
+    <views:BaseContentPage.Resources>
         <ResourceDictionary>
             <local:MultiTriggerConverter x:Key="dataHasBeenEntered"/>
         </ResourceDictionary>
-    </ContentPage.Resources>
-    <ContentPage.Content>
-        <Grid RowDefinitions="0.12*,*"
+    </views:BaseContentPage.Resources>
+
+    <views:BaseContentPage.Content>
+        
+        <Grid RowDefinitions="84,*"
               RowSpacing="0">
 
             <Grid Grid.Row="0"
                   ColumnDefinitions="0.2*,0.6*,0.2*"
-                  ColumnSpacing="0" Padding="10">
+                  ColumnSpacing="0"
+                  Padding="10"
+                  BackgroundColor="{StaticResource PrimaryColor}">
 
                 <Image Grid.Column="0"
                        Source="ic_left_blue.png"
@@ -31,26 +37,23 @@
                 </Image>
 
                 <Label Grid.Column="1"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       Text="Create an acount"
-                       TextColor="Black" 
-                       FontSize="20"/>
+                       Style="{StaticResource titlePage}"
+                       Text="Create an acount"/>
             </Grid>
 
             <BoxView VerticalOptions="EndAndExpand"
-                     HeightRequest="1.5"
-                     BackgroundColor="LightGray"/>
+                     Style="{StaticResource separatorForPage}"/>
 
             <StackLayout Spacing="40" 
                          Padding="20"
-                         Grid.Row="1">
+                         Grid.Row="1"
+                         BackgroundColor="{DynamicResource PrimaryColor}">
 
                 <StackLayout Spacing="0" >
 
                     <Label Text="Password"
-                           Padding="2"
-                           FontSize="16"/>
+                           Style="{StaticResource labelOverEntry}"/>
+                    
                     <control:CustomFrameForInput
                         x:Name="Password"
                         PlaceholderText="{Binding PlaceholderForPassword}"
@@ -65,8 +68,8 @@
 
                 <StackLayout Spacing="0">
 
-                    <Label Text="Confirm password" Padding="2"
-                           FontSize="16"/>
+                    <Label Text="Confirm password"
+                           Style="{StaticResource labelOverEntry}"/>
 
                     <control:CustomFrameForInput
                         x:Name="ConfirmPassword"
@@ -82,19 +85,17 @@
                 
                 <StackLayout Spacing="23">
 
-                    <Button BackgroundColor="#475cde"
-                            Text="Create account"
-                            FontSize="20"
-                            TextColor="White"
-                            FontFamily="Montserrat-Medium"
-                            CornerRadius="3"
+                    <Button Text="Create account"
+                            Style="{StaticResource buttonRegistrationStyle}"
                             IsEnabled="{Binding IsEnabled}"       
-                            TextTransform="None"
                             Command="{Binding CheckDataCommand}">
 
                         <Button.Triggers>
+                            
                             <MultiTrigger TargetType="Button">
+                                
                                 <MultiTrigger.Conditions>
+                                    
                                     <BindingCondition 
                                 Binding="{Binding Source={x:Reference Password},
                                 Path=TextEntry.Length, 
@@ -106,60 +107,48 @@
                                 Converter={StaticResource dataHasBeenEntered}}"
                                 Value="true"/>
                                 </MultiTrigger.Conditions>
+                                
                                 <Setter Property="IsEnabled" Value="True"/>
+                            
                             </MultiTrigger>
 
                         </Button.Triggers>
 
                     </Button>
+                    
                     <StackLayout Orientation="Horizontal"
                                  Spacing="5">
 
-                        <BoxView VerticalOptions="Center"
-                                 HorizontalOptions="FillAndExpand"
-                                 HeightRequest="1.5"
-                                 BackgroundColor="LightGray"/>
+                        <BoxView Style="{StaticResource lineForOr}"/>
 
                         <Label Text="or"
-                               VerticalOptions="Center"
-                               FontSize="18" HorizontalOptions="Center"/>
+                               Style="{StaticResource labelOr}"/>
 
-                        <BoxView  VerticalOptions="CenterAndExpand"
-                                  HorizontalOptions="FillAndExpand" 
-                                  HeightRequest="1.5"
-                                  BackgroundColor="LightGray"/>
+                        <BoxView  Style="{StaticResource lineForOr}"/>
 
                     </StackLayout>
+                    
                     <StackLayout Orientation="Horizontal"
                                  HorizontalOptions="FillAndExpand"
                                  Spacing="15">
-                        
-                        <Button BackgroundColor="White"
-                            BorderColor="LightGray"
-                            ImageSource="ic_google.png"
-                            BorderWidth="1.5"
-                            HorizontalOptions="FillAndExpand"
-                            CornerRadius="3"/>
-                        
-                        <Button BackgroundColor="White"
-                            BorderColor="LightGray"
-                            ImageSource="ic_facebook.png"
-                            BorderWidth="1.5"
-                            HorizontalOptions="FillAndExpand"
-                            CornerRadius="3"/>
-                        
-                        <Button BackgroundColor="White"
-                            BorderColor="LightGray"
-                            ImageSource="ic_apple.png"
-                            HorizontalOptions="FillAndExpand"
-                            BorderWidth="1.5"
-                            CornerRadius="3"/>
+
+                        <Button ImageSource="ic_google.png"
+                                Style="{StaticResource buttonImage}"/>
+
+                        <Button ImageSource="ic_facebook.png"
+                                Style="{StaticResource buttonImage}"/>
+
+                        <Button ImageSource="ic_apple.png"
+                                Style="{StaticResource buttonImage}"/>
 
                     </StackLayout>
+                    
                 </StackLayout>
+                
             </StackLayout>
 
         </Grid>
 
-    </ContentPage.Content>
-</ContentPage>
+    </views:BaseContentPage.Content>
+    
+</views:BaseContentPage>

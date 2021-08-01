@@ -3,7 +3,267 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
              x:Class="GpsNotepad.App">
+    
     <Application.Resources>
+        
+        <ResourceDictionary Source="Styles/LightTheme.xaml"/>
+
+        <!--Button for registration and login-->
+
+        <Style x:Key="buttonRegistrationAndLoginStyle" TargetType="Button">
+            
+            <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundColor}"/>
+            <Setter Property="TextColor" Value="{DynamicResource ButtonTextColor}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Montserrat-Medium"/>
+            
+        </Style>
+        
+        <!--Title of page-->
+
+        <Style x:Key="titlePage" TargetType="Label">
+
+            <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            
+        </Style>
+        
+        <!--Label over entry-->
+
+        <Style x:Key="labelOverEntry" TargetType="Label">
+
+            <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}" />
+            <Setter Property="FontSize" Value="16"/>
+
+        </Style>
+
+        <!--Placeholder of entry-->
+
+        <Style x:Key="entryCustomFrameForInputStyle" TargetType="Entry">
+
+            <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+            <Setter Property="HeightRequest" Value="45"/>
+            <Setter Property="PlaceholderColor" Value="{DynamicResource HexTextColor}"/>
+            <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+
+        </Style>
+
+        <!--Frame CustomFrameForInput-->
+
+        <Style x:Key="frameCustomFrameForInputStyle" TargetType="Frame">
+            
+            <Setter Property="BorderColor" Value="{DynamicResource FivefoldColor}"/>
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Setter Property="HasShadow" Value="False"/>
+            <Setter Property="CornerRadius" Value="2"/>
+
+        </Style>
+
+        <!--Label of Error-->
+
+        <Style x:Key="labelError" TargetType="Label">
+
+            <Setter Property="TextColor" Value="{DynamicResource QuaternaryTextColor}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="6"/>
+
+        </Style>
+
+        
+        <!--Label Path Of Picture-->
+        
+        <Style x:Key="labelPathPicture" TargetType="Label">
+            
+            <Setter Property="FontSize" Value="Body"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="HorizontalOptions" Value="StartAndExpand"/>
+            <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+
+        </Style>
+
+        <!--Label For Page Of Clock-->
+        
+        <Style x:Key="labelPageOfClockStyle" TargetType="Label">
+
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+
+        </Style>
+
+        <!--Entry of navbar-->
+        
+        <Style x:Key="entryOfNavbar" TargetType="Entry">
+            
+            <Setter Property="FontFamily" Value="Montserrat-Medium"/>
+            <Setter Property="TextColor" Value="{DynamicResource TertiaryTextColor}"/>
+            <Setter Property="PlaceholderColor" Value="{DynamicResource TertiaryTextColor}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BackgroundColor" Value="{DynamicResource SecondaryColor}"/>
+            
+        </Style>
+
+        <!--Frame of navbar-->
+        
+        <Style x:Key="frameOfNavbar" TargetType="Frame">
+
+            <Setter Property="BackgroundColor" Value="{DynamicResource SecondaryColor}"/>
+            <Setter Property="BorderColor" Value="{DynamicResource SecondaryColor}"/>
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="WidthRequest" Value="20"/>
+            <Setter Property="HeightRequest" Value="40"/>
+            <Setter Property="BindingContext" Value="{DynamicResource TertiaryTextColor}"/>
+
+        </Style>
+        
+        <!--Separator-->
+
+        <Style x:Key="separatorForPage" TargetType="BoxView">
+            
+            <Setter Property="BackgroundColor" Value="{DynamicResource SecondaryColor}"/>
+            <Setter Property="HeightRequest" Value="1.5"/>
+
+        </Style>
+
+        <!--Line for or-->
+
+        <Style x:Key="lineForOr" TargetType="BoxView">
+
+            <Setter Property="BackgroundColor" Value="{DynamicResource FivefoldColor}"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="HeightRequest" Value="1.5"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+
+        </Style>
+        
+        <!--Label of OR-->
+
+        <Style x:Key="labelOr" TargetType="Label">
+
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="TextColor" Value="{DynamicResource TertiaryTextColor}"/>
+
+        </Style>
+
+        <!--Floating button-->
+        
+        <Style x:Key="floatingButton" TargetType="Button">
+
+            <Setter Property="BackgroundColor" Value="{DynamicResource TertiaryColor}"/>
+            <Setter Property="WidthRequest" Value="60"/>
+            <Setter Property="HeightRequest" Value="60"/>
+            
+        </Style>
+
+        <!--Informing about the absence of pins-->
+        
+        <Style x:Key="infoPin" TargetType="Label">
+
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="TextColor" Value="{DynamicResource QuaternaryTextColor}"/>
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+
+        </Style>
+        
+        <!--Labels for listview-->
+
+        <Style x:Key="labelForPin" TargetType="Label">
+
+            <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+            <Setter Property="FontFamily" Value="FontFamily"/>
+
+        </Style>
+
+        <Style x:Key="labelDescription" TargetType="Label">
+
+            <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
+            <Setter Property="FontFamily" Value="Montserrat-Medium"/>
+            
+        </Style>
+        
+        <!-- ListView -->
+
+        <Style x:Key="backgroundOfListView" TargetType="ListView">
+
+            <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}"/>
+
+        </Style>
+        
+        <!-- CollectionView -->
+        
+        <Style x:Key="collectinViewStyle" TargetType="CollectionView">
+
+            <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}"/>
+            <Setter Property="HeightRequest" Value="80"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+
+        </Style>
+
+        <!-- Registration button -->
+        
+        <Style x:Key="buttonRegistrationStyle" TargetType="Button">
+
+            <Setter Property="BackgroundColor" Value="{DynamicResource TertiaryColor}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Montserrat-Medium"/>
+            <Setter Property="TextTransform" Value="None"/>
+            <Setter Property="TextColor" Value="{DynamicResource ButtonTextColor}"/>
+            <Setter Property="CornerRadius" Value="3"/>
+
+        </Style>
+
+        <!--Create button-->
+        
+        <Style x:Key="buttonCreateAccountStyle" TargetType="Button">
+
+            <Setter Property="FontFamily" Value="Montserrat-Medium"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="TextColor" Value="{DynamicResource FivefoldTextColor}"/>
+            <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}"/>
+            <Setter Property="TextTransform" Value="None"/>
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="BorderColor" Value="{DynamicResource FivefoldTextColor}"/>
+            <Setter Property="BorderWidth" Value="2"/>
+
+        </Style>
+        
+        <!-- Button Image -->
+
+        <Style x:Key="buttonImage" TargetType="Button">
+
+            <Setter Property="BorderColor" Value="LightGray"/>
+            <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}"/>
+            <Setter Property="BorderWidth" Value="1.5"/>
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+
+        </Style>
+
+        <Style x:Key="labelMapNotepad" TargetType="Label">
+
+            <Setter Property="TextColor" Value="{DynamicResource FivefoldTextColor}"/>
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="FontFamily" Value="Montserrat-Bold"/>
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            <Setter Property="VerticalOptions" Value="Start"/>
+
+        </Style>
+
+        <Style TargetType="ContentPage"  x:Key="ContentPageStyle">
+            
+            <Setter Property="BackgroundColor" Value="Purple" />
+            <Setter Property="Opacity" Value="0.5" />
+            
+        </Style>
 
     </Application.Resources>
+    
 </prism:PrismApplication>

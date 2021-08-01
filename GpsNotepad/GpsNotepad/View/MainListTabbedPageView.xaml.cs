@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace GpsNotepad.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainListTabbedPageView : ContentPage
+    public partial class MainListTabbedPageView : BaseContentPage
     {
         public MainListTabbedPageView()
         {

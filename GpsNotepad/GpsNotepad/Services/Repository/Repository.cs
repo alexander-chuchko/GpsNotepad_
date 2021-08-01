@@ -18,10 +18,12 @@ namespace GpsNotepad.Services.Repository
                 var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "pinbook.db3");
                 //Create a connection
                 var database_ = new SQLiteAsyncConnection(path);
-                //Create the table PinModel
-                database_.CreateTableAsync<PinModel>();
                 //Create the table UserModel
                 database_.CreateTableAsync<UserModel>();
+                //Create the table PinModel
+                database_.CreateTableAsync<PinModel>();
+                //Create the table ImagesPin
+                database_.CreateTableAsync<ImagesPin>();
                 return database_;
             });
         }

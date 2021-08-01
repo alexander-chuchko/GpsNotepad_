@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GpsNotepad.View.ClockView"
+             xmlns:controls="clr-namespace:GpsNotepad.Controls"
+             xmlns:prism="http://prismlibrary.com"
+             BackgroundColor="Transparent"
+             prism:DialogLayout.CloseOnBackgroundTapped="True"
+             Padding="30,125">
+
+    <!--      
+    <AbsoluteLayout x:Name="absoluteLayout"
+                    SizeChanged="OnAbsoluteLayoutSizeChanged">
+
+        <BoxView x:Name="hourHand"
+                 Color="Black" />
+
+        <BoxView x:Name="minuteHand"
+                 Color="Black" />
+
+        <BoxView x:Name="secondHand"
+                 Color="Black" />
+    </AbsoluteLayout> -->
+    <ContentPage.Content>
+
+        <Grid RowDefinitions="0.12*,0.12*,*"
+              RowSpacing="0"
+              BackgroundColor="{DynamicResource PrimaryColor}">
+
+            <Grid Grid.Row="0" RowSpacing="0" ColumnSpacing="0"
+                  ColumnDefinitions="0.2*,*,0.2*"
+                  Padding="2">
+
+                    <Label Grid.Column="1"
+                       Text="Favourite restairant"
+                       Style="{StaticResource labelPageOfClockStyle}"/>
+
+                    <Image Source="ic_clear.png"
+                       Grid.Column="2">
+
+                        <Image.GestureRecognizers>
+                            
+                            <TapGestureRecognizer Command="{Binding TapBackCommand}"/>
+                            
+                        </Image.GestureRecognizers>
+
+                    </Image>
+
+
+
+            </Grid>
+
+            <Grid Grid.Row="1" RowSpacing="0" Padding="2">
+
+                <StackLayout Spacing="0"
+                             Orientation="Horizontal"
+                             HorizontalOptions="CenterAndExpand">
+
+                    <Label Text="{Binding Hours, StringFormat='{0} : '}"
+                           Style="{StaticResource labelPageOfClockStyle}"/>
+
+                    <Label Text="{Binding Minutes, StringFormat=' {0} '}"
+                           Style="{StaticResource labelPageOfClockStyle}"/>
+
+                    <Label Text="CEST"
+                           Style="{StaticResource labelPageOfClockStyle}"/>
+
+                </StackLayout>
+
+            </Grid>
+
+            <Grid Grid.Row="2"
+                  Padding="0">
+                
+                <!--Location Clock-->
+                
+                <controls:CustomClock Margin="20,5"/>
+                
+            </Grid>
+
+        </Grid>
+
+    </ContentPage.Content>
+    <!--<ContentPage.Content>
+        <Frame Padding="0">
+
+            <StackLayout Spacing="0"
+                         Margin="50,100,50,100"
+                         BackgroundColor="Gray">
+
+                <Label Text="{Binding Label}"/>
+
+                <StackLayout Orientation="Horizontal" Spacing="10">
+
+                    <Label Text="{Binding Hour, StringFormat='{0}: '}"/>
+                    <Label Text="CEST" TextColor="Black" FontSize="Body"/>
+                    <local:View1/>
+                </StackLayout>
+
+            </StackLayout>
+
+        </Frame>
+
+    </ContentPage.Content> -->
+    
+</ContentPage>

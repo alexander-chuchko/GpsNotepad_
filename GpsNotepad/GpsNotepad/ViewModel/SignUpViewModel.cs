@@ -121,8 +121,8 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _IsEnabled, value); }
         }
 
-        private ICommand _NavigationSignInCommand;
-        public ICommand NavigationToSingUpCommand => _NavigationSignInCommand ?? (_NavigationSignInCommand = new Command(OnNavigationSignIn));
+        private ICommand _BackTapCommand;
+        public ICommand BackTapCommand => _BackTapCommand ?? (_BackTapCommand = new Command(OnBackTapCommand));
 
         private ICommand _CheckDataCommand;
         public ICommand CheckDataCommand => _CheckDataCommand ?? (_CheckDataCommand = new DelegateCommand(OnCheckData, CanOnCheckData).ObservesProperty(() => IsEnabled));
@@ -131,7 +131,7 @@ namespace GpsNotepad.ViewModel
 
         #region  ---  Methods   ---
 
-        private async void OnNavigationSignIn()
+        private async void OnBackTapCommand()
         {
             await _navigationService.GoBackAsync();
         }
@@ -189,12 +189,12 @@ namespace GpsNotepad.ViewModel
 
             if (args.PropertyName==nameof(Name)&&NameBorderColor == Color.Red && ErrorName != string.Empty)
             {
-                NameBorderColor = Color.FromHex("#858E9E");
+                NameBorderColor = Color.FromHex("#D7DDE8");
                 ErrorName = string.Empty;
             }
             else if(args.PropertyName == nameof(EmailAddress)&& EmailBorderColor == Color.Red && ErrorEmail != string.Empty)
             {
-                EmailBorderColor = Color.FromHex("#858E9E");
+                EmailBorderColor = Color.FromHex("#D7DDE8");
                 ErrorEmail = string.Empty;
             }
         }

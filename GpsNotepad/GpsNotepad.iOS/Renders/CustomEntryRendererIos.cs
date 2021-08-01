@@ -1,37 +1,28 @@
-﻿using Foundation;
-using GpsNotepad.Controls;
+﻿using GpsNotepad.Controls;
 using GpsNotepad.iOS.Renders;
-
 using CoreGraphics;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.iOS;
-using static Unity.Storage.RegistrationSet;
 
 [assembly: ExportRenderer(typeof(CustomEntry), typeof(CustomEntryRendererIos))]
 namespace GpsNotepad.iOS.Renders
 {
-
-
-    public class CustomEntryRendererIos
+    public class CustomEntryRendererIos:EntryRenderer
     {
-        /*
+
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {
-            base.OnElementPropertyChanged(e);
+            base.OnElementChanged(e);
 
             if (e.OldElement == null)
             {
-                Control.Layer.CornerRadius = 10;
-                Control.Layer.BorderWidth = 3f;
-                Control.Layer.BorderColor = Color.DeepPink.ToCGColor();
+                Control.Layer.CornerRadius = 4;
+                Control.Layer.BorderWidth = 2f;
+                Control.Layer.BorderColor = Color.LightGray.ToCGColor();
 
-                Control.LeftView = new UIKit.UIView(new CGRect(0, 0, 10, 0));
+                Control.LeftView = new UIKit.UIView(new CGRect(0, 0, 12, 0));
                 Control.LeftViewMode = UIKit.UITextFieldViewMode.Always;
             }
-        }
-        */
+        } 
     }
-
 }
