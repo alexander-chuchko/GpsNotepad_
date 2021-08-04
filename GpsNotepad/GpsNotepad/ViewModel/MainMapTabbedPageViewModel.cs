@@ -579,6 +579,7 @@ namespace GpsNotepad.ViewModel
                 MyLocationButtonVisibility = resultPremission;
             }
         }
+
         #region--Iterface INavigatedAware implementation--
         public void OnNavigatedTo(INavigationParameters parameters)
         {

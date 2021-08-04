@@ -1,5 +1,6 @@
 ﻿using GpsNotepad.Enum;
 using GpsNotepad.Services.Theme;
+using GpsNotepad.View;
 using Prism.Navigation;
 using System;
 using System.ComponentModel;
@@ -39,13 +40,23 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _IsCheckedTheme, value); }
         }
 
+        private ICommand _NavigationToColorClockCommand;
+
+        public ICommand NavigationToColorClockCommand => _NavigationToColorClockCommand ?? new Command(OnNavigationToColorClock);
+
+
         private ICommand _BackTapCommand;
-        public ICommand BackTapCommand => _BackTapCommand ?? (_BackTapCommand = new Command(OnBackTapCommand));
+        public ICommand BackTapCommand => _BackTapCommand ?? new Command(OnBackTapCommand);
 
         #endregion
 
 
         #region   ---   Methods   ---
+
+        private void OnNavigationToColorClock()
+        {
+            _navigationService.NavigateAsync(nameof(ColorClockView));
+        }
         private void DisplaySavedPageSettings()
         {
 

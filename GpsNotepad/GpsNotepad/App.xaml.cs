@@ -78,6 +78,7 @@ namespace GpsNotepad
             containerRegistry.RegisterForNavigation<TabbedPage1>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<SignUpView2, SignUpViewModel2>();
+            containerRegistry.RegisterForNavigation<ColorClockView, ColorClockViewModel>();
 
             //Modal pages
             containerRegistry.RegisterForNavigation<PopupView, PopupViewModel>();

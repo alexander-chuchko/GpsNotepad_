@@ -13,6 +13,9 @@
     <Color x:Key="Transparent">Transparent</Color>
     <Color x:Key="LabelListViewColor">Black</Color>
 
+    <!--Color of Clock-->
+
+    <x:String x:Key="backgroundClock">#FEFEFD</x:String>
 
     <Color x:Key="PrimaryColor">#FEFEFD</Color>
     <Color x:Key="SecondaryColor">#F1F3FD</Color>

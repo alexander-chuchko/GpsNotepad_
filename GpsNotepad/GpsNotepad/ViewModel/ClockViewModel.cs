@@ -1,17 +1,30 @@
-﻿using Prism.Navigation;
+﻿using GpsNotepad.Enum;
+using GpsNotepad.Services.Theme;
+using GpsNotepad.Services.TimeZone;
+using Prism.Navigation;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace GpsNotepad.ViewModel
 {
-    public class ClockViewModel: BaseViewModel
+    public class ClockViewModel: BaseViewModel, INavigatedAware
     {
-        public ClockViewModel(INavigationService navigationService):base(navigationService)
-        {
+        IThemeService _themeService;
 
+        private string _color;
+        public ClockViewModel(INavigationService navigationService, IThemeService themeService) :base(navigationService)
+        {
+            _themeService = themeService;
         }
 
         #region---PublicProperties---
+
+        private bool _IsDarkTheme;
+        public bool IsDarkTheme
+        {
+            get { return _IsDarkTheme; }
+            set { SetProperty(ref _IsDarkTheme, value); }
+        }
 
         private string _Minutes="32";
         public string Minutes
@@ -38,6 +51,18 @@ namespace GpsNotepad.ViewModel
         private async void OnTapBack()
         {
             await _navigationService.GoBackAsync();
+        }
+
+        #endregion
+
+        #region--Iterface INavigatedAware implementation--
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+
+        }
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+
         }
 
         #endregion

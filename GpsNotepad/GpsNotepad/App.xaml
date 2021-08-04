@@ -264,6 +264,10 @@
             
         </Style>
 
+        <!--Color of Clock-->
+
+        <x:String x:Key="backgroundClock">#1E242B</x:String>
+
     </Application.Resources>
     
 </prism:PrismApplication>

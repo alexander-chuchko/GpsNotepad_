@@ -46,8 +46,6 @@
 
                     </Image>
 
-
-
             </Grid>
 
             <Grid Grid.Row="1" RowSpacing="0" Padding="2">
@@ -57,13 +55,16 @@
                              HorizontalOptions="CenterAndExpand">
 
                     <Label Text="{Binding Hours, StringFormat='{0} : '}"
-                           Style="{StaticResource labelPageOfClockStyle}"/>
+                           Style="{StaticResource labelPageOfClockStyle}"
+                           FontAttributes="Bold"/>
 
                     <Label Text="{Binding Minutes, StringFormat=' {0} '}"
-                           Style="{StaticResource labelPageOfClockStyle}"/>
+                           Style="{StaticResource labelPageOfClockStyle}"
+                           FontAttributes="Bold"/>
 
-                    <Label Text="CEST"
-                           Style="{StaticResource labelPageOfClockStyle}"/>
+                    <Label Text=" CEST"
+                           Style="{StaticResource labelPageOfClockStyle}"
+                           FontAttributes="Bold"/>
 
                 </StackLayout>
 

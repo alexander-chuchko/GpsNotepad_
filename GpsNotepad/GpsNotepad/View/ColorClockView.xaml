@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                       xmlns:local="clr-namespace:GpsNotepad.Controls"
                        xmlns:views="clr-namespace:GpsNotepad.View"
-                       x:Class="GpsNotepad.View.SettingsView">
-
+                       x:Class="GpsNotepad.View.ColorClockView">
+    
     <views:BaseContentPage.Content>
-        
+
         <Grid RowDefinitions="84,*"
               RowSpacing="0"
               BackgroundColor="{DynamicResource PrimaryColor}">
@@ -29,9 +28,9 @@
                 </Image>
 
                 <Label Grid.Column="1"
-                       Text="Settings"
+                       Text="Clock of the clock"
                        Style="{StaticResource titlePage}"/>
-                
+
             </Grid>
 
             <BoxView Style="{StaticResource separatorForPage}"
@@ -39,50 +38,61 @@
 
             <StackLayout Grid.Row="1"
                          BackgroundColor="{DynamicResource PrimaryColor}">
-                
+
                 <StackLayout Spacing="40" 
                          Padding="20"
                          Orientation="Horizontal">
 
-                    <Label HorizontalOptions="StartAndExpand"
-                       VerticalOptions="StartAndExpand"
-                       Text="Dark theme"
-                       FontSize="Medium" 
-                       TextColor="{DynamicResource PrimaryTextColor}"/>
-
-                    <Switch HorizontalOptions="EndAndExpand"
-                        VerticalOptions="StartAndExpand"
-                        IsToggled="{Binding IsCheckedTheme}"/>
-
-                </StackLayout>
-                
-                <BoxView Style="{StaticResource separatorForPage}"
-                         VerticalOptions="Center"/>
-
-                <StackLayout Spacing="0"
-                             Orientation="Horizontal"
-                             Padding="20"
-                             VerticalOptions="Start">
+                    <RadioButton IsChecked="{Binding IsCheckedBlue}"/>
                     
                     <Label HorizontalOptions="StartAndExpand"
                            VerticalOptions="StartAndExpand"
-                           Text="Color of the clock"
+                           Text="Blue"
                            FontSize="Medium" 
                            TextColor="{DynamicResource PrimaryTextColor}"/>
 
-                    <ImageButton Source="ic_left_gray.png"
-                                 HorizontalOptions="EndAndExpand"
-                                 VerticalOptions="StartAndExpand"
-                                 BackgroundColor="Transparent"
-                                 Command="{Binding NavigationToColorClockCommand}"/>
+                </StackLayout>
+
+                <BoxView Style="{StaticResource separatorForPage}"
+                         VerticalOptions="Center"/>
+
+                <StackLayout Spacing="40" 
+                             Padding="20"
+                             Orientation="Horizontal">
+
+                    <RadioButton IsChecked="{Binding IsCheckedRed}"/>
                     
+                    <Label HorizontalOptions="StartAndExpand"
+                           VerticalOptions="StartAndExpand"
+                           Text="Red"
+                           FontSize="Medium" 
+                           TextColor="{DynamicResource PrimaryTextColor}"/>
+
+                </StackLayout>
+
+                <BoxView Style="{StaticResource separatorForPage}"
+                         VerticalOptions="Center"/>
+
+
+                <StackLayout Spacing="40" 
+                             Padding="20"
+                             Orientation="Horizontal">
+
+                    <RadioButton IsChecked="{Binding IsCheckedGreen}"/>
+
+                    <Label HorizontalOptions="StartAndExpand"
+                           VerticalOptions="StartAndExpand"
+                           Text="Green"
+                           FontSize="Medium" 
+                           TextColor="{DynamicResource PrimaryTextColor}"/>
+
                 </StackLayout>
                 
                 <BoxView Style="{StaticResource separatorForPage}"
                          VerticalOptions="Center"/>
 
             </StackLayout>
-            
+
         </Grid>
 
     </views:BaseContentPage.Content>
