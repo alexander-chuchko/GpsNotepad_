@@ -12,9 +12,13 @@ namespace GpsNotepad.Services.ImagesOfPin
 {
     public class ImagesPinService: IImagesPinService
     {
+        #region   ---    PrivateFields   ---
+
         private readonly IRepository _repository;
         private readonly ISettingsManager _settingsManager;
         private readonly IPinServices _pinServices;
+
+        #endregion
 
         public ImagesPinService(IRepository repository, ISettingsManager settingsManager, IPinServices pinServices)
         {
@@ -23,6 +27,7 @@ namespace GpsNotepad.Services.ImagesOfPin
             _pinServices = pinServices;
         }
 
+        #region    ---   Methods   ---
         public async Task<IEnumerable<ImagesPin>> GetAllImagePinModelAsync(int pinId)
         {
             IEnumerable<ImagesPin> imagePinModel = null;
@@ -122,5 +127,7 @@ namespace GpsNotepad.Services.ImagesOfPin
             }
             return resultOfAction;
         }
+
+        #endregion
     }
 }

@@ -19,6 +19,8 @@ namespace GpsNotepad.Controls
             customFrame.IsVisible = true;
         }
 
+
+
         public static readonly BindableProperty IsVisibleFrameProperty =
     BindableProperty.Create(nameof(IsVisibleFrame),
                     typeof(bool),

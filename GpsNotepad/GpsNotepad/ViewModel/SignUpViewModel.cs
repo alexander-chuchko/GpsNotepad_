@@ -20,7 +20,9 @@ namespace GpsNotepad.ViewModel
         private readonly IPageDialogService _pageDialogService;
 
         #endregion
-        public SignUpViewModel(INavigationService navigationService, IAuthenticationService authenticationService, IUserService userService, IPageDialogService pageDialogService) : base(navigationService)
+        public SignUpViewModel(INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            IUserService userService, IPageDialogService pageDialogService) : base(navigationService)
         {
             IsEnabled = false;
             _authenticationService = authenticationService;
@@ -37,12 +39,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _PlaceholderForEmail, value); }
         }
 
+
         private string _PlaceholderForName = ListOfConstants.PlaceholderEnterName;
         public string PlaceholderForName
         {
             get { return _PlaceholderForName; }
             set { SetProperty(ref _PlaceholderForName, value); }
         }
+
 
         private string _ImageSourceForEmail = ListOfConstants.ButtonClear;
         public string ImageSourceForEmail
@@ -51,12 +55,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _ImageSourceForEmail, value); }
         }
 
+
         private string _ImageSourceForName = ListOfConstants.ButtonClear;
         public string ImageSourceForName
         {
             get { return _ImageSourceForName; }
             set { SetProperty(ref _ImageSourceForName, value); }
         }
+
 
         private string _ErrorName = string.Empty;
         public string ErrorName
@@ -65,12 +71,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _ErrorName, value); }
         }
 
+
         private string _ErrorEmail = string.Empty;
         public string ErrorEmail
         {
             get { return _ErrorEmail; }
             set { SetProperty(ref _ErrorEmail, value); }
         }
+
 
         private bool _IsTapedImageOfName;
         public bool IsTapedImageOfName
@@ -79,12 +87,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _IsTapedImageOfName, value); }
         }
 
+
         private bool _IsTapedImageOfEmail;
         public bool IsTapedImageOfEmail
         {
             get { return _IsTapedImageOfEmail; }
             set { SetProperty(ref _IsTapedImageOfEmail, value); }
         }
+
 
         private Color _NameBorderColor = Color.LightGray;
         public Color NameBorderColor
@@ -93,12 +103,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _NameBorderColor, value); }
         }
 
+
         private Color _EmailBorderColor = Color.LightGray;
         public Color EmailBorderColor
         {
             get { return _EmailBorderColor; }
             set { SetProperty(ref _EmailBorderColor, value); }
         }
+
 
         private string _EmailAddress;
         public string EmailAddress
@@ -107,12 +119,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _EmailAddress, value); }
         }
 
+
         private string _Name;
         public string Name
         {
             get { return _Name; }
             set { SetProperty(ref _Name, value); }
         }
+
 
         private bool _IsEnabled;
         public bool IsEnabled
@@ -147,6 +161,7 @@ namespace GpsNotepad.ViewModel
         private void OnCheckData()
         {
             var result = true;
+
             if (!Validation.IsValidatedName(Name) && result)
             {
                 result = false;
@@ -178,10 +193,12 @@ namespace GpsNotepad.ViewModel
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
+
             if (args.PropertyName == nameof(IsTapedImageOfName))
             {
                 Name = string.Empty;
             }
+
             else if (args.PropertyName == nameof(IsTapedImageOfEmail))
             {
                 EmailAddress = string.Empty;
@@ -192,6 +209,7 @@ namespace GpsNotepad.ViewModel
                 NameBorderColor = Color.FromHex("#D7DDE8");
                 ErrorName = string.Empty;
             }
+
             else if(args.PropertyName == nameof(EmailAddress)&& EmailBorderColor == Color.Red && ErrorEmail != string.Empty)
             {
                 EmailBorderColor = Color.FromHex("#D7DDE8");

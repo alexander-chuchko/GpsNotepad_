@@ -1,16 +1,19 @@
-﻿using GpsNotepad.Helpers;
-using Xamarin.Essentials;
+﻿using Xamarin.Essentials;
 
 namespace GpsNotepad.Service.Settings
 {
     class SettingsManager : ISettingsManager
     {
-        public int AuthorizedUserID 
+
+        #region   ---   PublicProperties   ---
+
+        public int AuthorizedUserID
         {
             get => Preferences.Get(nameof(AuthorizedUserID), default(int));
             set => Preferences.Set(nameof(AuthorizedUserID), value);
         }
-        /*Properties of CameraPosition*/
+
+        /*Properties of Camera Position*/
         public double BearingCameraPosition
         {
             get => Preferences.Get(nameof(BearingCameraPosition), default(double));
@@ -52,28 +55,21 @@ namespace GpsNotepad.Service.Settings
             set => Preferences.Set(nameof(ThemType), value);
         }
 
-        /*
-        public int SortingType
+        public int ClockColorScheme
         {
-            get => Preferences.Get(nameof(SortingType), 0);
-            set => Preferences.Set(nameof(SortingType), value);
+            get => Preferences.Get(nameof(ClockColorScheme), default(int));
+            set => Preferences.Set(nameof(ClockColorScheme), value);
         }
 
-        public string SelectedLanguage
-        {
-            get =>Preferences.Get(nameof(SelectedLanguage), ListOfNames.english);
-            set => Preferences.Set(nameof(SelectedLanguage), value);
-        }
+        #endregion
 
-        public int ThemType
-        {
-            get => Preferences.Get(nameof(ThemType), 0);
-            set => Preferences.Set(nameof(ThemType), value);
-        }
-        */
+        #region    ---   Methods   ---
+
         public void ClearData()
         {
             Preferences.Clear();
         }
+
+        #endregion
     }
 }

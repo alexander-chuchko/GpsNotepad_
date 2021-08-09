@@ -10,5 +10,8 @@ namespace GpsNotepad.Services.Theme
         void PerformThemeChange(EnumSet.Theme theme);
         EnumSet.Theme GetValueTheme();
         void SetValueTheme(EnumSet.Theme themType);
+
+        EnumSet.ClockСolor GetValueColorClock();
+        void SetValueColorClock(EnumSet.ClockСolor clockСolor);
     }
 }

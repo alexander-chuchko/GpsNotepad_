@@ -8,19 +8,6 @@
              prism:DialogLayout.CloseOnBackgroundTapped="True"
              Padding="30,125">
 
-    <!--      
-    <AbsoluteLayout x:Name="absoluteLayout"
-                    SizeChanged="OnAbsoluteLayoutSizeChanged">
-
-        <BoxView x:Name="hourHand"
-                 Color="Black" />
-
-        <BoxView x:Name="minuteHand"
-                 Color="Black" />
-
-        <BoxView x:Name="secondHand"
-                 Color="Black" />
-    </AbsoluteLayout> -->
     <ContentPage.Content>
 
         <Grid RowDefinitions="0.12*,0.12*,*"
@@ -54,15 +41,11 @@
                              Orientation="Horizontal"
                              HorizontalOptions="CenterAndExpand">
 
-                    <Label Text="{Binding Hours, StringFormat='{0} : '}"
+                    <Label Text="{Binding CurrentTime, StringFormat='{0}'} "
                            Style="{StaticResource labelPageOfClockStyle}"
                            FontAttributes="Bold"/>
 
-                    <Label Text="{Binding Minutes, StringFormat=' {0} '}"
-                           Style="{StaticResource labelPageOfClockStyle}"
-                           FontAttributes="Bold"/>
-
-                    <Label Text=" CEST"
+                    <Label Text="{Binding DayLightName, StringFormat=' {0}'}"
                            Style="{StaticResource labelPageOfClockStyle}"
                            FontAttributes="Bold"/>
 
@@ -75,33 +58,18 @@
                 
                 <!--Location Clock-->
                 
-                <controls:CustomClock Margin="20,5"/>
+                <controls:CustomClock Margin="20,5"
+                                      ClockBackgroundColor="{Binding ClockColorBackground}"
+                                      HourColor="{Binding HourColor}"
+                                      MinuteColor="{Binding MinuteColor}"
+                                      SecondAndOutlineColor="{Binding SecondsAndOutlineColor}"
+                                      ClockTextColor="{Binding ClockTextColor}"
+                                      TimeZoneTime="{Binding DateTime}"/>
                 
             </Grid>
 
         </Grid>
 
     </ContentPage.Content>
-    <!--<ContentPage.Content>
-        <Frame Padding="0">
 
-            <StackLayout Spacing="0"
-                         Margin="50,100,50,100"
-                         BackgroundColor="Gray">
-
-                <Label Text="{Binding Label}"/>
-
-                <StackLayout Orientation="Horizontal" Spacing="10">
-
-                    <Label Text="{Binding Hour, StringFormat='{0}: '}"/>
-                    <Label Text="CEST" TextColor="Black" FontSize="Body"/>
-                    <local:View1/>
-                </StackLayout>
-
-            </StackLayout>
-
-        </Frame>
-
-    </ContentPage.Content> -->
-    
 </ContentPage>

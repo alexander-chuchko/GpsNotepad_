@@ -6,7 +6,8 @@
       <StackLayout>
             <Image x:Name="animationImage"
                    Source="{Binding ImageSource}"
-                   Aspect="AspectFill"/>
+                   Aspect="AspectFill"
+                   VerticalOptions="CenterAndExpand"/>
         </StackLayout>
   </ContentView.Content>
 </ContentView>

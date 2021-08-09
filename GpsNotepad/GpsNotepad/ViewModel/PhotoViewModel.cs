@@ -9,47 +9,13 @@ using Xamarin.Forms;
 
 namespace GpsNotepad.ViewModel
 {
-    public class ImagesPins
-    {
-        public int id { get; set; }
-        public string PathImage { get; set; }
-        public int UserId { get; set; }
-    }
     public class PhotoViewModel : BaseViewModel, INavigatedAware
     {
         public PhotoViewModel(INavigationService navigationService) : base(navigationService)
         {
-
-            //PathPicture = "pic_profile3.png";
         }
 
-        private List<ImagesPins> _ImagesPins = new List<ImagesPins>()
-        {
-            new ImagesPins { id = 1, PathImage = "pic_enter_page.png", UserId = 0 },
-            new ImagesPins { id = 2, PathImage = "pic_enter_page.png", UserId = 0 },
-            new ImagesPins { id = 3, PathImage = "pic_enter_page.png", UserId = 0 },
-            new ImagesPins { id = 4, PathImage = "pic_profile3.png", UserId = 0 }
-        };
-
-        public List<ImagesPins> ImagesPins1
-        {
-            get { return _ImagesPins; }
-            set { SetProperty(ref _ImagesPins, value); }
-        }
-
-
-        private List<string> _ListPathPicture = new List<string> { "pic_enter_page.png",
-            "pic_profile1.png ",
-            "pic_profile2.png",
-            "pic_profile3.png" };
-        public List<string> ListPathPicture
-        {
-            get { return _ListPathPicture; }
-            set { SetProperty(ref _ListPathPicture, value); }
-        }
-
-
-        #region---PublicProperties---
+        #region     ---   PublicProperties   ---
 
         private int _CurrentIndex;
         public int CurrentIndex
@@ -107,7 +73,10 @@ namespace GpsNotepad.ViewModel
 
         private ICommand _SwipeLeftCommand;
         public ICommand SwipeLeftAndRightCommand => _SwipeLeftCommand ?? new Command(OnSwipeLeftAndRight);
+        
+        #endregion
 
+        #region    ---   Methods   ---
 
         private void OnSwipeLeftAndRight(object parametr)
         {
@@ -126,12 +95,16 @@ namespace GpsNotepad.ViewModel
             }
         }
 
-        #endregion
-
         private void OnNavigationToMainMap()
         {
             _navigationService.GoBackAsync();
         }
+
+        #endregion
+
+
+
+        #region      ---  Iterface INavigatedAware implementation   ---
 
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
@@ -148,12 +121,15 @@ namespace GpsNotepad.ViewModel
                 {
                     PathPicture = ImagePinViewModel_.PathImage;
                 }
+
                 TotalItems = ImagePinViewModels.Count;
                 TotalItemsToDisplay = TotalItems.ToString();
                 CurrentIndex = ImagePinViewModels.IndexOf(ImagePinViewModel_);
                 CurrentIndexToDisplay=(CurrentIndex + 1).ToString();
             }
         }
+
+        #endregion
     }
 }
 

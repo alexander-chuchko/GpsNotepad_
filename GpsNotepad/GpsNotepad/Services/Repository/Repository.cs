@@ -9,7 +9,12 @@ namespace GpsNotepad.Services.Repository
 {
     public class Repository: IRepository
     {
+        #region   ---    PrivateFields   ---
+
         private readonly Lazy<SQLiteAsyncConnection> _database;
+
+        #endregion
+
         public Repository()
         {
             _database = new Lazy<SQLiteAsyncConnection>(() =>
@@ -27,21 +32,29 @@ namespace GpsNotepad.Services.Repository
                 return database_;
             });
         }
+
+        #region    ---   Methods   ---
+
         public async Task<int> DeleteAsync<T>(T entity) where T : IEntityBase, new()
         {
             return await _database.Value.DeleteAsync(entity);
         }
+
         public async Task<IEnumerable<T>> GetAllAsync<T>() where T : IEntityBase, new()
         {
             return await _database.Value.Table<T>().ToListAsync();
         }
+
         public async Task<int> InsertAsync<T>(T entity) where T : IEntityBase, new()
         {
             return await _database.Value.InsertAsync(entity);
         }
+
         public async Task<int> UpdateAsync<T>(T entity) where T : IEntityBase, new()
         {
             return await _database.Value.UpdateAsync(entity);
         }
+
+        #endregion
     }
 }

@@ -6,8 +6,9 @@ using Xamarin.Essentials;
 
 namespace GpsNotepad.Services.Media
 {
-    public class MediaService: IMediaService
+    public class MediaService : IMediaService
     {
+        #region    ---   Methods   ---
         public async Task<string> GetPhotoFromGalleryAsync()
         {
             string selectedImage = null;
@@ -44,5 +45,7 @@ namespace GpsNotepad.Services.Media
             }
             return takingPicturesImage;
         }
+
+        #endregion
     }
 }

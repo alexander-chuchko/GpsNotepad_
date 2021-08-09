@@ -13,7 +13,7 @@
 
     <views:BaseContentPage.Content>
         
-        <Grid RowDefinitions="0.15*, *"
+        <Grid RowDefinitions="84, *"
               RowSpacing="0"
               BackgroundColor="{DynamicResource PrimaryColor}">
             
@@ -44,7 +44,8 @@
                           ItemsSource="{Binding PinViewModelList}"
                           HasUnevenRows="true" 
                           SeparatorColor="{DynamicResource SecondaryColor}"
-                          IsVisible="{Binding IsVisableListView}">
+                          IsVisible="{Binding IsVisableListView}"
+                          SeparatorVisibility="None">
 
                     <ListView.ItemTemplate>
 
@@ -52,7 +53,7 @@
 
                             <ViewCell>
 
-                                <ViewCell.View >
+                                <ViewCell.View>
 
                                     <SwipeView>
 
@@ -72,7 +73,8 @@
 
                                         <StackLayout Orientation="Horizontal"
                                                      Spacing="10"
-                                                     Padding="10">
+                                                     Padding="10"
+                                                     BackgroundColor="{DynamicResource PrimaryColor}">
 
                                             <ImageButton Source="{Binding ImagePath}"
                                                          BackgroundColor="{DynamicResource SecondaryColor}"

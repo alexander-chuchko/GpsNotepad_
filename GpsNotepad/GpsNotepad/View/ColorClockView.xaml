@@ -2,7 +2,9 @@
 <views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                        xmlns:views="clr-namespace:GpsNotepad.View"
-                       x:Class="GpsNotepad.View.ColorClockView">
+                       x:Class="GpsNotepad.View.ColorClockView"
+                       NavigationPage.HasNavigationBar="False"
+                       NavigationPage.HasBackButton="False">
     
     <views:BaseContentPage.Content>
 
@@ -43,7 +45,8 @@
                          Padding="20"
                          Orientation="Horizontal">
 
-                    <RadioButton IsChecked="{Binding IsCheckedBlue}"/>
+                    <RadioButton IsChecked="{Binding IsCheckedBlue}" 
+                                 BackgroundColor="{DynamicResource PrimaryColor}"/>
                     
                     <Label HorizontalOptions="StartAndExpand"
                            VerticalOptions="StartAndExpand"
@@ -60,7 +63,8 @@
                              Padding="20"
                              Orientation="Horizontal">
 
-                    <RadioButton IsChecked="{Binding IsCheckedRed}"/>
+                    <RadioButton IsChecked="{Binding IsCheckedRed}"
+                                 BackgroundColor="{DynamicResource PrimaryColor}"/>
                     
                     <Label HorizontalOptions="StartAndExpand"
                            VerticalOptions="StartAndExpand"
@@ -73,12 +77,12 @@
                 <BoxView Style="{StaticResource separatorForPage}"
                          VerticalOptions="Center"/>
 
-
                 <StackLayout Spacing="40" 
                              Padding="20"
                              Orientation="Horizontal">
 
-                    <RadioButton IsChecked="{Binding IsCheckedGreen}"/>
+                    <RadioButton IsChecked="{Binding IsCheckedGreen}"
+                                 BackgroundColor="{DynamicResource PrimaryColor}"/>
 
                     <Label HorizontalOptions="StartAndExpand"
                            VerticalOptions="StartAndExpand"

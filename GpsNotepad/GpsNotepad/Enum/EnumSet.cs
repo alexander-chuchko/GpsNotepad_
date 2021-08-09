@@ -11,5 +11,12 @@ namespace GpsNotepad.Enum
             Light,
             Dark
         }
+
+        public enum ClockСolor
+        {
+            Blue,
+            Red,
+            Green
+        }
     }
 }

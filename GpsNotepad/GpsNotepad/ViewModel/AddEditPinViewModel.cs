@@ -19,7 +19,6 @@ using System.ComponentModel;
 using GpsNotepad.Model.ImagePin;
 using System.Collections.ObjectModel;
 using GpsNotepad.Services.ImagesOfPin;
-using Xamarin.Essentials;
 using Acr.UserDialogs;
 using GpsNotepad.Services.Media;
 using System.IO;
@@ -28,7 +27,7 @@ namespace GpsNotepad.ViewModel
 {
     public class AddEditPinViewModel:BaseViewModel, INavigatedAware, IInitialize
     {
-        #region---PrivateFields---
+        #region   ---   PrivateFields   ---
 
         private readonly IPinServices _pinServices;
         private readonly IPermissionService _permissionService;
@@ -57,14 +56,11 @@ namespace GpsNotepad.ViewModel
             _cameraService = cameraService;
             GetAllPins();
             InitialCameraUpdate = CameraUpdateFactory.NewPosition(new Position(0, 0));
-
-            //Task.Run(() => OnGetAllImagesPin());
-
             OpenGallery = OnGetPathForImageFromGallery;
             TakePhoto = OnGetPathForImageFromCamera;
         }
 
-        #region---PublicProperties---
+        #region    ---   PublicProperties   ---
 
         public Action OpenGallery { get; set; }
         public Action TakePhoto { get; set; }
@@ -76,13 +72,12 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _IsEnableIconZoom, value); }
         }
 
-        //Label - Label
 
         private ObservableCollection<ImagePinViewModel> _ImagesPin;
         public ObservableCollection<ImagePinViewModel> ImagesPin
         {
-            get => _ImagesPin;
-            set => SetProperty(ref _ImagesPin, value);
+            get { return _ImagesPin; }
+            set { SetProperty(ref _ImagesPin, value); }
         }
 
         private string _LabelOfPin;
@@ -126,19 +121,22 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _LabelBorderColor, value); }
         }
 
-        //Description
+
         private string _Description;
         public string Description
         {
             get { return _Description; }
             set { SetProperty(ref _Description, value); }
         }
+
+
         private string _ImageSourceForDescription = ListOfConstants.ButtonClear;
         public string ImageSourceForDescription
         {
             get { return _ImageSourceForDescription; }
             set { SetProperty(ref _ImageSourceForDescription, value); }
         }
+
 
         private string _ErrorDescription = string.Empty;
         public string ErrorDescription
@@ -147,12 +145,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _ErrorDescription, value); }
         }
 
+
         private string _PlaceholderForDescription = ListOfConstants.PlaceholderDescription;
         public string PlaceholderForDescription
         {
             get { return _PlaceholderForDescription; }
             set { SetProperty(ref _PlaceholderForDescription, value); }
         }
+
 
         private bool _IsTapedImageOfDescription;
         public bool IsTapedImageOfDescription
@@ -161,6 +161,7 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _IsTapedImageOfDescription, value); }
         }
 
+
         private Color _DescriptionBorderColor = Color.LightGray;
         public Color DescriptionBorderColor
         {
@@ -168,14 +169,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _DescriptionBorderColor, value); }
         }
 
-        //Longitude
-        private string _Longitude;
 
+        private string _Longitude;
         public string Longitude
         {
             get { return _Longitude; }
             set { SetProperty(ref _Longitude, value); }
         }
+
 
         private string _ImageSourceForLongitude = ListOfConstants.ButtonClear;
         public string ImageSourceForLongitude
@@ -184,12 +185,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _ImageSourceForLongitude, value); }
         }
 
+
         private string _ErrorLongitude = string.Empty;
         public string ErrorLongitude
         {
             get { return _ErrorLongitude; }
             set { SetProperty(ref _ErrorLongitude, value); }
         }
+
 
         private string _PlaceholderForLongitude = ListOfConstants.PlaceholderLongitude;
         public string PlaceholderForLongitude
@@ -198,12 +201,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _PlaceholderForLongitude, value); }
         }
 
+
         private bool _IsTapedImageOfLongitude;
         public bool IsTapedImageOfLongitude
         {
             get { return _IsTapedImageOfLongitude; }
             set { SetProperty(ref _IsTapedImageOfLongitude, value); }
         }
+
 
         private Color _LongitudeBorderColor = Color.LightGray;
         public Color LongitudeBorderColor
@@ -213,13 +218,13 @@ namespace GpsNotepad.ViewModel
         }
 
 
-        //Latitude
         private string _Latitude;
         public string Latitude
         {
-            get { return string.Format(_Latitude); }
+            get { return _Latitude; }
             set { SetProperty(ref _Latitude, value); }
         }
+
 
         private string _ImageSourceForLatitude = ListOfConstants.ButtonClear;
         public string ImageSourceForLatitude
@@ -228,12 +233,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _ImageSourceForLatitude, value); }
         }
 
+
         private string _ErrorLatitude = string.Empty;
         public string ErrorLatitude
         {
             get { return _ErrorLatitude; }
             set { SetProperty(ref _ErrorLatitude, value); }
         }
+
 
         private string _PlaceholderForLatitude = ListOfConstants.PlaceholderLatitude;
         public string PlaceholderForLatitude
@@ -242,12 +249,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _PlaceholderForLatitude, value); }
         }
 
+
         private bool _IsTapedImageOfLatitude;
         public bool IsTapedImageOfLatitude
         {
             get { return _IsTapedImageOfLatitude; }
             set { SetProperty(ref _IsTapedImageOfLatitude, value); }
         }
+
 
         private Color _LatitudeBorderColor = Color.LightGray;
         public Color LatitudeBorderColor
@@ -256,12 +265,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _LatitudeBorderColor, value); }
         }
 
+
         private List<Pin> _PinViewModelList;
         public List<Pin> PinViewModelList
         {
             get { return _PinViewModelList; }
             set { SetProperty(ref _PinViewModelList, value); }
         }
+
 
         private bool _MyLocationButtonVisibility;
         public bool MyLocationButtonVisibility
@@ -270,12 +281,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _MyLocationButtonVisibility, value); }
         }
 
+
         private CameraUpdate _InitialCameraUpdate;
         public CameraUpdate InitialCameraUpdate
         {
-            get => _InitialCameraUpdate;
-            set => SetProperty(ref _InitialCameraUpdate, value);
+            get { return _InitialCameraUpdate; }
+            set { SetProperty(ref _InitialCameraUpdate, value); }
         }
+
 
         private bool _IsEnable;
         public bool IsEnable
@@ -284,6 +297,7 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _IsEnable, value); }
         }
 
+
         private PinViewModel _PinViewModel;
         public PinViewModel PinViewModel
         {
@@ -291,41 +305,62 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _PinViewModel, value); }
         }
 
+
         private Position _MovingCameraPosition;
         public Position MovingCameraPosition
         {
-            get => _MovingCameraPosition;
-            set => SetProperty(ref _MovingCameraPosition, value);
+            get { return _MovingCameraPosition; }
+            set { SetProperty(ref _MovingCameraPosition, value); }
         }
+
 
         private bool _IsVisibleListPicture;
         public bool IsVisibleListPicture
         {
-            get => _IsVisibleListPicture;
-            set => SetProperty(ref _IsVisibleListPicture, value);
+            get { return _IsVisibleListPicture; }
+            set { SetProperty(ref _IsVisibleListPicture, value); }
         }
+
 
         private int _SizeRow = ListOfConstants.HeightRowForAddPage;
         public int SizeRow
         {
-            get => _SizeRow;
-            set => SetProperty(ref _SizeRow, value);
+            get { return _SizeRow; }
+            set { SetProperty(ref _SizeRow, value); }
         }
+
 
         private int _SizeHightListView;
         public int SizeHightListView
         {
-            get => _SizeHightListView;
-            set => SetProperty(ref _SizeHightListView, value);
+            get { return _SizeHightListView; }
+            set { SetProperty(ref _SizeHightListView, value); }
         }
 
-        private ICommand _RemovePictureCommand;
 
+        private ICommand _RemovePictureCommand;
         public ICommand RemovePictureCommand => _RemovePictureCommand ?? new Command(OnRemovePicture);
 
-        private ICommand _AddPhotoCommand;
 
+        private ICommand _AddPhotoCommand;
         public ICommand AddPhotoCommand => _AddPhotoCommand ?? new Command(OnAddPhoto);
+
+
+        private ICommand _SaveCommand;
+        public ICommand SaveCommand => _SaveCommand ?? new Command(OnSaveOrUpdatePinModel);
+
+
+        private ICommand _MapClickCommand;
+        public ICommand MapClickCommand => _MapClickCommand ?? new Command(OnMapClickCommand);
+
+
+        private ICommand _NavigationToMainListCommand;
+        public ICommand NavigationToMainListCommand => _NavigationToMainListCommand ?? new Command(OnNavigationToMainList);
+
+        #endregion
+
+
+        #region     ---   Methods   ---
 
         private void OnAddPhoto()
         {
@@ -335,25 +370,25 @@ namespace GpsNotepad.ViewModel
         private async void OnGetAllImagesPin()
         {
             var imagesPinAll = await _imagesPinService.GetAllImagePinModelAsync(PinViewModel.Id);
-            
+
             if (imagesPinAll != null && imagesPinAll.ToList().Count != 0)
             {
                 var imagePinViewModels = new ObservableCollection<ImagePinViewModel>();
 
-                foreach(ImagesPin imagesPin in imagesPinAll)
+                foreach (ImagesPin imagesPin in imagesPinAll)
                 {
                     var imagesPinViewModel = imagesPin.ToImagePinViewModel();
-                    if (imagesPinViewModel!=null)
+                    if (imagesPinViewModel != null)
                     {
                         imagePinViewModels.Add(imagesPinViewModel);
                     }
                 }
-                ImagesPin=imagePinViewModels;
+                ImagesPin = imagePinViewModels;
 
                 IsEnableIconZoom = false;
                 IsVisibleListPicture = true;
 
-                ChangeSizeListView(); 
+                ChangeSizeListView();
             }
             else
             {
@@ -365,7 +400,7 @@ namespace GpsNotepad.ViewModel
         {
             var pathImage = await _mediaService.GetPhotoFromGalleryAsync();
 
-            if(pathImage!=null)
+            if (pathImage != null)
             {
                 OnCreateImagePin(pathImage);
             }
@@ -399,7 +434,7 @@ namespace GpsNotepad.ViewModel
 
         private async void SaveImagesPinas()
         {
-            if(ImagesPin!=null&& ImagesPin.Count!=0)
+            if (ImagesPin != null && ImagesPin.Count != 0)
             {
                 foreach (ImagePinViewModel imagePinViewModel in ImagesPin)
                 {
@@ -418,12 +453,13 @@ namespace GpsNotepad.ViewModel
             }
         }
 
+
         private void OnCreateImagePin(string pathNewImagePin)
         {
             ImagePinViewModel imagePinViewModel = new ImagePinViewModel()
             {
                 PathImage = pathNewImagePin,
-                NameImage=Path.GetFileName(pathNewImagePin)
+                NameImage = Path.GetFileName(pathNewImagePin)
             };
 
             if (ImagesPin == null)
@@ -438,7 +474,6 @@ namespace GpsNotepad.ViewModel
             IsVisibleListPicture = true;
             IsEnableIconZoom = false;
         }
-
         private void ChangeSizeListView()
         {
             if (ListOfConstants.NumberOfVisibleListViewItemsForPageAddPin >= ImagesPin.Count)
@@ -451,18 +486,13 @@ namespace GpsNotepad.ViewModel
             }
         }
 
-        private void OnRemovePictureFromDB()
-        {
-
-        }
-
         private async void OnRemovePicture(object parametr)
         {
             ImagePinViewModel imagePinViewModel = parametr as ImagePinViewModel;
-            
-            if(imagePinViewModel != null)
+
+            if (imagePinViewModel != null)
             {
-                if(imagePinViewModel.PinId==0)
+                if (imagePinViewModel.PinId == 0)
                 {
                     ImagesPin.Remove(imagePinViewModel);
                 }
@@ -479,7 +509,7 @@ namespace GpsNotepad.ViewModel
 
                 ChangeSizeListView();
 
-                if (ImagesPin.Count==0)
+                if (ImagesPin.Count == 0)
                 {
                     IsVisibleListPicture = false;
                     IsEnableIconZoom = true;
@@ -487,34 +517,11 @@ namespace GpsNotepad.ViewModel
             }
         }
 
-        private ICommand _SaveCommand;
-        public ICommand SaveCommand => _SaveCommand ?? new Command(OnSaveOrUpdatePinModel);
-
-        private ICommand _MapClickCommand;
-        public ICommand MapClickCommand => _MapClickCommand ?? new Command(OnMapClickCommand);
-        private ICommand _PinClickedCommand;
-        public ICommand PinClickedCommand => _PinClickedCommand ?? new Command<Pin>(OnPinClickedCommand);
-        private ICommand _NavigationToMainListCommand;
-        public ICommand NavigationToMainListCommand => _NavigationToMainListCommand ?? new Command(OnNavigationToMainList);
-
-        #endregion
-
-        #region---Methods---
-
-        private void OnPinClickedCommand(Pin parametr)
-        {
-            Pin pin = parametr as Pin;
-            if (pin != null)
-            {
-
-            }
-        }
-
         private void OnMapClickCommand(object parametr)
         {
             Position position = (Position)parametr;
-            Latitude = position.Latitude.ToString();
-            Longitude =position.Longitude.ToString();
+            Longitude = string.Format("{0,12:N10}", position.Longitude).ToString();
+            Latitude = string.Format("{0,12:N10}", position.Latitude).ToString();
         }
 
         private async void OnNavigationToMainList()
@@ -628,8 +635,6 @@ namespace GpsNotepad.ViewModel
             return resultOfAction;
         }
 
-        #endregion
-
         public void Initialize(INavigationParameters parameters)
         {
             InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(_cameraService.GetDataCameraPosition());
@@ -644,7 +649,10 @@ namespace GpsNotepad.ViewModel
             }
         }
 
-        #region ---  Overrides  ---
+        #endregion
+
+
+        #region     ---   Overrides   ---
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
@@ -692,7 +700,7 @@ namespace GpsNotepad.ViewModel
         #endregion
 
 
-        #region--Iterface INavigatedAware implementation-- 
+        #region   ---   Iterface INavigatedAware implementation   --- 
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {

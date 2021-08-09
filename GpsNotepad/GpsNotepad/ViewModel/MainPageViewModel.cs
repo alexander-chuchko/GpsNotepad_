@@ -11,11 +11,20 @@ namespace GpsNotepad.ViewModel
         {
             
         }
+
+
+        #region   ---   PublicProperties   ---
+
         private ICommand _NavigationToSignInCommand;
         public ICommand NavigationToSignInCommand => _NavigationToSignInCommand ?? (_NavigationToSignInCommand= new Command(OnNavigationToSignIn));
 
+
         private ICommand _NavigationSignUpCommand;
         public ICommand NavigationSignUpCommand => _NavigationSignUpCommand ?? (_NavigationSignUpCommand= new Command(OnNavigationSignUp));
+
+        #endregion
+
+        #region    ---   Methods   ---
 
         private async void OnNavigationToSignIn()
         {
@@ -25,5 +34,7 @@ namespace GpsNotepad.ViewModel
         {
             await _navigationService.NavigateAsync(nameof(SignUpView));
         }
+
+        #endregion
     }
 }

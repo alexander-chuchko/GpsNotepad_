@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace GpsNotepad.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PhotoView : ContentPage
+    public partial class PhotoView : BaseContentPage
     {
         public PhotoView()
         {

@@ -7,7 +7,8 @@ namespace GpsNotepad.Services.TimeZone
 {
     public interface ITimeZoneService
     {
-        void GetCurrentTime(Position position);
+        DateTimeOffset GetCurrentTime(Position position);
+        TimeZoneInfo GetTypeTime(Position position);
 
     }
 }

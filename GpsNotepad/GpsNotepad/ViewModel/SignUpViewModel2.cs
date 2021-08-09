@@ -15,7 +15,7 @@ namespace GpsNotepad.ViewModel
 {
     public class SignUpViewModel2: BaseViewModel, INavigatedAware
     {
-        #region---PrivateFields---
+        #region     ---   PrivateFields    ---
 
         private readonly IAuthenticationService _authenticationService;
         private readonly IUserService _userService;
@@ -24,7 +24,11 @@ namespace GpsNotepad.ViewModel
 
         #endregion
 
-        public SignUpViewModel2(INavigationService navigationService, IAuthenticationService authenticationService, IAuthorizationService authorizationService, IUserService userService, IPageDialogService pageDialogService) : base(navigationService)
+        public SignUpViewModel2(INavigationService navigationService,
+            IAuthenticationService authenticationService,
+            IAuthorizationService authorizationService,
+            IUserService userService,
+            IPageDialogService pageDialogService) : base(navigationService)
         {
             IsEnabled = false;
             _authenticationService = authenticationService;
@@ -33,7 +37,7 @@ namespace GpsNotepad.ViewModel
             _pageDialogService = pageDialogService;
         }
 
-        #region---PublicProperties---
+        #region    ---   PublicProperties   ---
 
         private bool _IsPassword;
         public bool IsPassword
@@ -42,12 +46,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _IsPassword, value); }
         }
 
+
         private bool _IsConfirmPassword;
         public bool IsConfirmPassword
         {
             get { return _IsConfirmPassword; }
             set { SetProperty(ref _IsConfirmPassword, value); }
         }
+
 
         private bool _IsTapedImageOfConfirmPassword;
         public bool IsTapedImageOfConfirmPassword
@@ -56,12 +62,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _IsTapedImageOfConfirmPassword, value); }
         }
 
+
         private bool _IsTapedImageOfPassword;
         public bool IsTapedImageOfPassword
         {
             get { return _IsTapedImageOfPassword; }
             set { SetProperty(ref _IsTapedImageOfPassword, value); }
         }
+
 
         private string _ImageSourceForPassword = ListOfConstants.ButtonEye;
         public string ImageSourceForPassword
@@ -70,12 +78,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _ImageSourceForPassword, value); }
         }
 
+
         private string _ImageSourceForConfirmPassword = ListOfConstants.ButtonEye;
         public string ImageSourceForConfirmPassword
         {
             get { return _ImageSourceForConfirmPassword; }
             set { SetProperty(ref _ImageSourceForConfirmPassword, value); }
         }
+
 
         private string _ErrorPassword = string.Empty;
         public string ErrorPassword
@@ -84,12 +94,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _ErrorPassword, value); }
         }
 
+
         private string _ErrorConfirmPassword = string.Empty;
         public string ErrorConfirmPassword
         {
             get { return _ErrorConfirmPassword; }
             set { SetProperty(ref _ErrorConfirmPassword, value); }
         }
+
 
         private Color _PasswordBorderColor = Color.LightGray;
         public Color PasswordBorderColor
@@ -98,12 +110,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _PasswordBorderColor, value); }
         }
 
+
         private Color _PasswordConfirmBorderColor = Color.LightGray;
         public Color ConfirmPasswordBorderColor
         {
             get { return _PasswordConfirmBorderColor; }
             set { SetProperty(ref _PasswordConfirmBorderColor, value); }
         }
+
 
         private string _PlaceholderForPassword = ListOfConstants.PlaceholderEnterPassword;
         public string PlaceholderForPassword
@@ -112,12 +126,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _PlaceholderForPassword, value); }
         }
 
+
         private string _PlaceholderForConfirmPassword = ListOfConstants.PlaceholderEnterConfirmPassword;
         public string PlaceholderForConfirmPassword
         {
             get { return _PlaceholderForConfirmPassword; }
             set { SetProperty(ref _PlaceholderForConfirmPassword, value); }
         }
+
 
         private string _Name;
         public string Name
@@ -126,12 +142,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _Name, value); }
         }
 
+
         private string _EmailAddress;
         public string EmailAddress
         {
             get { return _EmailAddress; }
             set { SetProperty(ref _EmailAddress, value); }
         }
+
 
         private string _ConfirmPasword;
         public string ConfirmPassword
@@ -140,6 +158,7 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _ConfirmPasword, value); }
         }
 
+
         private string _Password;
         public string Password
         {
@@ -147,12 +166,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _Password, value); }
         }
 
+
         private UserModel _UserModel;
         public UserModel UserModel
         {
             get { return _UserModel; }
             set { SetProperty(ref _UserModel, value); }
         }
+
 
         private bool _IsEnabled;
         public bool IsEnabled
@@ -169,7 +190,7 @@ namespace GpsNotepad.ViewModel
 
         #endregion
 
-        #region---Methods---
+        #region   ---   Methods   ---
 
         private async void OnNavigateToSignUp()
         {
@@ -179,7 +200,7 @@ namespace GpsNotepad.ViewModel
         {
             var parametr = new NavigationParameters();
             parametr.Add(ListOfConstants.NewUser, UserModel);
-            await _navigationService.NavigateAsync($"/{nameof(SignInView)}", parametr);
+            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MainPage)}/{nameof(SignInView)}", parametr);
         }
 
         private async void OnCheckData()
@@ -220,7 +241,7 @@ namespace GpsNotepad.ViewModel
 
         #endregion
 
-        #region -- Overrides --
+        #region    ---   Overrides   ---
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
@@ -250,7 +271,7 @@ namespace GpsNotepad.ViewModel
 
         #endregion
 
-        #region---   Iterface INavigatedAware implementation   ---
+        #region    ---   Iterface INavigatedAware implementation   ---
 
         public void OnNavigatedFrom(INavigationParameters parameters)
         { 

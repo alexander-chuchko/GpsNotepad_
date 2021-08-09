@@ -14,13 +14,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace GpsNotepad.ViewModel
 {
-    public class MainListTabbedPageViewModel: BaseViewModel, IInitializeAsync, INavigatedAware
+    public class MainListTabbedPageViewModel: BaseViewModel, IInitialize, INavigatedAware
     {
         #region---PrivateFields---
 
@@ -154,12 +153,12 @@ namespace GpsNotepad.ViewModel
         public ICommand NavigationToAddPinCommand => _NavigationToAddPinCommand ?? new Command(OnNavigationToAddPin);
         #endregion
 
-        #region---Methods---
+        #region     ---    Methods   ---
 
         private async void OnNavigationToMainPage()
         {
             LoggingOutUser();
-            await _navigationService.NavigateAsync($"/{nameof(MainPage)}");
+            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MainPage)}");
         }
         private void OnImageTap(object parametr)
         {
@@ -308,10 +307,8 @@ namespace GpsNotepad.ViewModel
                 }
             }
         }
-        #endregion
 
-        #region---Overriding---
-        public async Task InitializeAsync(INavigationParameters parameters)
+        public async void Initialize(INavigationParameters parameters)
         {
             var listPinModelsOfCurrentUser = await _pinServices.GetPinListAsync();
             if (listPinModelsOfCurrentUser.ToList().Count == 0 || listPinModelsOfCurrentUser == null)
@@ -325,37 +322,29 @@ namespace GpsNotepad.ViewModel
                 PinViewModelList.AddRange(profileViewModelList);
             }
         }
-        /*
-         //Try to run IOS
-        public void Initialize(INavigationParameters parameters)
-        {
-            GetAllPins();
-            //Task.Run(() => GetAllPins());
-            if (_pins.ToList().Count == 0 || _pins == null)
-            {
-                ToggleVisibility(true, false);
-            }
-            else
-            {
-                ToggleVisibility(false, true);
-                var profileViewModelList = ConvertingPinModelToPinViewModel(_pins);
-                PinViewModelList.AddRange(profileViewModelList);
-            }
-        }
 
-        private async void GetAllPins()
+        #endregion
+
+        #region    ---   Overriding   ---
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-            IEnumerable <PinModel> pins = new List<PinModel>();
-            pins = await _pinServices.GetPinListAsync();
-            _pins = pins;
+            base.OnPropertyChanged(args);
+            if (args.PropertyName == nameof(SearchText))
+            {
+                ShowRelevantPins();
+            }
         }
-        */
+        #endregion
+
+        #region      ---  Iterface INavigatedAware implementation   ---
+
         public void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.TryGetValue<PinViewModel>(ListOfConstants.PinViewModel, out PinViewModel pinViewModel))
             {
                 var pinViewModelUpdate = PinViewModelList.FirstOrDefault(x => x.Id == pinViewModel.Id);
-                if(pinViewModelUpdate != null)
+                if (pinViewModelUpdate != null)
                 {
                     int index = PinViewModelList.IndexOf(pinViewModelUpdate);
                     PinViewModelList[index].Label = pinViewModel.Label;
@@ -367,24 +356,18 @@ namespace GpsNotepad.ViewModel
                 else
                 {
                     PinViewModelList.Add(pinViewModel);
-                    if (PinViewModelList.Count != 0&& !IsVisableListView)
+                    if (PinViewModelList.Count != 0 && !IsVisableListView)
                     {
                         ToggleVisibility(false, true);
                     }
                 }
             }
         }
+
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
         }
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            base.OnPropertyChanged(args);
-            if (args.PropertyName == nameof(SearchText))
-            {
-                ShowRelevantPins();
-            }
-        }
+
         #endregion
     }
 }

@@ -8,13 +8,20 @@ namespace GpsNotepad.Service
 {
     public class AuthenticationService: IAuthenticationService
     {
+        #region   ---    PrivateFields   ---
+
         private readonly IUserService _userService;
         private readonly ISettingsManager _settingsManager;
+
+        #endregion
+
         public AuthenticationService(ISettingsManager settingsManager, IUserService userService)
         {
             _settingsManager = settingsManager;
             _userService = userService;
         }
+
+        #region    ---   Methods   ---
         public async Task<UserModel> SignUpAsync(string email, string password, string name)
         {
             var uniquenessCheckResult = true;
@@ -61,5 +68,7 @@ namespace GpsNotepad.Service
             }
             return relevanceСheckResult;
         }
+
+        #endregion
     }
 }

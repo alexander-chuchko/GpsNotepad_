@@ -10,7 +10,7 @@ namespace GpsNotepad.Helpers
         static Validation()
         {
             patternForName = new Regex(@"^[A-Z]([a-z][A-Z]?){2,15}$");
-            patternForEmailAddress = new Regex(@"^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}");
+            patternForEmailAddress = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
             patternForPassword = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z!#$%&()*+,./:;<=>?@^_{|}[\]~\d]{8,16}");
         }
         public static bool IsValidatedName(string name)

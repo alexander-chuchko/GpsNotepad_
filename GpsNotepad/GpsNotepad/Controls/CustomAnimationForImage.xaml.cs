@@ -11,6 +11,9 @@ namespace GpsNotepad.Controls
         {
             InitializeComponent();
         }
+
+        #region ---   Public properties   ---
+
         public static readonly BindableProperty ImageSourceProperty =
             BindableProperty.Create(nameof(ImageSource),
                             typeof(string),
@@ -24,6 +27,10 @@ namespace GpsNotepad.Controls
             set => SetValue(ImageSourceProperty, value);
         }
 
+        #endregion
+
+        #region ---   Private helpers   ---
+
         private static async void ImageSourcePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             CustomAnimationForImage customImage = bindable as CustomAnimationForImage;
@@ -32,6 +39,7 @@ namespace GpsNotepad.Controls
             {
                 if (!string.IsNullOrWhiteSpace((string)newValue))
                 { 
+
                     var customImageControl = customImage.animationImage;
 
                     await Task.WhenAny<bool>(customImageControl.FadeTo(0, 500),customImageControl.ScaleTo(0,500));
@@ -42,5 +50,7 @@ namespace GpsNotepad.Controls
                 }
             }
         }
+
+        #endregion
     }
 }

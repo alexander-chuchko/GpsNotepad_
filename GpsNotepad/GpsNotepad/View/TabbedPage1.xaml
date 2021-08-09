@@ -5,6 +5,8 @@
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             xmlns:behaviors="clr-namespace:GpsNote.Behaviors"
             android:TabbedPage.ToolbarPlacement="Bottom"
+            NavigationPage.HasNavigationBar="False"
+            NavigationPage.HasBackButton="False"
             SelectedTabColor="{DynamicResource TertiaryColor}"
             UnselectedTabColor="{DynamicResource TertiaryTextColor}"
             BarBackgroundColor="{DynamicResource PrimaryColor}"

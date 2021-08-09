@@ -12,7 +12,7 @@ namespace GpsNotepad.Controls
             InitializeComponent();
         }
 
-        #region --- Public properties ---
+        #region ---   Public properties   ---
 
         public static readonly BindableProperty MaxLengthProperty =
             BindableProperty.Create(nameof(MaxLength),
@@ -27,7 +27,6 @@ namespace GpsNotepad.Controls
             get => (int)GetValue(MaxLengthProperty);
             set => SetValue(MaxLengthProperty, value);
         }
-
 
 
         public static readonly BindableProperty TextEntryProperty =
@@ -107,7 +106,6 @@ namespace GpsNotepad.Controls
                             defaultValue: default,
                             propertyChanged: PlaceholderTextPropertyChanged);
 
-
         public string PlaceholderText
         {
             get => (string)GetValue(PlaceholderTextProperty);
@@ -129,7 +127,8 @@ namespace GpsNotepad.Controls
 
         #endregion
 
-        #region -- Private helpers --
+
+        #region ---   Private helpers   ---
 
         private static void MaxLengthPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {

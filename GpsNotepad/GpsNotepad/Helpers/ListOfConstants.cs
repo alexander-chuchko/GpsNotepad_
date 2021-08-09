@@ -1,4 +1,6 @@
-﻿namespace GpsNotepad.Helpers
+﻿using System.Collections.Generic;
+
+namespace GpsNotepad.Helpers
 {
     public class ListOfConstants
     {
@@ -11,6 +13,8 @@
         public const string PathSelectedPicture = "PathPicture";
         public const string SelectedPinData = "PinData";
         public const string SelectedImage = "SelectedImage";
+        public const string TimeZone = "TimeZone";
+        public Dictionary<bool, bool> keyValuePairs = new Dictionary<bool, bool>(1);
         //languages
         public const string English = "English";
 
@@ -61,6 +65,7 @@
 
         public const int MinLongitude = -180;
         public const int MaxLongitude = 180;
+
 
     }
 }

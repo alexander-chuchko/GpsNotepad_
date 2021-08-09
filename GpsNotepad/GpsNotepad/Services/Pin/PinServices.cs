@@ -11,13 +11,19 @@ namespace GpsNotepad.Services.Pin
 {
     public class PinServices : IPinServices
     {
+        #region   ---    PrivateFields   ---
+
         private readonly IRepository _repository;
         private readonly ISettingsManager _settingsManager;
+
+        #endregion
         public PinServices(IRepository repository, ISettingsManager settingsManager)
         {
             _repository = repository;
             _settingsManager = settingsManager;
         }
+
+        #region    ---   Methods   ---
         public async Task<List<PinModel>> GetPinListAsync(string keyWord=null)
         {
             List<PinModel> pinViewModelsById = null;
@@ -110,5 +116,7 @@ namespace GpsNotepad.Services.Pin
         {
             return _settingsManager.StateOfTextInSearchBar;
         }
+
+        #endregion
     }
 }

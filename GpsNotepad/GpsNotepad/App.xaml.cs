@@ -120,7 +120,7 @@ namespace GpsNotepad
                 //var result = await NavigationService.NavigateAsync($"{ nameof(ClockView)}");
                 //var result = await NavigationService.NavigateAsync($"{nameof(AddEditPinView)}");
                 //var result= await NavigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(TabbedPage1)}");
-                var result =await NavigationService.NavigateAsync($"{ nameof(TabbedPage1)}");
+                var result =await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(TabbedPage1)}");
                 //var result = await NavigationService.NavigateAsync($"{nameof(MainPage)}");
                 if (!result.Success)
                 {
@@ -134,7 +134,7 @@ namespace GpsNotepad
                 //var result = await NavigationService.NavigateAsync($"{ nameof(TabbedPage1)}");
                 //var result=  await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInView)}");
                 //var result = await NavigationService.NavigateAsync($"{ nameof(ClockView)}");
-                var result = await NavigationService.NavigateAsync($"{nameof(MainPage)}");
+                var result = await NavigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(MainPage)}");
                 if (!result.Success)
                 {
                     System.Diagnostics.Debugger.Break();

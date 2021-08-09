@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                       xmlns:local="clr-namespace:GpsNotepad.Controls"
                        xmlns:views="clr-namespace:GpsNotepad.View"
-                       x:Class="GpsNotepad.View.SettingsView">
+                       x:Class="GpsNotepad.View.SettingsView"
+                       NavigationPage.HasNavigationBar="False"
+                       NavigationPage.HasBackButton="False">
 
     <views:BaseContentPage.Content>
         
@@ -37,46 +38,63 @@
             <BoxView Style="{StaticResource separatorForPage}"
                      VerticalOptions="EndAndExpand"/>
 
+            
             <StackLayout Grid.Row="1"
                          BackgroundColor="{DynamicResource PrimaryColor}">
+
                 
-                <StackLayout Spacing="40" 
-                         Padding="20"
-                         Orientation="Horizontal">
+                <Grid ColumnDefinitions="0.8*, 0.2*"
+                      Margin="20,20,5,20"
+                      ColumnSpacing="0"
+                      RowSpacing="0">
 
-                    <Label HorizontalOptions="StartAndExpand"
-                       VerticalOptions="StartAndExpand"
-                       Text="Dark theme"
-                       FontSize="Medium" 
-                       TextColor="{DynamicResource PrimaryTextColor}"/>
+                    <Label Grid.Column="0"
+                           HorizontalOptions="StartAndExpand"
+                           VerticalOptions="Center"
+                           Text="Dark theme"
+                           FontSize="Medium" 
+                           TextColor="{DynamicResource PrimaryTextColor}"/>
 
-                    <Switch HorizontalOptions="EndAndExpand"
-                        VerticalOptions="StartAndExpand"
-                        IsToggled="{Binding IsCheckedTheme}"/>
+                    <Switch Grid.Column="1"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="CenterAndExpand"
+                            IsToggled="{Binding IsCheckedTheme}"/>
 
-                </StackLayout>
+                </Grid>
+
                 
                 <BoxView Style="{StaticResource separatorForPage}"
                          VerticalOptions="Center"/>
 
-                <StackLayout Spacing="0"
-                             Orientation="Horizontal"
-                             Padding="20"
-                             VerticalOptions="Start">
+                
+                <Grid ColumnDefinitions="0.8*, 0.2*"
+                      Margin="20,20,5,20"
+                      ColumnSpacing="0"
+                      RowSpacing="0">
                     
-                    <Label HorizontalOptions="StartAndExpand"
-                           VerticalOptions="StartAndExpand"
+                    
+                    <Label Grid.Column="0"
+                           HorizontalOptions="StartAndExpand"
+                           VerticalOptions="Center"  
                            Text="Color of the clock"
                            FontSize="Medium" 
                            TextColor="{DynamicResource PrimaryTextColor}"/>
 
-                    <ImageButton Source="ic_left_gray.png"
-                                 HorizontalOptions="EndAndExpand"
-                                 VerticalOptions="StartAndExpand"
-                                 BackgroundColor="Transparent"
-                                 Command="{Binding NavigationToColorClockCommand}"/>
-                    
-                </StackLayout>
+
+                    <Image Grid.Column="1" 
+                           Source="ic_left_gray.png"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           BackgroundColor="Transparent">
+                        
+                        <Image.GestureRecognizers>
+
+                            <TapGestureRecognizer Command="{Binding NavigationToColorClockCommand}"/>
+
+                        </Image.GestureRecognizers>
+                    </Image>
+
+                </Grid>
                 
                 <BoxView Style="{StaticResource separatorForPage}"
                          VerticalOptions="Center"/>

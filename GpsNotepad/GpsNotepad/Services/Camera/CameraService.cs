@@ -5,11 +5,18 @@ namespace GpsNotepad.Services.Camera
 {
     public class CameraService: ICameraService
     {
+        #region   ---    PrivateFields   ---
+
         private readonly ISettingsManager _settingsManager;
+
+        #endregion
         public CameraService(ISettingsManager settingsManager)
         {
             _settingsManager = settingsManager;
         }
+
+        #region    ---   Methods   ---
+
         public void SaveDataCameraPosition(CameraPosition cameraPosition)
         {
             _settingsManager.BearingCameraPosition = cameraPosition.Bearing;
@@ -39,5 +46,7 @@ namespace GpsNotepad.Services.Camera
             }
             return cameraPosition;
         }
+
+        #endregion
     }
 }

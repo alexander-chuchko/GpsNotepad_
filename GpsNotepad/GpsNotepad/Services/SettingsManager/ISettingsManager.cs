@@ -11,9 +11,7 @@
         bool IsEnabledUserLocationButton { get; set; }
         string StateOfTextInSearchBar{get; set;}
         int ThemType { get; set; }
-
-        //int SortingType { get; set; }
-        //string SelectedLanguage { get; set; }
+        int ClockColorScheme { get; set; }
         void ClearData();
     }
 }

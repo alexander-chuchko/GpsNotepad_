@@ -12,7 +12,11 @@ namespace GpsNotepad.Controls
         {
             InitializeComponent();
         }
+
+        #region ---   Public properties   ---
+
         /*------SettingsTapCommand------*/
+
         public static readonly BindableProperty SettingsTapCommandProperty =
             BindableProperty.Create(nameof(SettingsTapCommand),
                 typeof(ICommand),
@@ -21,14 +25,6 @@ namespace GpsNotepad.Controls
                 defaultBindingMode: BindingMode.TwoWay,
                 propertyChanged: SettingsTapCommandPropertyChanged);
 
-        private static void SettingsTapCommandPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            CustomNavBar customNavBar = bindable as CustomNavBar;
-            if(customNavBar!=null)
-            {
-                customNavBar.SettingsTapCommand = (ICommand)newValue;
-            }
-        }
 
         public ICommand SettingsTapCommand
         {
@@ -50,15 +46,6 @@ namespace GpsNotepad.Controls
             set => SetValue(BackTapCommandProperty, value);
         }
 
-        private static void BackTapCommandPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            CustomNavBar customNavBar = bindable as CustomNavBar;
-
-            if (customNavBar != null)
-            {
-                customNavBar.BackTapCommand = (ICommand)newValue;
-            }
-        }
 
         /*----ExitTapCommand---*/
         public static readonly BindableProperty ExitTapCommandProperty =
@@ -68,16 +55,6 @@ namespace GpsNotepad.Controls
                                     defaultValue: default(ICommand),
                                     defaultBindingMode: BindingMode.TwoWay,
                                     propertyChanged: ExitTapCommandPropertyChanged);
-
-        private static void ExitTapCommandPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            CustomNavBar customNavBar = bindable as CustomNavBar;
-
-            if (customNavBar != null)
-            {
-                customNavBar.ExitTapCommand = (ICommand)newValue;
-            }
-        }
 
         public ICommand ExitTapCommand
         {
@@ -93,16 +70,6 @@ namespace GpsNotepad.Controls
                                    defaultValue: string.Empty,
                                    defaultBindingMode: BindingMode.OneWayToSource,
                                    propertyChanged: SearchTextPropertyChanged);
-
-        private static void SearchTextPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            CustomNavBar  customNavBar = bindable as CustomNavBar;
-
-            if (customNavBar != null)
-            {
-                customNavBar.SearchText = (string)newValue;
-            }
-        }
 
         public string SearchText
         {
@@ -124,6 +91,50 @@ namespace GpsNotepad.Controls
             get => (bool)GetValue(ExitSearchProperty);
             set => SetValue(ExitSearchProperty, value);
         }
+
+        #endregion
+
+        #region ---   Private helpers   ---
+
+        private static void SettingsTapCommandPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            CustomNavBar customNavBar = bindable as CustomNavBar;
+            if (customNavBar != null)
+            {
+                customNavBar.SettingsTapCommand = (ICommand)newValue;
+            }
+        }
+
+        private static void BackTapCommandPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            CustomNavBar customNavBar = bindable as CustomNavBar;
+
+            if (customNavBar != null)
+            {
+                customNavBar.BackTapCommand = (ICommand)newValue;
+            }
+        }
+
+        private static void ExitTapCommandPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            CustomNavBar customNavBar = bindable as CustomNavBar;
+
+            if (customNavBar != null)
+            {
+                customNavBar.ExitTapCommand = (ICommand)newValue;
+            }
+        }
+
+        private static void SearchTextPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            CustomNavBar customNavBar = bindable as CustomNavBar;
+
+            if (customNavBar != null)
+            {
+                customNavBar.SearchText = (string)newValue;
+            }
+        }
+
         private static void ExitSearchPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             CustomNavBar customNavBar = bindable as CustomNavBar;
@@ -137,19 +148,18 @@ namespace GpsNotepad.Controls
                     customNavBar.grid.HorizontalOptions = LayoutOptions.FillAndExpand;
                     customNavBar.grid.Padding = new Thickness(0, 0, 0, 0);
                     customNavBar.imageClear.IsVisible = false;
-                    //customNavBar.settingsIcon.Source = "ic_settings.png";
                     customNavBar.searchEntry.Text = string.Empty;
-                    /*--------------*/
                     customNavBar.backIcon.IsVisible = false;
                     customNavBar.settingsIcon.IsVisible = true;
                 }
             }
         }
 
-        private  void ExitSearchBar(object sender, EventArgs e)
-        {
 
+        private void ExitSearchBar(object sender, EventArgs e)
+        {
         }
+
         private void SearchBar_Focused(object sender, FocusEventArgs e)
         {
             ExitSearch = false;
@@ -164,7 +174,6 @@ namespace GpsNotepad.Controls
         private void ImageClear_Tapped(object sender, EventArgs e)
         {
             searchEntry.Text = string.Empty;
-    
         }
 
         private void SearchEntry_TextChanged(object sender, TextChangedEventArgs e)
@@ -175,5 +184,7 @@ namespace GpsNotepad.Controls
             }
             SearchText = (string)e.NewTextValue;
         }
+
+        #endregion
     }
 }

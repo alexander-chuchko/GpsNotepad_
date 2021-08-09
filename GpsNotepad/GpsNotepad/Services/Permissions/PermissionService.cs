@@ -9,13 +9,19 @@ namespace GpsNotepad.Services.Permissions
 {
     public class PermissionService: IPermissionService
 	{
+		#region   ---    PrivateFields   ---
+
 		private readonly IUserDialogs _userDialogs;
 		private readonly ISettingsManager _settingsManager;
-		public PermissionService(IUserDialogs userDialogs, ISettingsManager settingsManager)
+
+        #endregion
+        public PermissionService(IUserDialogs userDialogs, ISettingsManager settingsManager)
         {
 			_userDialogs = userDialogs;
 			_settingsManager = settingsManager;
 		}
+
+		#region    ---   Methods   ---
 		public void SetStatusPermission(bool value)
         {
 			_settingsManager.IsEnabledUserLocationButton=value;
@@ -29,15 +35,14 @@ namespace GpsNotepad.Services.Permissions
 			bool result = false;
 			try
 			{
-				//Проверяем статус разрешения
+
 				PermissionStatus status = await CrossPermissions.Current.CheckPermissionStatusAsync<LocationPermission>();
 				if (status != PermissionStatus.Granted)
 				{
-					//Для чего выполняем запрос
+
 					if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
 					{
 						await _userDialogs.AlertAsync("Need location", "Gunna need that location", "OK");
-						//status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
 					}
 					//
 					status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
@@ -50,5 +55,7 @@ namespace GpsNotepad.Services.Permissions
 			}
 			return result;
 		}
-	}
+
+        #endregion
+    }
 }

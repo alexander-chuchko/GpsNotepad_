@@ -15,19 +15,21 @@
 
     <views:BaseContentPage.Content>
 
-        <Grid RowDefinitions="0.15*, *"
+        <Grid RowDefinitions="84, *"
               RowSpacing="0" 
               BackgroundColor="{DynamicResource PrimaryColor}">
-            
-            <Grid.GestureRecognizers>
-                <TapGestureRecognizer  NumberOfTapsRequired="1"
-                                       Command="{Binding CloseCommand}"/>
-            </Grid.GestureRecognizers>
             
             <StackLayout Grid.Column="0"
                          Padding="0"
                          Margin="0"
                          Spacing="0">
+                
+                <StackLayout.GestureRecognizers>
+                    
+                    <TapGestureRecognizer  NumberOfTapsRequired="1"
+                                           Command="{Binding CloseCommand}"/>
+                    
+                </StackLayout.GestureRecognizers>
 
                 <control:CustomNavBar SettingsTapCommand="{Binding NavigationToSettingsView}"
                                     VerticalOptions="CenterAndExpand"
@@ -96,6 +98,7 @@
                                                       Command="{Binding ListItemTapCommand}"
                                                       CommandParameter="{Binding SelectedItem, Source={x:Reference MyListView}}"/>
                     </ListView.Behaviors>
+                    
                 </ListView>
 
                 <control:CustomMap x:Name="map" VerticalOptions="FillAndExpand"
@@ -103,27 +106,24 @@
                              IsMyLocationButtonVisible="{Binding MyLocationButtonVisibility}" 
                              CameraMovingPosition="{Binding MovingCameraPosition}"
                              PinsList="{Binding PinViewModelList}">
-                    
+
                     <control:CustomMap.Behaviors>
-                        
+
                         <prism:EventToCommandBehavior EventName="PinClicked"
                                                       Command="{Binding PinClickedCommand}"
                                                       EventArgsParameterPath="Pin"/>
                         <prism:EventToCommandBehavior EventName="CameraChanged"
                                                       Command="{Binding CameraChangedCommand}"
                                                       EventArgsParameterPath=""/>
-                        <prism:EventToCommandBehavior EventName="MapClicked"
-                                                      Command="{Binding SavePositionCommand}"
-                                                      EventArgsParameterPath="Point"/>
                         <prism:EventToCommandBehavior EventName="CameraIdled"
                                                       Command="{Binding SaveLastPositionAfterMoveCommand}"
                                                       EventArgsParameterPath ="Position" />
                         <prism:EventToCommandBehavior EventName="MapClicked"
                                               Command="{Binding MapClickCommand}"/>
-                    </control:CustomMap.Behaviors>
-                    
-                </control:CustomMap>
 
+                    </control:CustomMap.Behaviors>
+
+                </control:CustomMap>
 
             </StackLayout>
 

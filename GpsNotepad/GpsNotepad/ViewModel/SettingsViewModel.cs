@@ -87,11 +87,6 @@ namespace GpsNotepad.ViewModel
             await _navigationService.GoBackAsync();
         }
 
-        private void ShowRelevantPins()
-        {
-            throw new NotImplementedException();
-        }
-
         private void SaveThemeSettings()
         {
             if (IsCheckedTheme)
@@ -108,6 +103,8 @@ namespace GpsNotepad.ViewModel
         }
         #endregion
 
+
+        #region    ---   Overriding   ---
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
@@ -116,6 +113,9 @@ namespace GpsNotepad.ViewModel
                 ChangeTheme();
             }
         }
+
+        #endregion
+
 
         #region  ---   Iterface INavigatedAware implementation   ---
 

@@ -5,8 +5,32 @@
              x:Class="GpsNotepad.App">
     
     <Application.Resources>
-        
+
         <ResourceDictionary Source="Styles/LightTheme.xaml"/>
+
+        <!--Color of Clock-->
+
+        <x:String x:Key="clockColorBackgroundForThemDark">#33374E</x:String>
+        <x:String x:Key="clockColorBackgroundForThemLight">#F1F3FD</x:String>
+        <x:String x:Key="clockTextColorForThemDark">#FEFEFD</x:String>
+        <x:String x:Key="clockTextColorForThemLight">#1E242B</x:String>
+        
+
+        <!--Blue-->
+        <x:String x:Key="minuteColorBlue">#273BC6</x:String>
+        <x:String x:Key="secondsAndOutlineColorBlue">#C7CDF5</x:String>
+        <x:String x:Key="hourColorBlue">#596EFB</x:String>
+
+        <!--Red-->
+        <x:String x:Key="minuteColorRed">#C62727</x:String>
+        <x:String x:Key="secondsAndOutlineColorRed">#F5C7C7</x:String>
+        <x:String x:Key="hourColorRed">#DD4949</x:String>
+
+
+        <!--Green-->
+        <x:String x:Key="minuteColorGreen">#00FFB1</x:String>
+        <x:String x:Key="secondsAndOutlineColorGreen">#73eeae</x:String>
+        <x:String x:Key="hourColorGreen">#32D27F</x:String>
 
         <!--Button for registration and login-->
 
@@ -258,15 +282,13 @@
         </Style>
 
         <Style TargetType="ContentPage"  x:Key="ContentPageStyle">
-            
+
             <Setter Property="BackgroundColor" Value="Purple" />
             <Setter Property="Opacity" Value="0.5" />
-            
+
         </Style>
 
-        <!--Color of Clock-->
 
-        <x:String x:Key="backgroundClock">#1E242B</x:String>
 
     </Application.Resources>
     

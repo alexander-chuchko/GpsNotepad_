@@ -5,7 +5,7 @@
     
   <ContentView.Content>
       
-      <StackLayout Spacing="0">
+      <StackLayout Spacing="0" Margin="0,2,0,0">
           
             <Frame x:Name="frame"
                    Style="{StaticResource frameCustomFrameForInputStyle}"

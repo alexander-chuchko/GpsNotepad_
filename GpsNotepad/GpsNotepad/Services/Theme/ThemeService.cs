@@ -8,19 +8,40 @@ namespace GpsNotepad.Services.Theme
 {
     public class ThemeService : IThemeService
     {
+        #region   ---    PrivateFields   ---
+
         private readonly ISettingsManager _settingsManager;
+
+        #endregion
+
+
+        #region    ---   Methods   ---
+
         public ThemeService(ISettingsManager settingsManager)
         {
             _settingsManager = settingsManager;
         }
+
         public void SetValueTheme(EnumSet.Theme theme)
         {
             _settingsManager.ThemType = (int)theme;
         }
+
         public EnumSet.Theme GetValueTheme()
         {
             return (EnumSet.Theme)_settingsManager.ThemType;
         }
+
+        public EnumSet.ClockСolor GetValueColorClock()
+        {
+            return (EnumSet.ClockСolor)_settingsManager.ClockColorScheme;
+        }
+
+        public void SetValueColorClock(EnumSet.ClockСolor clockСolor)
+        {
+            _settingsManager.ClockColorScheme = (int)clockСolor;
+        }
+
         public void PerformThemeChange(EnumSet.Theme theme)
         {
             ICollection<ResourceDictionary> mergedDictionaries = Application.Current.Resources.MergedDictionaries;
@@ -39,5 +60,7 @@ namespace GpsNotepad.Services.Theme
                 }
             }
         }
+
+        #endregion
     }
 }

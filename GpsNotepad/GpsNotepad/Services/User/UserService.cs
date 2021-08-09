@@ -9,12 +9,18 @@ namespace GpsNotepad.Service.User
 {
     public class UserService: IUserService
     {
+        #region   ---    PrivateFields   ---
+
         private readonly IRepository _repository;
+
+        #endregion
 
         public UserService(IRepository repository)
         {
             _repository = repository;
         }
+
+        #region    ---   Methods   ---
         public async Task<IEnumerable<UserModel>> GetAllUserModelAsync()
         {
             IEnumerable<UserModel> userModels = null;
@@ -76,5 +82,7 @@ namespace GpsNotepad.Service.User
             }
             return resultOfAction;
         }
+
+        #endregion
     }
 }

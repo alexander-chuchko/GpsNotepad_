@@ -15,7 +15,7 @@ namespace GpsNotepad.ViewModel
 {
     public class SignInViewModel : BaseViewModel, INavigatedAware
     {
-        #region   ---PrivateFields---
+        #region   ---   PrivateFields   ---
 
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
@@ -42,12 +42,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _IsPassword, value); }
         }
 
+
         private bool _IsTapedImageOfEmail;
         public bool IsTapedImageOfEmail
         {
             get { return _IsTapedImageOfEmail; }
             set { SetProperty(ref _IsTapedImageOfEmail, value); }
         }
+
 
         private bool _IsTapedImageOfPassword;
         public bool IsTapedImageOfPassword
@@ -56,12 +58,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _IsTapedImageOfPassword, value); }
         }
 
+
         private Color _EmailBorderColor = Color.LightGray;
         public Color EmailBorderColor
         {
             get { return _EmailBorderColor; }
             set { SetProperty(ref _EmailBorderColor, value); }
         }
+
 
         private Color _PasswordBorderColor = Color.LightGray;
         public Color PasswordBorderColor
@@ -70,12 +74,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _PasswordBorderColor, value); }
         }
 
+
         private string _ImageSourceForEmail = ListOfConstants.ButtonClear;
         public string ImageSourceForEmail
         {
             get { return _ImageSourceForEmail; }
             set { SetProperty(ref _ImageSourceForEmail, value); }
         }
+
 
         private string _ImageSourceForPassword = ListOfConstants.ButtonEye;
         public string ImageSourceForPassword
@@ -84,12 +90,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _ImageSourceForPassword, value); }
         }
 
+
         private string _ErrorEmail = string.Empty;
         public string ErrorEmail
         {
             get { return _ErrorEmail; }
             set { SetProperty(ref _ErrorEmail, value); }
         }
+
 
         private string _ErrorPassword = string.Empty;
         public string ErrorPassword
@@ -98,12 +106,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _ErrorPassword, value); }
         }
 
+
         private string _PlaceholderForEmail = ListOfConstants.PlaceholderEnterEmail;
         public string PlaceholderForEmail
         {
             get { return _PlaceholderForEmail; }
             set { SetProperty(ref _PlaceholderForEmail, value); }
         }
+
 
         private string _PlaceholderForPassword = ListOfConstants.PlaceholderEnterPassword;
         public string PlaceholderForPassword
@@ -112,12 +122,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _PlaceholderForPassword, value); }
         }
 
+
         private string _EmailAddress;
         public string EmailAddress
         {
             get { return _EmailAddress; }
             set { SetProperty(ref _EmailAddress, value); }
         }
+
 
         private string _Password;
         public string Password
@@ -126,6 +138,7 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _Password, value); }
         }
 
+
         private bool _IsEnabled;
         public bool IsEnabled
         {
@@ -133,12 +146,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _IsEnabled, value); }
         }
 
+
         private UserModel _UserModel;
         public UserModel UserModel
         {
             get { return _UserModel; }
             set { SetProperty(ref _UserModel, value); }
         }
+
 
         private ICommand _NavigationToSingUpCommand;
         public ICommand NavigationToSingUpCommand => _NavigationToSingUpCommand ?? (_NavigationToSingUpCommand = new Command(OnNavigationToSingUp));
@@ -151,24 +166,27 @@ namespace GpsNotepad.ViewModel
 
         #endregion
 
-        #region---Methods---
+        #region    ---   Methods   ---
         private async void OnNavigateToMainPage()
         {
             await _navigationService.GoBackAsync();
         }
+
         private async void OnNavigationToSingUp()
         {
             await _navigationService.NavigateAsync($"{ nameof(SignUpView)}");
         }
+
         private bool CanOnCheckData()
         {
             return IsEnabled;
         }
+
         private async void OnCheckData()
         {
             if (await _authenticationService.SignInAsync(EmailAddress, Password))
             {
-                await _navigationService.NavigateAsync($"{ nameof(TabbedPage1)}");
+                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{ nameof(TabbedPage1)}");
             }
             else
             {
@@ -181,7 +199,7 @@ namespace GpsNotepad.ViewModel
 
         #endregion
 
-        #region -- Overrides --
+        #region    ---   Overrides   ---
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
@@ -210,7 +228,8 @@ namespace GpsNotepad.ViewModel
 
         #endregion
 
-        #region--Iterface INavigatedAware implementation--
+        #region    ---   Iterface INavigatedAware implementation   ---
+
         public void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.TryGetValue<UserModel>(ListOfConstants.NewUser, out UserModel userModel))
