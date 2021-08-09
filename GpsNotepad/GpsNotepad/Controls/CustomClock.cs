@@ -211,7 +211,6 @@ namespace GpsNotepad.Controls
             sKCanvas.DrawLine(-90, 0, -83, 0, paintLine);
             sKCanvas.DrawLine(90, 0, 83, 0, paintLine);
 
-
             //Digitals
             sKCanvas.DrawText("12", -7, -70, paintText);
             sKCanvas.DrawText("6", -4, 77, paintText);
@@ -305,7 +304,6 @@ namespace GpsNotepad.Controls
         }
 
         #endregion
-
 
     }
 }

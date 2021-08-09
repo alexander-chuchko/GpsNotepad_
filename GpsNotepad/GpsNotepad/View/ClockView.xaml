@@ -14,16 +14,18 @@
               RowSpacing="0"
               BackgroundColor="{DynamicResource PrimaryColor}">
 
-            <Grid Grid.Row="0" RowSpacing="0" ColumnSpacing="0"
+            <Grid Grid.Row="0"
+                  RowSpacing="0"
+                  ColumnSpacing="0"
                   ColumnDefinitions="0.2*,*,0.2*"
                   Padding="2">
 
                     <Label Grid.Column="1"
-                       Text="Favourite restairant"
-                       Style="{StaticResource labelPageOfClockStyle}"/>
+                           Text="Favourite restairant"
+                           Style="{StaticResource labelPageOfClockStyle}"/>
 
                     <Image Source="ic_clear.png"
-                       Grid.Column="2">
+                           Grid.Column="2">
 
                         <Image.GestureRecognizers>
                             
@@ -35,7 +37,9 @@
 
             </Grid>
 
-            <Grid Grid.Row="1" RowSpacing="0" Padding="2">
+            <Grid Grid.Row="1"
+                  RowSpacing="0"
+                  Padding="2">
 
                 <StackLayout Spacing="0"
                              Orientation="Horizontal"

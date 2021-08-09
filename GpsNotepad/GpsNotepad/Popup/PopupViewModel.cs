@@ -98,9 +98,6 @@ namespace GpsNotepad.Popup
 
             await _navigationService.GoBackAsync();
 
-            //var parameters = new NavigationParameters();
-            //parameters.Add(ListOfConstants.SelectedImage, imagePinData);
-            //await _navigationService.NavigateAsync(nameof(PhotoView), parameters, useModalNavigation: true);
         }
         private void OnNavigationToMainMap()
         {

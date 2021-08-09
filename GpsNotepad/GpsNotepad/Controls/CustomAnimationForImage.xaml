@@ -2,12 +2,18 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GpsNotepad.Controls.CustomAnimationForImage">
+    
   <ContentView.Content>
+      
       <StackLayout>
+          
             <Image x:Name="animationImage"
                    Source="{Binding ImageSource}"
                    Aspect="AspectFill"
                    VerticalOptions="CenterAndExpand"/>
+          
         </StackLayout>
+      
   </ContentView.Content>
+    
 </ContentView>

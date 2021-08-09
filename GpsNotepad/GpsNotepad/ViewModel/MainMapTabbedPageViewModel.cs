@@ -414,7 +414,7 @@ namespace GpsNotepad.ViewModel
             var parameters = new NavigationParameters();
 
             parameters.Add(ListOfConstants.SelectedImage, imagePinData);
-            await _navigationService.NavigateAsync(nameof(PhotoView), parameters, useModalNavigation: true);
+            await _navigationService.NavigateAsync(nameof(PhotoView), parameters);
         }
 
         private async void OnPinClick(object parametr)

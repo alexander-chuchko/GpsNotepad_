@@ -90,7 +90,6 @@ namespace GpsNotepad
         protected override async void OnInitialized()
         {
             InitializeComponent();
-
             
             var displayInfo = DeviceDisplay.MainDisplayInfo;
 
@@ -101,14 +100,6 @@ namespace GpsNotepad
 
             Resources.Add(nameof(widthImageForCollectionView), widthImageForCollectionView);
     
-            //var result1 = await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainPage)}");
-            /*
-            var result1 = await NavigationService.NavigateAsync(nameof(SignUpView2));
-            if (!result1.Success)
-            {
-                System.Diagnostics.Debugger.Break();
-            }
-            */
 
             if (AuthorizationService.IsAuthorized)
             {
@@ -116,12 +107,8 @@ namespace GpsNotepad
                 {
                     ThemeService.PerformThemeChange(ThemeService.GetValueTheme());
                 }
-                //var result = await NavigationService.NavigateAsync($"{nameof(SettingsView)}");
-                //var result = await NavigationService.NavigateAsync($"{ nameof(ClockView)}");
-                //var result = await NavigationService.NavigateAsync($"{nameof(AddEditPinView)}");
-                //var result= await NavigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(TabbedPage1)}");
                 var result =await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(TabbedPage1)}");
-                //var result = await NavigationService.NavigateAsync($"{nameof(MainPage)}");
+
                 if (!result.Success)
                 {
                     System.Diagnostics.Debugger.Break();
@@ -129,11 +116,6 @@ namespace GpsNotepad
             }
             else
             {
-                //var result = await NavigationService.NavigateAsync($"{nameof(SettingsView)}");
-                //var result = await NavigationService.NavigateAsync($"{nameof(AddEditPinView)}");
-                //var result = await NavigationService.NavigateAsync($"{ nameof(TabbedPage1)}");
-                //var result=  await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInView)}");
-                //var result = await NavigationService.NavigateAsync($"{ nameof(ClockView)}");
                 var result = await NavigationService.NavigateAsync($"/{ nameof(NavigationPage)}/{ nameof(MainPage)}");
                 if (!result.Success)
                 {
