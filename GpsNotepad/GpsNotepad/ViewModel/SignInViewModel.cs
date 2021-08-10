@@ -35,7 +35,7 @@ namespace GpsNotepad.ViewModel
 
         #region  ---  PublicProperties  ---
 
-        private bool _IsPassword;
+        private bool _IsPassword=true;
         public bool IsPassword
         {
             get { return _IsPassword; }
@@ -83,7 +83,7 @@ namespace GpsNotepad.ViewModel
         }
 
 
-        private string _ImageSourceForPassword = ListOfConstants.ButtonEye;
+        private string _ImageSourceForPassword = ListOfConstants.ButtonEyeOff;
         public string ImageSourceForPassword
         {
             get { return _ImageSourceForPassword; }
@@ -210,8 +210,8 @@ namespace GpsNotepad.ViewModel
 
             else if(args.PropertyName==nameof(IsTapedImageOfPassword))
             {
-                ImageSourceForPassword = IsTapedImageOfPassword ? ListOfConstants.ButtonEyeOff : ListOfConstants.ButtonEye;
-                IsPassword = IsTapedImageOfPassword;
+                ImageSourceForPassword = IsTapedImageOfPassword ? ListOfConstants.ButtonEye : ListOfConstants.ButtonEyeOff;
+                IsPassword = !IsTapedImageOfPassword;
             }
             
             if(args.PropertyName==nameof(EmailAddress)||args.PropertyName==nameof(Password))

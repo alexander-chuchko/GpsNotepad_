@@ -12,7 +12,7 @@
                    Padding="8,0,8,0">
 
                 <Grid ColumnDefinitions="0.9*, 0.1*"
-                  Padding="0">
+                      Padding="0">
                     
                     <Entry x:Name="entry"
                            Text="{Binding TextEntry}"
@@ -23,12 +23,12 @@
                            Style="{StaticResource entryCustomFrameForInputStyle}"/>
 
                     <ImageButton  x:Name="clearButton"
-                              Grid.Column="1"
-                              VerticalOptions="Center"
-                              Source="{Binding ImageSource}"
-                              BackgroundColor="Transparent"
-                              IsVisible="false"
-                              Clicked="ImageButton_Tapped"/>
+                                  Grid.Column="1"
+                                  VerticalOptions="Center"
+                                  Source="{Binding ImageSource}"
+                                  BackgroundColor="Transparent"
+                                  IsVisible="false"
+                                  Clicked="ImageButton_Tapped"/>
                 </Grid>
                 
             </Frame>

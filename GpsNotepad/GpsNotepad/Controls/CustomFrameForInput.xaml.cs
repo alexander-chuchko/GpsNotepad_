@@ -12,7 +12,7 @@ namespace GpsNotepad.Controls
             InitializeComponent();
         }
 
-        #region ---   Public properties   ---
+        #region     ---   Public properties   ---
 
         public static readonly BindableProperty MaxLengthProperty =
             BindableProperty.Create(nameof(MaxLength),

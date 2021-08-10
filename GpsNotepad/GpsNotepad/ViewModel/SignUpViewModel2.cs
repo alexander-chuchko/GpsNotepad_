@@ -39,7 +39,7 @@ namespace GpsNotepad.ViewModel
 
         #region    ---   PublicProperties   ---
 
-        private bool _IsPassword;
+        private bool _IsPassword=true;
         public bool IsPassword
         {
             get { return _IsPassword; }
@@ -47,7 +47,7 @@ namespace GpsNotepad.ViewModel
         }
 
 
-        private bool _IsConfirmPassword;
+        private bool _IsConfirmPassword=true;
         public bool IsConfirmPassword
         {
             get { return _IsConfirmPassword; }
@@ -71,7 +71,7 @@ namespace GpsNotepad.ViewModel
         }
 
 
-        private string _ImageSourceForPassword = ListOfConstants.ButtonEye;
+        private string _ImageSourceForPassword = ListOfConstants.ButtonEyeOff;
         public string ImageSourceForPassword
         {
             get { return _ImageSourceForPassword; }
@@ -79,7 +79,7 @@ namespace GpsNotepad.ViewModel
         }
 
 
-        private string _ImageSourceForConfirmPassword = ListOfConstants.ButtonEye;
+        private string _ImageSourceForConfirmPassword = ListOfConstants.ButtonEyeOff;
         public string ImageSourceForConfirmPassword
         {
             get { return _ImageSourceForConfirmPassword; }
@@ -249,12 +249,12 @@ namespace GpsNotepad.ViewModel
             if (args.PropertyName == nameof(IsTapedImageOfPassword))
             {
                 ImageSourceForPassword = IsTapedImageOfPassword ? ListOfConstants.ButtonEyeOff : ListOfConstants.ButtonEye;
-                IsPassword = IsTapedImageOfPassword;
+                IsPassword = !IsTapedImageOfPassword;
             }
             else if(args.PropertyName == nameof(IsTapedImageOfConfirmPassword))
             {
                 ImageSourceForConfirmPassword = IsTapedImageOfConfirmPassword ? ListOfConstants.ButtonEyeOff : ListOfConstants.ButtonEye;
-                IsConfirmPassword = IsTapedImageOfConfirmPassword;
+                IsConfirmPassword = !IsTapedImageOfConfirmPassword;
             }
 
             if (args.PropertyName == nameof(Password) && PasswordBorderColor == Color.Red && ErrorPassword != string.Empty)
