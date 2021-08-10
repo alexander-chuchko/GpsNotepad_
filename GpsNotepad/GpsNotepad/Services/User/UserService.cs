@@ -24,6 +24,7 @@ namespace GpsNotepad.Service.User
         public async Task<IEnumerable<UserModel>> GetAllUserModelAsync()
         {
             IEnumerable<UserModel> userModels = null;
+
             try
             {
                 userModels = await _repository.GetAllAsync<UserModel>();
@@ -32,17 +33,25 @@ namespace GpsNotepad.Service.User
             {
                 UserDialogs.Instance.Alert(ex.Message);
             }
+
             return userModels;
         }
         public async Task<bool> DeleteUserModelAsync(UserModel userModel)
         {
             bool resultOfAction = false;
+            int countDeletededRow = 0;
+
             try
             {
                 if (userModel != null)
                 {
-                    await _repository.DeleteAsync(userModel);
-                    resultOfAction = true;
+                    countDeletededRow= await _repository.DeleteAsync(userModel);
+
+                    if(countDeletededRow==1)
+                    {
+                        resultOfAction = true;
+                    }
+
                 }
             }
             catch(Exception ex)
@@ -54,10 +63,16 @@ namespace GpsNotepad.Service.User
         public async Task<bool> SaveUserModelAsync(UserModel userModel)
         {
             bool resultOfAction = false;
+            int countSavedRow = 0;
             try
             {
-                await _repository.InsertAsync<UserModel>(userModel);
-                resultOfAction = true;
+                countSavedRow=await _repository.InsertAsync<UserModel>(userModel);
+
+                if (countSavedRow == 1)
+                {
+                    resultOfAction = true;
+                }
+
             }
             catch(Exception ex)
             {
@@ -68,13 +83,18 @@ namespace GpsNotepad.Service.User
         public async Task<bool> UpdateUserModelAsync(UserModel userModel)
         {
             bool resultOfAction = false;
+            int countUpdatedRow = 0;
             try
             {
                 if(userModel!=null)
                 {
-                    await _repository.UpdateAsync<UserModel>(userModel);
-                    resultOfAction = true;
+                    countUpdatedRow=await _repository.UpdateAsync<UserModel>(userModel);
                 } 
+
+                if(countUpdatedRow==1)
+                {
+                    resultOfAction = true;
+                }
             }
             catch(Exception ex)
             {

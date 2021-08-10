@@ -49,24 +49,32 @@ namespace GpsNotepad.Services.ImagesOfPin
         public async Task<bool> DeleteImagePinModelAsync(ImagesPin imagePinModel)
         {
             bool resultOfAction = false;
+            int countDeletedRow = 0;
+
             try
             {
                 if (imagePinModel != null)
                 {
-                    await _repository.DeleteAsync(imagePinModel);
-                    resultOfAction = true;
+                    countDeletedRow= await _repository.DeleteAsync(imagePinModel);
+
+                    if(countDeletedRow==1)
+                    {
+                        resultOfAction = true;
+                    }
                 }
             }
             catch (Exception ex)
             {
                 UserDialogs.Instance.Alert(ex.Message);
             }
+
             return resultOfAction;
         }
 
         public async Task<bool> DeleteAllImagePinModelAsync(int pinId)
         {
             bool resultOfActionDelete = false;
+            int countDeletedRow = 0;
             try
             {
                 var resultOfGettingAllImages = await _repository.GetAllAsync<ImagesPin>();
@@ -77,8 +85,12 @@ namespace GpsNotepad.Services.ImagesOfPin
                 {
                     foreach (var imagePin in imagesPinModel)
                     {
-                        await _repository.DeleteAsync(imagePin);
-                        resultOfActionDelete = true;
+                        countDeletedRow =await _repository.DeleteAsync(imagePin);
+
+                        if(countDeletedRow==1)
+                        {
+                            resultOfActionDelete = true;
+                        }
                     }
                 }
                 else
@@ -90,35 +102,49 @@ namespace GpsNotepad.Services.ImagesOfPin
             {
                 UserDialogs.Instance.Alert(ex.Message);
             }
+
             return resultOfActionDelete;
         }
         public async Task<bool> SaveImagePinModelAsync(ImagesPin imagePinModel)
         {
             bool resultOfAction = false;
+            int countSavedRow = 0;
+
             try
             {
                 if (imagePinModel != null)
                 {
-                    await _repository.InsertAsync<ImagesPin>(imagePinModel);
-                    resultOfAction = true;
+                    countSavedRow=await _repository.InsertAsync<ImagesPin>(imagePinModel);
+
+                    if(countSavedRow==1)
+                    {
+                        resultOfAction = true;
+                    }
                 }
             }
             catch (Exception ex)
             {
                 UserDialogs.Instance.Alert(ex.Message);
             }
+
             return resultOfAction;
         }
 
         public async Task<bool> UpdateImagePinModelAsync(ImagesPin imagePinModel)
         {
             bool resultOfAction = false;
+            int countUpdatedRow = 0;
+
             try
             {
                 if (imagePinModel != null)
                 {
-                    await _repository.UpdateAsync<ImagesPin>(imagePinModel);
-                    resultOfAction = true;
+                    countUpdatedRow=await _repository.UpdateAsync<ImagesPin>(imagePinModel);
+
+                    if(countUpdatedRow==1)
+                    {
+                        resultOfAction = true;
+                    }
                 }
             }
             catch (Exception ex)

@@ -257,6 +257,7 @@ namespace GpsNotepad.ViewModel
                     {
                         PinViewModelList.Remove(pinViewModel);
                     }
+
                     if (PinViewModelList.Count == 0)
                     {
                         ToggleVisibility(true, false);
@@ -286,6 +287,7 @@ namespace GpsNotepad.ViewModel
                 {
                     _firstValueOfList = PinViewModelList;
                 }
+
                 if (!string.IsNullOrWhiteSpace(SearchText))
                 {
                     var resultGetPins = await _pinServices.GetPinListAsync(SearchText);
@@ -311,6 +313,7 @@ namespace GpsNotepad.ViewModel
         public async void Initialize(INavigationParameters parameters)
         {
             var listPinModelsOfCurrentUser = await _pinServices.GetPinListAsync();
+
             if (listPinModelsOfCurrentUser.ToList().Count == 0 || listPinModelsOfCurrentUser == null)
             {
                 ToggleVisibility(true, false);

@@ -59,7 +59,7 @@ namespace GpsNotepad.ViewModel
         }
 
 
-        private Color _EmailBorderColor = Color.LightGray;
+        private Color _EmailBorderColor = Color.FromHex("#D7DDE8");
         public Color EmailBorderColor
         {
             get { return _EmailBorderColor; }
@@ -67,7 +67,7 @@ namespace GpsNotepad.ViewModel
         }
 
 
-        private Color _PasswordBorderColor = Color.LightGray;
+        private Color _PasswordBorderColor = Color.FromHex("#D7DDE8");
         public Color PasswordBorderColor
         {
             get { return _PasswordBorderColor; }
@@ -218,8 +218,8 @@ namespace GpsNotepad.ViewModel
             {
                 if(EmailBorderColor==Color.Red&&PasswordBorderColor==Color.Red)
                 {
-                    EmailBorderColor = Color.FromHex("#858E9E");
-                    PasswordBorderColor = Color.FromHex("#858E9E");
+                    EmailBorderColor = Color.FromHex("#D7DDE8");
+                    PasswordBorderColor = Color.FromHex("#D7DDE8");
                     ErrorEmail = string.Empty;
                     ErrorPassword = string.Empty;
                 }

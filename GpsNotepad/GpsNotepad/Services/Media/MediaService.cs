@@ -12,6 +12,7 @@ namespace GpsNotepad.Services.Media
         public async Task<string> GetPhotoFromGalleryAsync()
         {
             string selectedImage = null;
+
             try
             {
                 var photo = await MediaPicker.PickPhotoAsync();
@@ -30,12 +31,13 @@ namespace GpsNotepad.Services.Media
             try
             {
                 var result = await MediaPicker.CapturePhotoAsync();
+
                 if (result != null)
                 {
                     var newFile = Path.Combine(FileSystem.AppDataDirectory, result.FileName);
                     using (var stream = await result.OpenReadAsync())
                     using (var newStream = File.OpenWrite(newFile))
-                        await stream.CopyToAsync(newStream);
+                    await stream.CopyToAsync(newStream);
                     takingPicturesImage = result.FullPath;
                 }
             }

@@ -103,7 +103,7 @@ namespace GpsNotepad.ViewModel
         }
 
 
-        private Color _PasswordBorderColor = Color.LightGray;
+        private Color _PasswordBorderColor = Color.FromHex("#D7DDE8");
         public Color PasswordBorderColor
         {
             get { return _PasswordBorderColor; }
@@ -111,7 +111,7 @@ namespace GpsNotepad.ViewModel
         }
 
 
-        private Color _PasswordConfirmBorderColor = Color.LightGray;
+        private Color _PasswordConfirmBorderColor = Color.FromHex("#D7DDE8");
         public Color ConfirmPasswordBorderColor
         {
             get { return _PasswordConfirmBorderColor; }
@@ -251,6 +251,7 @@ namespace GpsNotepad.ViewModel
                 ImageSourceForPassword = IsTapedImageOfPassword ? ListOfConstants.ButtonEyeOff : ListOfConstants.ButtonEye;
                 IsPassword = !IsTapedImageOfPassword;
             }
+
             else if(args.PropertyName == nameof(IsTapedImageOfConfirmPassword))
             {
                 ImageSourceForConfirmPassword = IsTapedImageOfConfirmPassword ? ListOfConstants.ButtonEyeOff : ListOfConstants.ButtonEye;
@@ -262,6 +263,7 @@ namespace GpsNotepad.ViewModel
                 PasswordBorderColor = Color.FromHex("#D7DDE8");
                 ErrorPassword = string.Empty;
             }
+
             else if (args.PropertyName == nameof(ConfirmPassword) && ConfirmPasswordBorderColor == Color.Red && ErrorConfirmPassword != string.Empty)
             {
                 ConfirmPasswordBorderColor = Color.FromHex("#D7DDE8");

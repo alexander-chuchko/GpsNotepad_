@@ -96,7 +96,7 @@ namespace GpsNotepad.ViewModel
         }
 
 
-        private Color _NameBorderColor = Color.LightGray;
+        private Color _NameBorderColor = Color.FromHex("#D7DDE8");
         public Color NameBorderColor
         {
             get { return _NameBorderColor; }
@@ -104,7 +104,7 @@ namespace GpsNotepad.ViewModel
         }
 
 
-        private Color _EmailBorderColor = Color.LightGray;
+        private Color _EmailBorderColor = Color.FromHex("#D7DDE8");
         public Color EmailBorderColor
         {
             get { return _EmailBorderColor; }

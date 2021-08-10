@@ -65,6 +65,7 @@ namespace GpsNotepad.ViewModel
         public Action OpenGallery { get; set; }
         public Action TakePhoto { get; set; }
 
+
         private bool _IsEnableIconZoom=true;
         public bool IsEnableIconZoom
         {
@@ -80,18 +81,21 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _ImagesPin, value); }
         }
 
+
         private string _LabelOfPin;
         public string LabelOfPin
         {
             get { return _LabelOfPin; }
             set { SetProperty(ref _LabelOfPin, value); }
         }
+
         private string _ImageSourceForLabel = ListOfConstants.ButtonClear;
         public string ImageSourceForLabel
         {
             get { return _ImageSourceForLabel; }
             set { SetProperty(ref _ImageSourceForLabel, value); }
         }
+
 
         private string _ErrorLabel = string.Empty;
         public string ErrorLabel
@@ -100,6 +104,7 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _ErrorLabel, value); }
         }
 
+
         private string _PlaceholderForLabel = ListOfConstants.PlaceholderLabel;
         public string PlaceholderForLabel
         {
@@ -107,12 +112,14 @@ namespace GpsNotepad.ViewModel
             set { SetProperty(ref _PlaceholderForLabel, value); }
         }
 
+
         private bool _IsTapedImageOfLabel;
         public bool IsTapedImageOfLabel
         {
             get { return _IsTapedImageOfLabel; }
             set { SetProperty(ref _IsTapedImageOfLabel, value); }
         }
+
 
         private Color _LabelBorderColor = Color.LightGray;
         public Color LabelBorderColor
@@ -416,6 +423,7 @@ namespace GpsNotepad.ViewModel
             }
         }
 
+
         private void OnShowActionSheet()
         {
             var config = new ActionSheetConfig
@@ -453,7 +461,6 @@ namespace GpsNotepad.ViewModel
             }
         }
 
-
         private void OnCreateImagePin(string pathNewImagePin)
         {
             ImagePinViewModel imagePinViewModel = new ImagePinViewModel()
@@ -488,6 +495,7 @@ namespace GpsNotepad.ViewModel
 
         private async void OnRemovePicture(object parametr)
         {
+
             ImagePinViewModel imagePinViewModel = parametr as ImagePinViewModel;
 
             if (imagePinViewModel != null)
@@ -531,13 +539,29 @@ namespace GpsNotepad.ViewModel
 
         private async void OnSaveOrUpdatePinModel()
         {
+
             var result = true;
+
             if (!Validation.IsValidatedLabelAndDescription(LabelOfPin) && result)
             {
                 result = false;
                 ErrorLabel = ListOfConstants.WrongLabel;
                 LabelBorderColor = Color.Red;
             }
+
+            if(PinViewModel==null)
+            {
+                var resultPickingLabels = await _pinServices.GetPinListAsync(LabelOfPin);
+
+
+                if (resultPickingLabels != null && resultPickingLabels.Count > 0)
+                {
+                    result = false;
+                    ErrorLabel = ListOfConstants.WrongExsistLabel;
+                    LabelBorderColor = Color.Red;
+                }
+            }
+
 
             if (!Validation.IsValidatedLabelAndDescription(Description) && result)
             {
@@ -546,12 +570,14 @@ namespace GpsNotepad.ViewModel
                 DescriptionBorderColor = Color.Red;
             }
 
+
             if (!Validation.IsValidatedLongitude(Longitude) && result)
             {
                 result = false;
                 ErrorLongitude = ListOfConstants.WrongLongitude;
                 LongitudeBorderColor = Color.Red;
             }
+
 
             if (!Validation.IsValidatedLatitude(Latitude) && result)
             {
@@ -560,9 +586,11 @@ namespace GpsNotepad.ViewModel
                 LatitudeBorderColor = Color.Red;
             }
 
+
             if (result)
             {
                 bool resultOfAction = false;
+
                 if (PinViewModel != null)
                 {
                     resultOfAction = await UpdatePinModel();
@@ -571,6 +599,7 @@ namespace GpsNotepad.ViewModel
                 {
                     resultOfAction = await AddPinModel();
                 }
+
                 if (resultOfAction)
                 {
                     SaveImagesPinas();
@@ -584,21 +613,26 @@ namespace GpsNotepad.ViewModel
         private async Task<bool> UpdatePinModel()
         {
             bool resultOfAction = false;
+
             PinViewModel.Label = LabelOfPin;
             PinViewModel.Description = Description;
             PinViewModel.Latitude = Convert.ToDouble(Latitude);
             PinViewModel.Longitude = Convert.ToDouble(Longitude);
+
             var pinModel = PinViewModel.ToPinModel();
+
             if (pinModel != null)
             {
                 resultOfAction = await _pinServices.SaveOrUpdatePinModelToStorageAsync(pinModel);
             }
+
             return resultOfAction;
         }
 
         private async void GetAllPins()
         {
             var result = await _pinServices.GetPinListAsync();
+
             if (result != null && result.Count() != 0)
             {
                 List<Pin> pins = new List<Pin>();
@@ -607,6 +641,7 @@ namespace GpsNotepad.ViewModel
                     Pin result1 = pinModel.ToPin();
                     pins.Add(result1);
                 }
+
                 PinViewModelList = pins;
             }
         }
@@ -614,6 +649,7 @@ namespace GpsNotepad.ViewModel
         private async Task<bool> AddPinModel()
         {
             bool resultOfAction = false;
+
             PinViewModel = new PinViewModel()
             {
                 Label = LabelOfPin,
@@ -622,7 +658,9 @@ namespace GpsNotepad.ViewModel
                 Longitude = Convert.ToDouble(Longitude),
                 ImagePath = "ic_like_gray.png"
             };
+
             var PinModel = PinViewModel.ToPinModel();
+
             if (PinModel != null)
             {
                 resultOfAction = await _pinServices.SaveOrUpdatePinModelToStorageAsync(PinModel);
@@ -632,13 +670,16 @@ namespace GpsNotepad.ViewModel
                     PinViewModel.UserId = PinModel.UserId;
                 }
             }
+
             return resultOfAction;
         }
 
         public void Initialize(INavigationParameters parameters)
         {
             InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(_cameraService.GetDataCameraPosition());
+
             bool resultPremission = _permissionService.GetStatusPermission();
+
             if (resultPremission)
             {
                 MyLocationButtonVisibility = resultPremission;

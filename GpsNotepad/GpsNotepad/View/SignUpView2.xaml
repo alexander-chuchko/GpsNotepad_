@@ -44,7 +44,7 @@
             <BoxView VerticalOptions="EndAndExpand"
                      Style="{StaticResource separatorForPage}"/>
 
-            <StackLayout Spacing="40" 
+            <StackLayout Spacing="20" 
                          Padding="20"
                          Grid.Row="1"
                          BackgroundColor="{DynamicResource PrimaryColor}">

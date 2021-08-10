@@ -9,8 +9,10 @@ namespace GpsNotepad.Extension
         public static PinModel ToPinModel(this PinViewModel pinViewModel)
         {
             PinModel  pinModel = null;
+
             if (pinViewModel!=null)
             {
+
                 pinModel = new PinModel
                 {
                     Id= pinViewModel.Id,
@@ -22,14 +24,19 @@ namespace GpsNotepad.Extension
                     Longitude=pinViewModel.Longitude,
                     Favorite=pinViewModel.Favorite
                 };
+
             }
+
             return pinModel;
         }
+
         public static PinViewModel ToPinViewModel(this PinModel pinModel)
         {
             PinViewModel  pinViewModel = null;
+
             if(pinModel != null)
             {
+
                 pinViewModel = new PinViewModel
                 {
                     Id=pinModel.Id,
@@ -41,14 +48,18 @@ namespace GpsNotepad.Extension
                     Description=pinModel.Description,
                     Favorite=pinModel.Favorite
                 };
+
             }
+
             return pinViewModel;
         }
         public static Pin ToPin(this PinModel pinModel)
         {
+
             Pin pin = null;
             if (pinModel != null)
             {
+
                 pin = new Pin
                 {
                     Label = pinModel.Label,
@@ -56,12 +67,14 @@ namespace GpsNotepad.Extension
                     Address = pinModel.Address
                 };
             }
+
             return pin;
         }
 
         public static PinModel ToPinModelFromPin(this Pin pin)
         {
             PinModel pinModel = null;
+
             if (pinModel != null)
             {
                 pinModel =new PinModel
@@ -72,6 +85,7 @@ namespace GpsNotepad.Extension
                     Address = pinModel.Address
                 };
             }
+
             return pinModel;
         }
     }

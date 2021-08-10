@@ -18,5 +18,6 @@ namespace GpsNotepad.Enum
             Red,
             Green
         }
+
     }
 }

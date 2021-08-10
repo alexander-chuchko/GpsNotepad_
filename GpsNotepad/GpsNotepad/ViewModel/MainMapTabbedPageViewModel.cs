@@ -291,8 +291,10 @@ namespace GpsNotepad.ViewModel
 
         private async void OnTapClockButton()
         {
+
             DateTimeOffset  dateTimeOffset = _timeZoneService.GetCurrentTime(SelectedPin.Position);
             TimeZoneInfo timeZoneInfo = _timeZoneService.GetTypeTime(SelectedPin.Position);
+
             (DateTimeOffset, TimeZoneInfo) clockData = (dateTimeOffset, timeZoneInfo);
 
             var parametr = new NavigationParameters();
@@ -314,10 +316,12 @@ namespace GpsNotepad.ViewModel
         {
             ExitSearch = true;
         }
+
         private async void OnNavigationToSettingsView()
         {
             await _navigationService.NavigateAsync($"{ nameof(SettingsView)}");
         }
+
         public IEnumerable<PinViewModel> ConvertingPinModelToPinViewModel(IEnumerable<PinModel> PinModellist)
         {
             var pinViewModelList = new ObservableCollection<PinViewModel>();
@@ -564,10 +568,12 @@ namespace GpsNotepad.ViewModel
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
+
             if (args.PropertyName == nameof(SearchText))
             {
                 ShowRelevantPins();
             }
+
             if (args.PropertyName == nameof(SelectedImage))
             {
                 OnImagePreview();

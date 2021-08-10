@@ -1,7 +1,6 @@
 ﻿using Acr.UserDialogs;
 using GpsNotepad.Enum;
 using GpsNotepad.Helpers;
-using GpsNotepad.Popup;
 using GpsNotepad.Service;
 using GpsNotepad.Service.Authorization;
 using GpsNotepad.Service.Settings;
@@ -34,22 +33,14 @@ namespace GpsNotepad
 
         public App() : this(null)
         {
-
         }
+
         public App(IPlatformInitializer initializer) : base(initializer)
         {
         }
 
-        #region---Overrides---
-        protected override void OnStart()
-        {
-        }
-        protected override void OnSleep()
-        {
-        }
-        protected override void OnResume()
-        {
-        }
+        #region  ---   Overrides   ---
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             //Registering services
@@ -67,6 +58,7 @@ namespace GpsNotepad
             containerRegistry.RegisterInstance<IThemeService>(Container.Resolve<ThemeService>());
             containerRegistry.RegisterInstance<ITimeZoneService>(Container.Resolve<TimeZoneService>());
 
+
             //Registering pages
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignInView, SignInViewModel>();
@@ -79,10 +71,9 @@ namespace GpsNotepad
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<SignUpView2, SignUpViewModel2>();
             containerRegistry.RegisterForNavigation<ColorClockView, ColorClockViewModel>();
+            containerRegistry.RegisterForNavigation<PhotoView, PhotoViewModel>();
 
             //Modal pages
-            containerRegistry.RegisterForNavigation<PopupView, PopupViewModel>();
-            containerRegistry.RegisterForNavigation<PhotoView ,PhotoViewModel>();
             containerRegistry.RegisterForNavigation<ClockView, ClockViewModel>();
 
         }

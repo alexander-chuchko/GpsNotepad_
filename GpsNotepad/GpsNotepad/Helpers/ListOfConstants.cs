@@ -14,14 +14,17 @@ namespace GpsNotepad.Helpers
         public const string SelectedPinData = "PinData";
         public const string SelectedImage = "SelectedImage";
         public const string TimeZone = "TimeZone";
-        public Dictionary<bool, bool> keyValuePairs = new Dictionary<bool, bool>(1);
+
+
         //languages
         public const string English = "English";
+
 
         //pictures
         public const string BasePicture = "pic_Pin.png";
         public const string PictureForFolder = "folder_image.png";
         public const string PictureForCamera = "camera.png";
+
 
         //button picture
         public const string ButtonClear = "ic_clear.png";
@@ -45,6 +48,7 @@ namespace GpsNotepad.Helpers
         public const string WrongName = "The name is incorrect";
         public const string WrongConfirmPassword = "Password mismatch";
         public const string WrongLabel = "Invalid label";
+        public const string WrongExsistLabel = "This label exists";
         public const string WrongDescription = "Invalid description";
         public const string WrongLatitude = "Wrong latitude";
         public const string WrongLongitude = "Wrong longitude";
@@ -59,9 +63,11 @@ namespace GpsNotepad.Helpers
         public const int HeightRow = 50;
         public const int HeightRowForAddPage = 30;
 
+
         //valid coordinates for input
         public const int MinLatitude = -90;
         public const int MaxLatitude = 90;
+
 
         public const int MinLongitude = -180;
         public const int MaxLongitude = 180;
