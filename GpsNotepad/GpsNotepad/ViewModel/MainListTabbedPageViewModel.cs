@@ -220,6 +220,7 @@ namespace GpsNotepad.ViewModel
         public IEnumerable<PinViewModel> ConvertingPinModelToPinViewModel(IEnumerable<PinModel> PinModellist)
         {
             var pinViewModelList = new ObservableCollection<PinViewModel>();
+
             foreach (var pinModel in PinModellist)
             {
                 var convertingPinViewModel = pinModel.ToPinViewModel();

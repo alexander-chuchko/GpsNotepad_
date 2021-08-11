@@ -39,18 +39,13 @@ namespace GpsNotepad.Service.User
         public async Task<bool> DeleteUserModelAsync(UserModel userModel)
         {
             bool resultOfAction = false;
-            int countDeletededRow = 0;
 
             try
             {
                 if (userModel != null)
                 {
-                    countDeletededRow= await _repository.DeleteAsync(userModel);
-
-                    if(countDeletededRow==1)
-                    {
-                        resultOfAction = true;
-                    }
+                    await _repository.DeleteAsync(userModel);
+                    resultOfAction = true;
 
                 }
             }
@@ -63,15 +58,10 @@ namespace GpsNotepad.Service.User
         public async Task<bool> SaveUserModelAsync(UserModel userModel)
         {
             bool resultOfAction = false;
-            int countSavedRow = 0;
             try
             {
-                countSavedRow=await _repository.InsertAsync<UserModel>(userModel);
-
-                if (countSavedRow == 1)
-                {
-                    resultOfAction = true;
-                }
+                await _repository.InsertAsync<UserModel>(userModel);
+                resultOfAction = true;
 
             }
             catch(Exception ex)
@@ -83,18 +73,15 @@ namespace GpsNotepad.Service.User
         public async Task<bool> UpdateUserModelAsync(UserModel userModel)
         {
             bool resultOfAction = false;
-            int countUpdatedRow = 0;
+
             try
             {
                 if(userModel!=null)
                 {
-                    countUpdatedRow=await _repository.UpdateAsync<UserModel>(userModel);
-                } 
-
-                if(countUpdatedRow==1)
-                {
+                    await _repository.UpdateAsync<UserModel>(userModel);
                     resultOfAction = true;
-                }
+                } 
+                
             }
             catch(Exception ex)
             {

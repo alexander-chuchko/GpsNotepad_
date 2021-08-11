@@ -56,7 +56,6 @@ namespace GpsNotepad.Services.Pin
         public async Task<bool> SaveOrUpdatePinModelToStorageAsync(PinModel pinModel)
         {
             bool resultOfAction = false;
-            int countAddedRow = 0;
 
             try
             {
@@ -66,16 +65,13 @@ namespace GpsNotepad.Services.Pin
                     {
                         pinModel.UserId = _settingsManager.AuthorizedUserID;
 
-                        countAddedRow= await _repository.InsertAsync<PinModel>(pinModel);
+                        await _repository.InsertAsync<PinModel>(pinModel);
+                        resultOfAction = true;
 
                     }
                     else
                     {
-                        countAddedRow =await _repository.UpdateAsync<PinModel>(pinModel);
-                    }
-
-                    if (countAddedRow == 1)
-                    {
+                        await _repository.UpdateAsync<PinModel>(pinModel);
                         resultOfAction = true;
                     }
                 }
